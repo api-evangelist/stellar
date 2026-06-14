@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Stellar
+providerId: stellar
+created: '2026-06-14'
+modified: '2026-06-14'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Blockchain
+  - Horizon
+  - Stellar
+description: >-
+  The SDF-hosted Horizon instance (horizon.stellar.org) enforces per-IP rate limits on all REST
+  endpoints. The default ceiling is 3,600 requests per hour per IP address (effectively 1 request/second
+  averaged). The X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset headers are returned
+  on every response. Operators self-hosting Horizon may configure custom limits. Streaming SSE
+  connections count against the same bucket. Transaction submission (POST /transactions) is subject
+  to the same IP-based limit.
+sources:
+  - https://developers.stellar.org/docs/data/apis/horizon
+  - https://horizon.stellar.org
+responseCodes:
+  throttled: 429
+limits:
+  - name: Horizon REST — all endpoints (SDF public instance)
+    scope: IP
+    metric: requests_per_hour
+    limit: 3600
+    timeFrame: hour
+    notes: Equivalent to ~1 request/second averaged over an hour. Applies to all GET and POST endpoints
+      on the SDF-hosted horizon.stellar.org. Self-hosted Horizon operators may set higher limits.
+  - name: Horizon REST — testnet (SDF public instance)
+    scope: IP
+    metric: requests_per_hour
+    limit: 3600
+    timeFrame: hour
+    notes: Same ceiling applies to horizon-testnet.stellar.org.
+headers:
+  - name: X-RateLimit-Limit
+    description: Total requests allowed in the current window.
+  - name: X-RateLimit-Remaining
+    description: Requests remaining in the current window.
+  - name: X-RateLimit-Reset
+    description: Unix timestamp when the current window resets.
+policies:
+  - name: Backoff
+    description: Honor 429 responses with exponential backoff before retrying.
+  - name: Self-hosting
+    description: Teams requiring higher throughput should run their own Horizon instance; no published
+      paid tier exists for elevated SDF-hosted limits.
+  - name: Streaming connections
+    description: SSE streaming connections share the same IP rate limit bucket as REST requests.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

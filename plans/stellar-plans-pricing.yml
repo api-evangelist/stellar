@@ -1,0 +1,93 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Stellar
+providerId: stellar
+created: '2026-06-14'
+modified: '2026-06-14'
+reconciled: true
+tags:
+  - Blockchain
+  - Cryptocurrency
+  - DEX
+  - Ledger
+  - Payments
+  - Stellar
+description: >-
+  The Stellar Horizon API (SDF-hosted) is free and open to use with no API key, registration, or
+  subscription required. Network transaction fees on Stellar are paid in XLM (the native asset) at
+  the time of transaction submission and are not charged per API call. The minimum base fee is 100
+  stroops (0.00001 XLM) per operation; during network congestion users may submit a higher fee to
+  prioritize inclusion. Teams requiring higher API throughput or SLA guarantees must self-host
+  Horizon or use a third-party RPC provider. The Stellar network itself has no native paid API tier.
+sources:
+  - https://developers.stellar.org/docs/data/apis/horizon
+  - https://developers.stellar.org/docs/learn/fundamentals/fees-resource-limits-metering
+plans:
+  - id: stellar-free-public
+    name: Stellar Horizon — Public Free
+    type: free
+    description: Open access to the SDF-hosted Horizon REST API at horizon.stellar.org. No registration,
+      API key, or payment required. Rate limited to 3,600 requests per hour per IP address.
+    entries:
+      - label: API calls
+        name: api_calls_free
+        type: flat-rate
+        metric: requests_per_hour
+        limit: 3600
+        timeFrame: hour
+        geo: global
+        unit: 1
+        price: 0.00
+        userMultiplied: false
+    elements:
+      - name: Full Horizon REST API access (read and submit)
+      - name: SSE streaming for real-time ledger events
+      - name: Public mainnet and testnet instances
+      - name: No API key required
+  - id: stellar-self-hosted
+    name: Stellar Horizon — Self-Hosted
+    type: custom
+    description: Organizations run their own Horizon instance against a Stellar Core full node or
+      captive core. This eliminates the SDF rate limit and provides full control over data retention,
+      query performance, and uptime SLA. Infrastructure cost varies by cloud provider and node size.
+    entries:
+      - label: Infrastructure cost
+        name: infra_cost
+        type: variable
+        metric: infrastructure
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: variable
+        userMultiplied: false
+    elements:
+      - name: Unlimited API request rate (self-imposed limits only)
+      - name: Full control over ingestion window and data retention
+      - name: No dependency on SDF infrastructure
+      - name: Open-source Apache 2.0 licensed software
+  - id: stellar-network-fees
+    name: Stellar Network Transaction Fees
+    type: usage-based
+    description: Transaction fees on the Stellar network are paid in XLM at submission time. The
+      minimum base fee is 100 stroops (0.00001 XLM) per operation in a transaction. During
+      surge pricing, users may set higher fees (fee bumps) to compete for inclusion in the next ledger.
+    entries:
+      - label: Minimum fee per operation
+        name: min_fee_per_op
+        type: metered
+        metric: operation
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: 0.00001 XLM (100 stroops)
+        userMultiplied: false
+    elements:
+      - name: Fee paid in XLM (native asset)
+      - name: Fee bump transactions for third-party fee sponsorship
+      - name: Surge pricing during high network load
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

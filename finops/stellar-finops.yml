@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Stellar
+providerId: stellar
+created: '2026-06-14'
+modified: '2026-06-14'
+reconciled: true
+tags:
+  - Blockchain
+  - Cryptocurrency
+  - DEX
+  - FinOps
+  - FOCUS
+  - Ledger
+  - Payments
+  - Stellar
+description: >-
+  FOCUS-aligned FinOps for Stellar: the Horizon API itself is free with no per-call charges. Cost
+  is realized at the Stellar network layer — 100 stroops (0.00001 XLM) minimum per operation at
+  transaction submission. Self-hosted Horizon infrastructure (compute, storage, bandwidth) is the
+  dominant cost for high-volume operators. Surge pricing via fee bumps is an optional cost lever
+  during network congestion.
+sources:
+  - https://developers.stellar.org/docs/learn/fundamentals/fees-resource-limits-metering
+  - https://developers.stellar.org/docs/data/apis/horizon
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Stellar Development Foundation
+serviceCategory: Blockchain Infrastructure
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Per Transaction
+  billingCurrency: XLM
+  chargeCategories:
+    - Usage
+focusColumns:
+  ServiceName: Stellar Horizon API
+  ServiceCategory: Blockchain Infrastructure
+  ProviderName: Stellar Development Foundation
+  PublisherName: Stellar Development Foundation
+  InvoiceIssuerName: Stellar Development Foundation
+  BillingCurrency: XLM
+meters:
+  - name: operations_submitted
+    unit: operation
+    aggregation: count
+    dimensions:
+      - transaction_id
+      - operation_type
+      - source_account
+  - name: xlm_fees_paid
+    unit: XLM (stroops)
+    aggregation: sum
+    dimensions:
+      - transaction_id
+      - source_account
+      - fee_bump_flag
+  - name: horizon_api_calls
+    unit: request
+    aggregation: count
+    dimensions:
+      - endpoint
+      - http_method
+      - response_status
+  - name: self_hosted_compute
+    unit: vCPU-hour
+    aggregation: sum
+    dimensions:
+      - environment
+      - region
+  - name: self_hosted_storage
+    unit: GB-month
+    aggregation: sum
+    dimensions:
+      - environment
+      - storage_type
+principles:
+  - name: Visibility
+    description: Track XLM fees paid per transaction by querying /accounts/:id/transactions and
+      parsing fee_charged fields. Monitor horizon_api_calls per endpoint to understand traffic patterns.
+  - name: Allocation
+    description: Tag transactions with memo fields to attribute network fees to application, user
+      segment, or business unit. For self-hosted Horizon, tag cloud infrastructure by environment
+      (mainnet/testnet) and team.
+  - name: Optimization
+    description: Batch multiple operations into a single transaction to amortize the base fee (max
+      100 operations per transaction). Use fee bump transactions only when necessary for congestion
+      priority. Run self-hosted Horizon with captive core on right-sized compute to minimize idle cost.
+      Use the public SDF instance for dev/test to avoid infrastructure spend.
+  - name: Accountability
+    description: Engineering owns per-transaction fee budgets; DevOps owns self-hosted Horizon
+      infrastructure costs. Finance reconciles XLM network fees against application-level revenue.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

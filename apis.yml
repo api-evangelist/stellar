@@ -1,0 +1,147 @@
+aid: stellar
+url: https://raw.githubusercontent.com/api-evangelist/stellar/refs/heads/main/apis.yml
+name: Stellar
+tags:
+  - Blockchain
+  - Cryptocurrency
+  - Decentralized Exchange
+  - Ledger
+  - Payments
+  - Smart Contracts
+  - Web3
+type: Index
+kind: company
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2026-06-14'
+modified: '2026-06-14'
+position: Consumer
+description: >-
+  Stellar is an open-source, decentralized blockchain network designed for fast, low-cost cross-border
+  payments and asset issuance. The Stellar Development Foundation (SDF) maintains the core protocol and
+  the Horizon REST API, which provides HTTP access to ledger data including accounts, transactions,
+  operations, effects, offers, trades, claimable balances, and liquidity pools. Horizon is the primary
+  data gateway for the Stellar network, re-serving ledger data in a developer-friendly format. The
+  network supports native XLM transfers, custom asset issuance, a built-in decentralized exchange (DEX),
+  Soroban smart contracts, and anchor integrations for fiat on/off-ramps. Authentication is not required
+  for read queries; transaction submission requires signing with a Stellar keypair.
+apis:
+  - aid: stellar:horizon-api
+    name: Stellar Horizon API
+    tags:
+      - Accounts
+      - Assets
+      - Blockchain
+      - Claimable Balances
+      - DEX
+      - Effects
+      - Ledger
+      - Liquidity Pools
+      - Offers
+      - Operations
+      - Payments
+      - Trades
+      - Transactions
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://horizon.stellar.org
+    humanURL: https://developers.stellar.org/docs/data/apis/horizon
+    properties:
+      - url: https://developers.stellar.org/docs/data/apis/horizon
+        type: Documentation
+      - url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+        type: APIReference
+      - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+        type: SDKs
+      - url: https://github.com/stellar/go/tree/master/services/horizon
+        type: GitHubRepository
+      - url: rate-limits/stellar-rate-limits.yml
+        type: RateLimits
+      - url: plans/stellar-plans-pricing.yml
+        type: Plans
+      - url: finops/stellar-finops.yml
+        type: FinOps
+    description: >-
+      The Stellar Horizon API is an HTTP REST interface to the Stellar network, providing developer-friendly
+      access to the full ledger data set. It exposes endpoints for querying accounts, transactions,
+      operations, effects, ledgers, offers, trades, claimable balances, liquidity pools, assets, and
+      order books. Horizon also supports submitting new transactions to the network and finding payment
+      paths between assets. The public SDF-hosted instance is available at https://horizon.stellar.org
+      for mainnet and https://horizon-testnet.stellar.org for testnet. No API key is required for
+      read-only queries; transaction submission requires a signed XDR envelope.
+    x-features:
+      - No authentication required for read-only queries
+      - Cursor-based pagination with configurable limit and order
+      - SSE (Server-Sent Events) streaming for real-time ledger data
+      - Transaction submission via POST /transactions
+      - Built-in DEX order book and trade history
+      - Path payment route discovery via /paths endpoints
+      - Testnet and mainnet instances hosted by SDF
+    x-use-cases:
+      - Query account balances, trustlines, and data entries
+      - Retrieve full transaction and operation history for an account
+      - Stream real-time effects and payment events via SSE
+      - Submit signed transactions to the Stellar network
+      - Access DEX order books, active offers, and trade history
+      - Discover optimal payment paths between Stellar assets
+      - Monitor claimable balances and liquidity pool reserves
+  - aid: stellar:stellar-rpc-api
+    name: Stellar RPC API
+    tags:
+      - Blockchain
+      - Smart Contracts
+      - Soroban
+      - RPC
+      - Web3
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://soroban-testnet.stellar.org
+    humanURL: https://developers.stellar.org/docs/data/rpc
+    properties:
+      - url: https://developers.stellar.org/docs/data/rpc
+        type: Documentation
+      - url: https://developers.stellar.org/docs/data/rpc/api-reference
+        type: APIReference
+      - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+        type: SDKs
+    description: >-
+      The Stellar RPC API (formerly Soroban RPC) is a JSON-RPC interface for interacting with Soroban
+      smart contracts deployed on the Stellar network. It supports simulating and submitting contract
+      invocations, reading contract state and ledger entries, and streaming network events. The RPC
+      service is the primary interface for Soroban contract developers and complements Horizon by
+      exposing contract-specific data not available through the Horizon REST API.
+    x-features:
+      - JSON-RPC 2.0 interface for smart contract interaction
+      - Simulate contract invocations before submission
+      - Read arbitrary ledger entries including contract state
+      - Stream network events filtered by contract ID or topic
+      - Submit signed Soroban transactions to the network
+    x-use-cases:
+      - Deploy and invoke Soroban smart contracts
+      - Simulate contract calls to estimate fees before submission
+      - Read on-chain contract state for dApp frontends
+      - Subscribe to smart contract event streams
+common:
+  - url: https://developers.stellar.org/docs
+    type: Documentation
+  - url: https://stellar.org/blog
+    type: Blog
+  - url: https://status.stellar.org
+    type: StatusPage
+  - url: https://github.com/stellar
+    type: GitHubOrganization
+  - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+    type: SDKs
+  - url: https://github.com/stellar/js-stellar-sdk
+    type: JavaScriptSDK
+  - url: https://github.com/stellar/go-stellar-sdk
+    type: GoSDK
+  - url: https://github.com/StellarCN/py-stellar-base
+    type: PythonSDK
+  - url: https://github.com/Soneso/stellar-ios-mac-sdk
+    type: iOSSDK
+  - url: https://discord.gg/stellardev
+    type: Discord
+  - url: https://stellar.org/foundation
+    type: About
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
