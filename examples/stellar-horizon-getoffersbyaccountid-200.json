@@ -1,0 +1,9 @@
+{
+  "operationId": "GetOffersByAccountId",
+  "method": "GET",
+  "path": "/accounts/{account_id}/offers",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnAccountsOffers"
+  }
+}

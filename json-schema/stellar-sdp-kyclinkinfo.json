@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/KYCLinkInfo.json",
+  "title": "KYCLinkInfo",
+  "type": "object",
+  "description": "KYC verification link information",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the KYC link",
+      "example": "kyc_456def"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Full name of the person undergoing KYC",
+      "example": "John Doe"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address for KYC verification",
+      "example": "john@example.com"
+    },
+    "type": {
+      "$ref": "#/components/schemas/KYCType"
+    },
+    "kyc_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for completing KYC verification",
+      "example": "https://bridge.stellar.org/kyc/456def"
+    },
+    "tos_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for accepting terms of service",
+      "example": "https://bridge.stellar.org/tos/456def"
+    },
+    "kyc_status": {
+      "$ref": "#/components/schemas/KYCStatus"
+    },
+    "tos_status": {
+      "$ref": "#/components/schemas/TOSStatus"
+    },
+    "rejection_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Reasons for KYC rejection (if applicable)",
+      "example": [
+        "Incomplete documentation",
+        "Address verification failed"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the KYC link was created",
+      "example": "2025-01-01T00:00:00Z"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Bridge customer ID",
+      "example": "cust_123abc"
+    }
+  },
+  "required": [
+    "id",
+    "full_name",
+    "email",
+    "type",
+    "kyc_link",
+    "tos_link",
+    "kyc_status",
+    "tos_status",
+    "customer_id"
+  ]
+}

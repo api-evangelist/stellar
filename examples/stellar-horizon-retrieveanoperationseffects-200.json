@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveAnOperationsEffects",
+  "method": "GET",
+  "path": "/operations/{id}/effects",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnOperationsEffects"
+  }
+}

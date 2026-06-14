@@ -54,6 +54,8 @@ apis:
         type: SDKs
       - url: https://github.com/stellar/go/tree/master/services/horizon
         type: GitHubRepository
+      - url: openapi/stellar-horizon-api.yml
+        type: OpenAPI
       - url: rate-limits/stellar-rate-limits.yml
         type: RateLimits
       - url: plans/stellar-plans-pricing.yml
@@ -119,6 +121,55 @@ apis:
       - Simulate contract calls to estimate fees before submission
       - Read on-chain contract state for dApp frontends
       - Subscribe to smart contract event streams
+  - aid: stellar:anchor-platform-api
+    name: Stellar Anchor Platform API
+    tags:
+      - Anchor
+      - Finance
+      - SEP
+      - Cross-Border Payments
+      - Interoperability
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://platform-server.exampleanchor.com
+    humanURL: https://developers.stellar.org/platforms/anchor-platform
+    properties:
+      - url: https://developers.stellar.org/platforms/anchor-platform
+        type: Documentation
+      - url: openapi/stellar-anchor-platform-api.yml
+        type: OpenAPI
+      - url: openapi/stellar-anchor-platform-callbacks-api.yml
+        type: OpenAPI
+      - url: https://github.com/stellar/anchor-platform
+        type: GitHubRepository
+    description: >-
+      The Stellar Anchor Platform is an open-source toolkit that simplifies building SEP-compliant
+      anchor services on the Stellar network. The Platform API is an internal interface used by anchor
+      backends to retrieve and update transaction state for SEP-6, SEP-24, and SEP-31 payment flows.
+      The Callbacks API defines synchronous callbacks that the platform makes to the anchor's backend
+      during transaction processing.
+  - aid: stellar:disbursement-platform-api
+    name: Stellar Disbursement Platform API
+    tags:
+      - Disbursements
+      - Bulk Payments
+      - Finance
+      - Organization
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    baseURL: https://sdp.example.org
+    humanURL: https://developers.stellar.org/platforms/stellar-disbursement-platform
+    properties:
+      - url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+        type: Documentation
+      - url: openapi/stellar-disbursement-platform-api.yml
+        type: OpenAPI
+      - url: https://github.com/stellar/stellar-disbursement-platform-backend
+        type: GitHubRepository
+    description: >-
+      The Stellar Disbursement Platform (SDP) is an open-source tool built for organizations to make
+      bulk payments to a group of recipients over the Stellar network. The REST API supports tenant
+      management, disbursement campaigns, recipient registration, wallet management, and payment
+      monitoring. The SDP supports multi-tenant deployments and integrates with SEP-24 for wallet
+      onboarding.
 common:
   - url: https://developers.stellar.org/docs
     type: Documentation
@@ -142,6 +193,10 @@ common:
     type: Discord
   - url: https://stellar.org/foundation
     type: About
+  - url: json-ld/stellar-context.jsonld
+    type: JSONLDContext
+  - url: vocabulary/stellar-vocabulary.yml
+    type: Vocabulary
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

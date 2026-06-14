@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/signatures.json",
+  "title": "signatures",
+  "type": "array",
+  "items": {
+    "type": "string",
+    "pattern": "G[A-Z0-9]{55}"
+  }
+}

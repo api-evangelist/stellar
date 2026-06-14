@@ -1,0 +1,9 @@
+{
+  "operationId": "GetPaymentsByAccountId",
+  "method": "GET",
+  "path": "/accounts/{account_id}/payments",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnAccountsPayments"
+  }
+}

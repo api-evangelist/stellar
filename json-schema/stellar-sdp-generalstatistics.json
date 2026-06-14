@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/GeneralStatistics.json",
+  "title": "GeneralStatistics",
+  "type": "object",
+  "properties": {
+    "total_disbursements": {
+      "type": "integer",
+      "description": "Total number of disbursements",
+      "format": "int64",
+      "example": 20
+    },
+    "payment_counters": {
+      "$ref": "#/components/schemas/PaymentCounters"
+    },
+    "payment_amounts_by_asset": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PaymentAmountsByAsset"
+      }
+    },
+    "receiver_wallets_counters": {
+      "$ref": "#/components/schemas/ReceiverWalletsCounters"
+    },
+    "total_receivers": {
+      "type": "integer",
+      "description": "Total number of receivers",
+      "format": "int64",
+      "example": 1000
+    }
+  }
+}

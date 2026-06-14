@@ -1,0 +1,18 @@
+{
+  "operationId": "SubmitAsyncTransaction",
+  "method": "POST",
+  "path": "/transactions_async",
+  "statusCode": "403",
+  "example": {
+    "summary": "Transaction Submission Disabled",
+    "value": {
+      "type": "transaction_submission_disabled",
+      "title": "Transaction Submission Disabled",
+      "status": 403,
+      "detail": "Transaction submission has been disabled for Horizon. To enable it again, remove env variable DISABLE_TX_SUB.",
+      "extras": {
+        "envelope_xdr": ""
+      }
+    }
+  }
+}

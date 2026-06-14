@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/BridgeIntegrationPatchRequest.json",
+  "title": "BridgeIntegrationPatchRequest",
+  "type": "object",
+  "description": "Request to update Bridge integration status",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Target status for the integration",
+      "enum": [
+        "OPTED_IN",
+        "READY_FOR_DEPOSIT"
+      ],
+      "example": "OPTED_IN"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address for KYC verification (optional, defaults to user email)",
+      "example": "john@example.com"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Full name for KYC verification (optional, defaults to user name)",
+      "example": "John Doe"
+    },
+    "kyc_type": {
+      "$ref": "#/components/schemas/KYCType"
+    }
+  },
+  "required": [
+    "status"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/ReceiverWalletLite.json",
+  "title": "ReceiverWalletLite",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "803031d4-1d04-4879-b6d9-dc5641f9988e"
+    },
+    "receiver": {
+      "$ref": "#/components/schemas/ReceiverLite"
+    },
+    "wallet": {
+      "$ref": "#/components/schemas/WalletLite"
+    },
+    "stellar_address": {
+      "type": "string",
+      "example": "GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL"
+    },
+    "stellar_memo": {
+      "type": "string"
+    },
+    "stellar_memo_type": {
+      "type": "string"
+    },
+    "sep24_transaction_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "example": "2023-02-03T10:45:51.000Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "example": "2023-02-03T10:45:51.000Z"
+    },
+    "invitation_sent_at": {
+      "type": "string",
+      "example": "2023-02-09T10:45:51.000Z"
+    },
+    "status": {
+      "$ref": "#/components/schemas/ReceiversWalletStatus"
+    },
+    "status_history": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReceiversWalletStatusHistoryEntry"
+      }
+    },
+    "otp_confirmed_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-10T10:45:51Z"
+    },
+    "otp_confirmed_with": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveALedgersPayments",
+  "method": "GET",
+  "path": "/ledgers/{sequence}/payments",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveALedgersPayments"
+  }
+}

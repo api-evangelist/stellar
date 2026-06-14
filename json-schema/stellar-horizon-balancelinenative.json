@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/BalanceLineNative.json",
+  "title": "BalanceLineNative",
+  "type": "object",
+  "properties": {
+    "balance": {
+      "$ref": "#/components/schemas/currency"
+    },
+    "liquidity_pool_id": {
+      "type": "string"
+    },
+    "limit": {
+      "$ref": "#/components/schemas/currency"
+    },
+    "buying_liabilites": {
+      "$ref": "#/components/schemas/currency"
+    },
+    "selling_liabilites": {
+      "$ref": "#/components/schemas/currency"
+    },
+    "sponser": {
+      "type": "string"
+    },
+    "last_modified_ledger": {
+      "$ref": "#/components/schemas/last_modified_ledger"
+    },
+    "is_authorized": {
+      "type": "boolean"
+    },
+    "is_authorized_to_maintain_liabilites": {
+      "type": "boolean"
+    },
+    "is_clawback_enabled": {
+      "type": "boolean"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "native"
+      ]
+    }
+  },
+  "required": [
+    "balance",
+    "limit",
+    "asset_type",
+    "buying_liabilites",
+    "selling_liabilites",
+    "last_modified_ledger",
+    "is_authorized",
+    "is_authorized_to_maintain_liabilites",
+    "is_clawback_enabled"
+  ]
+}

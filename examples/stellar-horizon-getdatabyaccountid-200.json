@@ -1,0 +1,9 @@
+{
+  "operationId": "GetDataByAccountId",
+  "method": "GET",
+  "path": "/accounts/{account_id}/data/{key}",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnAccountsData"
+  }
+}

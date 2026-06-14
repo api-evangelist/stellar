@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/DirectPayment.json",
+  "title": "DirectPayment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the payment",
+      "example": "619da857-8725-4c58-933d-c120a458e0f5"
+    },
+    "amount": {
+      "type": "string",
+      "description": "The payment amount",
+      "example": "100.00"
+    },
+    "asset": {
+      "$ref": "#/components/schemas/Asset"
+    },
+    "receiver": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "7a4c68dd-861c-4448-8813-ea3f6dda7b25"
+        },
+        "email": {
+          "type": "string",
+          "example": "horus@example.com"
+        },
+        "phone_number": {
+          "type": "string",
+          "example": "+1234567890"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-02-03T10:45:51Z"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-02-03T10:45:51Z"
+        }
+      },
+      "description": "The receiver object"
+    },
+    "wallet": {
+      "$ref": "#/components/schemas/Wallet"
+    },
+    "status": {
+      "$ref": "#/components/schemas/PaymentStatus"
+    },
+    "external_payment_id": {
+      "type": "string",
+      "description": "External payment identifier",
+      "example": "payment-001"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    }
+  }
+}

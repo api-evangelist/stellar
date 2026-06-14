@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/ReceiverLite.json",
+  "title": "ReceiverLite",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "029e2ed0-feb6-4c40-8b47-0836a85741a2"
+    }
+  }
+}

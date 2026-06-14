@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/Operation.json",
+  "title": "Operation",
+  "type": "object",
+  "properties": {
+    "_links": {
+      "type": "object",
+      "properties": {
+        "effects": {
+          "$ref": "#/components/schemas/link"
+        },
+        "precedes": {
+          "$ref": "#/components/schemas/link"
+        },
+        "self": {
+          "$ref": "#/components/schemas/link"
+        },
+        "succeds": {
+          "$ref": "#/components/schemas/link"
+        },
+        "transaction": {
+          "$ref": "#/components/schemas/link"
+        }
+      }
+    },
+    "id": {
+      "$ref": "#/components/schemas/id"
+    },
+    "paging_token": {
+      "$ref": "#/components/schemas/paging_token"
+    },
+    "type_i": {
+      "type": "number",
+      "example": 0
+    },
+    "type": {
+      "type": "string",
+      "example": "create_account"
+    }
+  }
+}

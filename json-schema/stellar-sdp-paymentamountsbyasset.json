@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/PaymentAmountsByAsset.json",
+  "title": "PaymentAmountsByAsset",
+  "type": "object",
+  "properties": {
+    "asset_code": {
+      "type": "string",
+      "example": "USDC"
+    },
+    "payment_amounts": {
+      "$ref": "#/components/schemas/PaymentAmounts"
+    }
+  }
+}

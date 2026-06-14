@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/tradePrice.json",
+  "title": "tradePrice",
+  "type": "object",
+  "properties": {
+    "n": {
+      "type": "string"
+    },
+    "d": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveRelatedEffects",
+  "method": "GET",
+  "path": "/liquidity_pools/{liquidity_pool_id}/effects",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveRelatedEffects"
+  }
+}

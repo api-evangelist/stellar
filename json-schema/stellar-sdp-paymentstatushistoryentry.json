@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/PaymentStatusHistoryEntry.json",
+  "title": "PaymentStatusHistoryEntry",
+  "type": "object",
+  "properties": {
+    "status": {
+      "$ref": "#/components/schemas/PaymentStatus"
+    },
+    "status_message": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    }
+  }
+}

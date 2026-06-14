@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveATransactionsEffects",
+  "method": "GET",
+  "path": "/transactions/{transaction_hash}/effects",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveATransactionsEffects"
+  }
+}

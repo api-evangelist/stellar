@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/ClaimableBalance.json",
+  "title": "ClaimableBalance",
+  "type": "object",
+  "properties": {
+    "_links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/link"
+        },
+        "operations": {
+          "$ref": "#/components/schemas/link"
+        },
+        "transactions": {
+          "$ref": "#/components/schemas/link"
+        }
+      },
+      "required": [
+        "self",
+        "operations",
+        "transactions"
+      ]
+    },
+    "id": {
+      "$ref": "#/components/schemas/id"
+    },
+    "asset": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "sponsor": {
+      "type": "string"
+    },
+    "last_modified_ledger": {
+      "type": "string"
+    },
+    "last_modified_time": {
+      "type": "string"
+    },
+    "claimants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "$ref": "#/components/schemas/address"
+          },
+          "predicate": {
+            "type": "object",
+            "properties": {
+              "and": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "or": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "relBefore": {
+                            "type": "string"
+                          },
+                          "absBefore": {
+                            "type": "string"
+                          },
+                          "absBeforeEpoch": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "not": {
+                      "type": "object",
+                      "properties": {
+                        "unconditional": {
+                          "type": "boolean"
+                        },
+                        "relBefore": {
+                          "type": "string"
+                        },
+                        "absBefore": {
+                          "type": "string"
+                        },
+                        "absBeforeEpoch": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "flags": {
+      "type": "integer"
+    },
+    "paging_token": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "paging_token",
+    "asset",
+    "amount",
+    "last_modified_ledger",
+    "last_modified_time"
+  ]
+}

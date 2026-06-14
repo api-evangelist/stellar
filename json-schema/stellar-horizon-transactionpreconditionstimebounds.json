@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/TransactionPreconditionsTimebounds.json",
+  "title": "TransactionPreconditionsTimebounds",
+  "type": "object",
+  "properties": {
+    "min_time": {
+      "type": "string"
+    },
+    "max_time": {
+      "type": "string"
+    }
+  }
+}

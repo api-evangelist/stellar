@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/PaymentAmounts.json",
+  "title": "PaymentAmounts",
+  "type": "object",
+  "properties": {
+    "draft": {
+      "type": "string",
+      "example": "100.00"
+    },
+    "ready": {
+      "type": "string",
+      "example": "200.00"
+    },
+    "pending": {
+      "type": "string",
+      "example": "300.00"
+    },
+    "paused": {
+      "type": "string",
+      "example": "100.00"
+    },
+    "success": {
+      "type": "string",
+      "example": "500.00"
+    },
+    "failed": {
+      "type": "string",
+      "example": "100.00"
+    },
+    "average": {
+      "type": "string",
+      "example": "100.00"
+    },
+    "total": {
+      "type": "string",
+      "example": "1400.00"
+    }
+  }
+}

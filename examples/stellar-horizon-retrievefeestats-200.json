@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveFeeStats",
+  "method": "GET",
+  "path": "/fee_stats",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveFeeStats"
+  }
+}

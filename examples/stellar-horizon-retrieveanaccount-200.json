@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveAnAccount",
+  "method": "GET",
+  "path": "/accounts/{account_id}",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnAccount"
+  }
+}

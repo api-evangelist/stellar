@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/PathPaymentStrictSend.json",
+  "title": "PathPaymentStrictSend",
+  "type": "object",
+  "properties": {
+    "_links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/link"
+        },
+        "transaction": {
+          "$ref": "#/components/schemas/link"
+        },
+        "effects": {
+          "$ref": "#/components/schemas/link"
+        },
+        "succeeds": {
+          "$ref": "#/components/schemas/link"
+        },
+        "precedes": {
+          "$ref": "#/components/schemas/link"
+        }
+      },
+      "required": [
+        "self",
+        "transaction",
+        "effects",
+        "succeeds",
+        "precedes"
+      ]
+    },
+    "id": {
+      "$ref": "#/components/schemas/id"
+    },
+    "paging_token": {
+      "type": "string"
+    },
+    "transaction_successful": {
+      "type": "boolean"
+    },
+    "source_account": {
+      "$ref": "#/components/schemas/address"
+    },
+    "type": {
+      "type": "string",
+      "example": "path_payment_strict_send"
+    },
+    "type_i": {
+      "type": "number",
+      "example": 13
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "transaction_hash": {
+      "type": "string"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "native",
+        "credit_alphanum4",
+        "credit_alphanum12"
+      ]
+    },
+    "asset_code": {
+      "type": "string"
+    },
+    "asset_issuer": {
+      "$ref": "#/components/schemas/address"
+    },
+    "from": {
+      "$ref": "#/components/schemas/address"
+    },
+    "to": {
+      "$ref": "#/components/schemas/address"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "path": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_type": {
+            "type": "string",
+            "enum": [
+              "native",
+              "credit_alphanum4",
+              "credit_alphanum12"
+            ]
+          },
+          "asset_code": {
+            "type": "string"
+          },
+          "asset_issuer": {
+            "$ref": "#/components/schemas/address"
+          }
+        }
+      }
+    },
+    "source_amount": {
+      "type": "string"
+    },
+    "source_max": {
+      "type": "string"
+    },
+    "source_asset_type": {
+      "type": "string"
+    },
+    "source_asset_code": {
+      "type": "string"
+    },
+    "source_asset_issuer": {
+      "$ref": "#/components/schemas/address"
+    }
+  },
+  "required": [
+    "id",
+    "paging_token",
+    "transaction_successful",
+    "source_account",
+    "type",
+    "type_i",
+    "created_at",
+    "transaction_hash",
+    "from",
+    "to",
+    "amount",
+    "path",
+    "source_amount",
+    "source_asset_type"
+  ]
+}

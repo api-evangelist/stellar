@@ -1,0 +1,9 @@
+{
+  "operationId": "ListAllClaimableBalances",
+  "method": "GET",
+  "path": "/claimable_balances",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListAllClaimableBalances"
+  }
+}

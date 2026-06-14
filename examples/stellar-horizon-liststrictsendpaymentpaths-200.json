@@ -1,0 +1,9 @@
+{
+  "operationId": "ListStrictSendPaymentPaths",
+  "method": "GET",
+  "path": "/paths/strict-send",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListStrictSendPaymentPaths"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveAnOrderBook",
+  "method": "GET",
+  "path": "/order_book",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveAnOrderBook"
+  }
+}

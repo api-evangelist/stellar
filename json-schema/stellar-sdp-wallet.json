@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Wallet.json",
+  "title": "Wallet",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "5ada9ed5-455a-4782-a0ee-160767e0deb1"
+    },
+    "name": {
+      "type": "string",
+      "example": "Vibrant Assist"
+    },
+    "homepage": {
+      "type": "string",
+      "example": "https://vibrantapp.com"
+    },
+    "sep_10_client_domain": {
+      "type": "string",
+      "example": "api-dev.vibrantapp.com"
+    },
+    "deep_link_schema": {
+      "type": "string",
+      "example": "https://vibrantapp.com/sdp-dev"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-07-31T20:50:45.648Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-07-31T20:50:45.648Z"
+    }
+  }
+}

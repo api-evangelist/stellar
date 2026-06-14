@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/flags.json",
+  "title": "flags",
+  "type": "object",
+  "properties": {
+    "auth_required": {
+      "type": "boolean"
+    },
+    "auth_revocable": {
+      "type": "boolean"
+    },
+    "auth_immutable": {
+      "type": "boolean"
+    },
+    "auth_clawback_enabled": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "ListAllLedgers",
+  "method": "GET",
+  "path": "/ledgers",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListAllLedgers"
+  }
+}

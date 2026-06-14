@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Receiver.json",
+  "title": "Receiver",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "f83bb638-dda4-41e6-80c9-d03e6eec2aef"
+    },
+    "phone_number": {
+      "type": "string",
+      "example": "+15552368475"
+    },
+    "external_id": {
+      "type": "string",
+      "example": "usr12334"
+    },
+    "email": {
+      "type": "string",
+      "example": "jdoe@mail.org"
+    },
+    "created_at": {
+      "type": "string",
+      "example": "2023-02-03T10:45:51.000Z"
+    },
+    "total_payments": {
+      "type": "string",
+      "example": "2"
+    },
+    "successful_payments": {
+      "type": "string",
+      "example": "2"
+    },
+    "failed_payments": {
+      "type": "string",
+      "example": "0"
+    },
+    "remaining_payments": {
+      "type": "string",
+      "example": "0"
+    },
+    "registered_wallets": {
+      "type": "string",
+      "example": "1"
+    },
+    "received_amounts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Amount"
+      }
+    },
+    "wallets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReceiverWallet"
+      }
+    }
+  }
+}

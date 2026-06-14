@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/APIKey.json",
+  "title": "APIKey",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the API key"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name for the API key"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of permissions granted to this API key"
+    },
+    "allowed_ips": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of allowed IP addresses or CIDR ranges"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiration date of the API key"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the API key was created"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "User who created the API key"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the API key was last updated"
+    },
+    "updated_by": {
+      "type": "string",
+      "description": "User who last updated the API key"
+    },
+    "last_used_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the API key was last used"
+    }
+  }
+}

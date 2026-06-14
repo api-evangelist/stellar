@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveATransactionsOperations",
+  "method": "GET",
+  "path": "/transactions/{transaction_hash}/operations",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveATransactionsOperations"
+  }
+}

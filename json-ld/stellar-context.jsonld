@@ -1,0 +1,136 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "stellar": "https://developers.stellar.org/vocab#",
+    "aid": "@id",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "tags": "schema:keywords",
+    "baseURL": "schema:url",
+    "humanURL": "schema:url",
+    "image": "schema:image",
+    "account": {
+      "@id": "stellar:account",
+      "@type": "schema:FinancialProduct"
+    },
+    "accountId": {
+      "@id": "stellar:accountId",
+      "@type": "xsd:string"
+    },
+    "balance": {
+      "@id": "stellar:balance",
+      "@type": "schema:MonetaryAmount"
+    },
+    "asset": {
+      "@id": "stellar:asset",
+      "@type": "schema:FinancialProduct"
+    },
+    "assetCode": {
+      "@id": "stellar:assetCode",
+      "@type": "xsd:string"
+    },
+    "assetIssuer": {
+      "@id": "stellar:assetIssuer",
+      "@type": "xsd:string"
+    },
+    "transaction": {
+      "@id": "stellar:transaction",
+      "@type": "schema:Action"
+    },
+    "transactionHash": {
+      "@id": "stellar:transactionHash",
+      "@type": "xsd:string"
+    },
+    "ledger": {
+      "@id": "stellar:ledger",
+      "@type": "schema:DataFeed"
+    },
+    "ledgerSequence": {
+      "@id": "stellar:ledgerSequence",
+      "@type": "xsd:integer"
+    },
+    "operation": {
+      "@id": "stellar:operation",
+      "@type": "schema:Action"
+    },
+    "offer": {
+      "@id": "stellar:offer",
+      "@type": "schema:Offer"
+    },
+    "trade": {
+      "@id": "stellar:trade",
+      "@type": "schema:TradeAction"
+    },
+    "claimableBalance": {
+      "@id": "stellar:claimableBalance",
+      "@type": "schema:MonetaryAmount"
+    },
+    "liquidityPool": {
+      "@id": "stellar:liquidityPool",
+      "@type": "schema:FinancialProduct"
+    },
+    "orderBook": {
+      "@id": "stellar:orderBook",
+      "@type": "schema:DataFeed"
+    },
+    "paymentPath": {
+      "@id": "stellar:paymentPath",
+      "@type": "schema:Action"
+    },
+    "soroban": {
+      "@id": "stellar:soroban",
+      "@type": "schema:SoftwareApplication"
+    },
+    "contract": {
+      "@id": "stellar:contract",
+      "@type": "schema:SoftwareApplication"
+    },
+    "contractId": {
+      "@id": "stellar:contractId",
+      "@type": "xsd:string"
+    },
+    "feeStats": {
+      "@id": "stellar:feeStats",
+      "@type": "schema:MonetaryAmount"
+    },
+    "xlm": {
+      "@id": "stellar:xlm",
+      "@type": "schema:Currency"
+    },
+    "horizon": {
+      "@id": "stellar:horizon",
+      "@type": "schema:WebAPI"
+    },
+    "disbursement": {
+      "@id": "stellar:disbursement",
+      "@type": "schema:MoneyTransfer"
+    },
+    "receiver": {
+      "@id": "stellar:receiver",
+      "@type": "schema:Person"
+    },
+    "wallet": {
+      "@id": "stellar:wallet",
+      "@type": "schema:FinancialProduct"
+    },
+    "network": {
+      "@id": "stellar:network",
+      "@type": "schema:ComputerLanguage"
+    },
+    "testnet": {
+      "@id": "stellar:testnet",
+      "@type": "schema:ComputerLanguage"
+    },
+    "mainnet": {
+      "@id": "stellar:mainnet",
+      "@type": "schema:ComputerLanguage"
+    },
+    "sep": {
+      "@id": "stellar:sep",
+      "@type": "schema:TechArticle"
+    }
+  }
+}

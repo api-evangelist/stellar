@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/PaymentStatus.json",
+  "title": "PaymentStatus",
+  "type": "string",
+  "description": "The status of the payment",
+  "enum": [
+    "DRAFT",
+    "READY",
+    "PENDING",
+    "PAUSED",
+    "SUCCESS",
+    "FAILED",
+    "CANCELED"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Asset.json",
+  "title": "Asset",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "ffaec4b3-46b0-4db4-a4c4-6c3508057705"
+    },
+    "code": {
+      "type": "string",
+      "description": "Asset code",
+      "example": "USDC"
+    },
+    "issuer": {
+      "type": "string",
+      "description": "Asset issuer address",
+      "example": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    },
+    "deleted_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-06-03T10:55:51Z"
+    }
+  },
+  "description": "The Stellar asset object"
+}

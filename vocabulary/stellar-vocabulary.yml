@@ -1,0 +1,258 @@
+name: Stellar Vocabulary
+description: Core domain terms and concepts for the Stellar blockchain network and its APIs.
+url: https://developers.stellar.org/vocab
+terms:
+  - term: account
+    label: Account
+    description: >-
+      A fundamental unit on the Stellar network. Accounts hold balances of XLM and other assets,
+      and all network activity originates from accounts. Each account has a unique public key (account ID)
+      and requires a minimum XLM balance.
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-data-structures/accounts
+    tags:
+      - Core
+      - Identity
+
+  - term: asset
+    label: Asset
+    description: >-
+      A representation of value on the Stellar network. Assets are identified by a code and an issuer
+      account. The native asset is XLM (Lumens). Custom assets can represent fiat currencies, commodities,
+      or any other value.
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-data-structures/assets
+    tags:
+      - Core
+      - Finance
+
+  - term: xlm
+    label: XLM (Lumen)
+    description: >-
+      The native currency of the Stellar network. XLM is used to pay transaction fees and maintain
+      minimum account balances (base reserve). 1 XLM = 10,000,000 stroops.
+    url: https://developers.stellar.org/docs/learn/fundamentals/lumens
+    tags:
+      - Core
+      - Currency
+
+  - term: ledger
+    label: Ledger
+    description: >-
+      A snapshot of all account balances and state on the Stellar network at a specific point in time.
+      New ledgers are created approximately every 5 seconds when the network reaches consensus.
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-data-structures/ledgers
+    tags:
+      - Core
+      - Blockchain
+
+  - term: transaction
+    label: Transaction
+    description: >-
+      An atomic unit of change to the Stellar ledger. Transactions contain one or more operations
+      and must be signed by the source account before submission. Transactions either fully succeed
+      or fully fail.
+    url: https://developers.stellar.org/docs/learn/fundamentals/transactions
+    tags:
+      - Core
+      - Blockchain
+
+  - term: operation
+    label: Operation
+    description: >-
+      An individual action within a transaction. Common operations include payment, create account,
+      manage offer, change trust, and set options. A single transaction can contain up to 100 operations.
+    url: https://developers.stellar.org/docs/learn/fundamentals/transactions/operations-and-transactions
+    tags:
+      - Core
+      - Blockchain
+
+  - term: horizon
+    label: Horizon
+    description: >-
+      The primary REST API for the Stellar network, maintained by the Stellar Development Foundation.
+      Horizon ingests and re-serves data from Stellar Core in a developer-friendly format. The public
+      instance is available at https://horizon.stellar.org.
+    url: https://developers.stellar.org/docs/data/apis/horizon
+    tags:
+      - API
+      - Infrastructure
+
+  - term: soroban
+    label: Soroban
+    description: >-
+      The smart contract platform built into the Stellar network. Soroban allows developers to write
+      and deploy WebAssembly smart contracts on Stellar. Contracts are written in Rust using the
+      Soroban SDK.
+    url: https://developers.stellar.org/docs/build/smart-contracts
+    tags:
+      - Smart Contracts
+      - Blockchain
+
+  - term: soroban-rpc
+    label: Soroban RPC
+    description: >-
+      A JSON-RPC 2.0 interface for interacting with Soroban smart contracts. It supports simulating
+      and submitting contract invocations, reading contract state, and streaming network events.
+    url: https://developers.stellar.org/docs/data/rpc
+    tags:
+      - API
+      - Smart Contracts
+
+  - term: trustline
+    label: Trustline
+    description: >-
+      A relationship between an account and an asset issuer that allows the account to hold that asset.
+      Accounts must establish trustlines before holding non-native assets.
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-data-structures/accounts#trustlines
+    tags:
+      - Core
+      - Finance
+
+  - term: claimable-balance
+    label: Claimable Balance
+    description: >-
+      An on-ledger holding of assets that can be claimed by designated accounts. Useful for sending
+      assets to accounts that may not yet have trustlines established.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/claimable-balances
+    tags:
+      - Finance
+      - Payments
+
+  - term: liquidity-pool
+    label: Liquidity Pool
+    description: >-
+      An automated market maker (AMM) pool on the Stellar DEX. Liquidity pools hold two assets in
+      reserve and allow trading between them using a constant product formula.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/liquidity-on-stellar-sdex-liquidity-pools
+    tags:
+      - DEX
+      - Finance
+
+  - term: offer
+    label: Offer
+    description: >-
+      A standing order on the Stellar DEX to trade one asset for another at a specified price ratio.
+      Offers remain on the order book until filled, cancelled, or the account no longer has sufficient balance.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/sdex
+    tags:
+      - DEX
+      - Finance
+
+  - term: order-book
+    label: Order Book
+    description: >-
+      A collection of all outstanding buy and sell offers for a specific asset pair on the Stellar DEX.
+      The Horizon API provides real-time order book queries.
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference/get-order-book
+    tags:
+      - DEX
+      - Finance
+
+  - term: payment-path
+    label: Payment Path
+    description: >-
+      A route through the Stellar DEX connecting two different assets for path payment operations.
+      Horizon provides /paths endpoints to discover optimal exchange routes.
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference/list-strict-receive-payment-paths
+    tags:
+      - Payments
+      - DEX
+
+  - term: effect
+    label: Effect
+    description: >-
+      A record of the specific changes that an operation made to the ledger. Effects are created
+      for each operation and describe what actually changed (e.g., account credited, trustline created).
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference/get-effects-for-account
+    tags:
+      - Blockchain
+      - Data
+
+  - term: fee-bump
+    label: Fee Bump Transaction
+    description: >-
+      A special transaction type that wraps another transaction and pays its fees. Useful for
+      sponsoring transaction fees on behalf of other accounts.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/transactions-specialized/fee-bump-transactions
+    tags:
+      - Transactions
+      - Fees
+
+  - term: cursor
+    label: Cursor (Paging Token)
+    description: >-
+      A token used for cursor-based pagination in the Horizon API. Cursors enable efficient traversal
+      of large result sets and are also used to position SSE streams.
+    url: https://developers.stellar.org/docs/data/apis/horizon/structure/paging
+    tags:
+      - API
+      - Pagination
+
+  - term: sse
+    label: Server-Sent Events (SSE)
+    description: >-
+      A real-time streaming protocol supported by Horizon. SSE connections allow applications to
+      receive ledger updates, payments, transactions, and effects as they occur on the network.
+    url: https://developers.stellar.org/docs/data/apis/horizon/structure/streaming
+    tags:
+      - API
+      - Streaming
+
+  - term: stroop
+    label: Stroop
+    description: >-
+      The smallest unit of XLM. 1 XLM = 10,000,000 stroops. Transaction fees are denominated in stroops.
+    url: https://developers.stellar.org/docs/learn/fundamentals/lumens
+    tags:
+      - Currency
+      - Core
+
+  - term: anchor
+    label: Anchor
+    description: >-
+      A business or individual that bridges fiat currencies and Stellar assets. Anchors handle
+      deposits and withdrawals between fiat and on-chain representations following SEP standards.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/network-configuration/anchors
+    tags:
+      - Finance
+      - Infrastructure
+
+  - term: sep
+    label: SEP (Stellar Ecosystem Proposal)
+    description: >-
+      Interoperability standards for the Stellar ecosystem, analogous to Ethereum EIPs. SEPs define
+      protocols for anchor integrations (SEP-6, SEP-24), cross-border payments (SEP-31), and more.
+    url: https://github.com/stellar/stellar-protocol/tree/master/ecosystem
+    tags:
+      - Standards
+      - Interoperability
+
+  - term: sdp
+    label: Stellar Disbursement Platform (SDP)
+    description: >-
+      An open-source tool built by the Stellar Development Foundation for organizations to make
+      bulk payments to a group of recipients over the Stellar network. Supports wallet registration,
+      disbursement campaigns, and CSV-based recipient management.
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+    tags:
+      - Platform
+      - Payments
+
+  - term: keypair
+    label: Keypair
+    description: >-
+      A cryptographic key pair (public key + private key) used to identify and sign for a Stellar
+      account. The public key serves as the account address; the private key signs transactions.
+    url: https://developers.stellar.org/docs/learn/fundamentals/stellar-data-structures/accounts#account-id
+    tags:
+      - Security
+      - Identity
+
+  - term: xdr
+    label: XDR (External Data Representation)
+    description: >-
+      The binary serialization format used by Stellar to encode transactions, ledger entries, and
+      other network data. Transactions must be XDR-encoded before submission to Horizon or RPC.
+    url: https://developers.stellar.org/docs/learn/encyclopedia/data-formats/xdr
+    tags:
+      - Data
+      - Protocol

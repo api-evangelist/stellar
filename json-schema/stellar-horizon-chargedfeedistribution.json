@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/ChargedFeeDistribution.json",
+  "title": "ChargedFeeDistribution",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/BaseFeeDistribution"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "max": {
+          "description": "Maximum (highest) fee charged over the last 5 ledgers."
+        },
+        "min": {
+          "description": "Minimum (lowest) fee charged over the last 5 ledgers."
+        },
+        "mode": {
+          "description": "Mode (middle) fee charged over the last 5 ledgers."
+        },
+        "p10": {
+          "description": "10th percentile fee charged over the last 5 ledgers."
+        },
+        "p20": {
+          "description": "20th percentile fee charged over the last 5 ledgers."
+        },
+        "p30": {
+          "description": "30th percentile fee charged over the last 5 ledgers."
+        },
+        "p40": {
+          "description": "40th percentile fee charged over the last 5 ledgers."
+        },
+        "p50": {
+          "description": "50th percentile fee charged over the last 5 ledgers."
+        },
+        "p60": {
+          "description": "60th percentile fee charged over the last 5 ledgers."
+        },
+        "p70": {
+          "description": "70th percentile fee charged over the last 5 ledgers."
+        },
+        "p80": {
+          "description": "80th percentile fee charged over the last 5 ledgers."
+        },
+        "p90": {
+          "description": "90th percentile fee charged over the last 5 ledgers."
+        },
+        "p95": {
+          "description": "95th percentile fee charged over the last 5 ledgers."
+        },
+        "p99": {
+          "description": "99th percentile fee charged over the last 5 ledgers."
+        }
+      }
+    }
+  ]
+}

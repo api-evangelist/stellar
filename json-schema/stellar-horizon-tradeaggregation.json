@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/TradeAggregation.json",
+  "title": "TradeAggregation",
+  "type": "object",
+  "properties": {
+    "_embedded": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "string"
+              },
+              "trade_count": {
+                "type": "string"
+              },
+              "base_volume": {
+                "type": "string"
+              },
+              "counter_volume": {
+                "type": "string"
+              },
+              "avg": {
+                "type": "string"
+              },
+              "high": {
+                "type": "string"
+              },
+              "high_r": {
+                "$ref": "#/components/schemas/tradePrice"
+              },
+              "low": {
+                "type": "string"
+              },
+              "low_r": {
+                "$ref": "#/components/schemas/tradePrice"
+              },
+              "open": {
+                "type": "string"
+              },
+              "open_r": {
+                "$ref": "#/components/schemas/tradePrice"
+              },
+              "close": {
+                "type": "string"
+              },
+              "close_r": {
+                "$ref": "#/components/schemas/tradePrice"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

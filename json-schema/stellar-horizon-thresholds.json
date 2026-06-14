@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/thresholds.json",
+  "title": "thresholds",
+  "type": "object",
+  "properties": {
+    "low_threshold": {
+      "type": "integer"
+    },
+    "med_threshold": {
+      "type": "integer"
+    },
+    "high_threshold": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "ListTradeAggregations",
+  "method": "GET",
+  "path": "/trade_aggregations",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListTradeAggregations"
+  }
+}

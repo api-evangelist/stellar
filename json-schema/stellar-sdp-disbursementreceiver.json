@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/DisbursementReceiver.json",
+  "title": "DisbursementReceiver",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "example": "ec3a57c0-5660-4b5a-af76-acadc7b09b93"
+    },
+    "email": {
+      "type": "string",
+      "example": "receiver@mail.org"
+    },
+    "phone_number": {
+      "type": "string",
+      "example": "+15552368475"
+    },
+    "external_id": {
+      "type": "string",
+      "example": "usr129001"
+    },
+    "receiver_wallet": {
+      "$ref": "#/components/schemas/ReceiverWallet"
+    },
+    "payment": {
+      "$ref": "#/components/schemas/Payment"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    }
+  }
+}

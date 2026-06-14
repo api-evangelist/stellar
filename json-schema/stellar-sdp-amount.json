@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Amount.json",
+  "title": "Amount",
+  "type": "object",
+  "properties": {
+    "asset_code": {
+      "type": "string",
+      "example": "USDC"
+    },
+    "asset_issuer": {
+      "type": "string",
+      "example": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5"
+    },
+    "received_amount": {
+      "type": "string",
+      "example": "100.00"
+    }
+  }
+}

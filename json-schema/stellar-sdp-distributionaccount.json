@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/DistributionAccount.json",
+  "title": "DistributionAccount",
+  "required": [
+    "status",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "address": {
+      "type": "string",
+      "description": "The address of the distribution account, present when the account type is `STELLAR`.",
+      "example": "GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL"
+    },
+    "circle_wallet_id": {
+      "type": "string",
+      "description": "The ID of the Circle wallet, present when the account type is `CIRCLE`.",
+      "example": "1000646072"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the distribution account.",
+      "example": "DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT",
+      "enum": [
+        "DISTRIBUTION_ACCOUNT.STELLAR.ENV",
+        "DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT",
+        "DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "example": "ACTIVE",
+      "enum": [
+        "ACTIVE",
+        "PENDING_USER_ACTIVATION"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "CBRetrieveRelatedOperations",
+  "method": "GET",
+  "path": "/claimable_balances/{claimable_balance_id}/operations",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/CBRetrieveRelatedOperations"
+  }
+}

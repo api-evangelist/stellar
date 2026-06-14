@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/Links.json",
+  "title": "Links",
+  "type": "object",
+  "properties": {
+    "_links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/link"
+        },
+        "next": {
+          "$ref": "#/components/schemas/link"
+        },
+        "prev": {
+          "$ref": "#/components/schemas/link"
+        }
+      }
+    }
+  }
+}

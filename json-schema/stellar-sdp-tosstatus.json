@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/TOSStatus.json",
+  "title": "TOSStatus",
+  "type": "string",
+  "description": "Terms of Service acceptance status:\n- pending: Terms of service not yet accepted\n- approved: Terms of service accepted\n",
+  "enum": [
+    "pending",
+    "approved"
+  ],
+  "example": "approved"
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/ReceiverRegistrationRequest.json",
+  "title": "ReceiverRegistrationRequest",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required."
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required."
+    },
+    "otp": {
+      "type": "string",
+      "description": "One-Time Password received for verification"
+    },
+    "verification": {
+      "type": "string",
+      "description": "Verification value provided by the user"
+    },
+    "verification_field": {
+      "$ref": "#/components/schemas/VerificationField"
+    },
+    "recaptcha_token": {
+      "type": "string",
+      "description": "Token received from Google reCAPTCHA"
+    }
+  }
+}

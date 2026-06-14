@@ -1,0 +1,9 @@
+{
+  "operationId": "GetOfferByOfferId",
+  "method": "GET",
+  "path": "/offers/{offer_id}",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/GetOfferByOfferId"
+  }
+}

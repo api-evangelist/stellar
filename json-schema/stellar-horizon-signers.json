@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/signers.json",
+  "title": "signers",
+  "type": "object",
+  "properties": {
+    "key": {
+      "$ref": "#/components/schemas/address"
+    },
+    "weight": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "ed25519_public_key",
+        "sha256_hash",
+        "preauth_tx"
+      ]
+    },
+    "sponser": {
+      "$ref": "#/components/schemas/address"
+    }
+  },
+  "required": [
+    "key",
+    "weight",
+    "type"
+  ]
+}

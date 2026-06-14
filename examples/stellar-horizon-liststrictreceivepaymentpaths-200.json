@@ -1,0 +1,9 @@
+{
+  "operationId": "ListStrictReceivePaymentPaths",
+  "method": "GET",
+  "path": "/paths/strict-receive",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListStrictReceivePaymentPaths"
+  }
+}

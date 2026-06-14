@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/DisbursementStatus.json",
+  "title": "DisbursementStatus",
+  "type": "string",
+  "enum": [
+    "DRAFT",
+    "READY",
+    "STARTED",
+    "PAUSED",
+    "COMPLETED"
+  ]
+}

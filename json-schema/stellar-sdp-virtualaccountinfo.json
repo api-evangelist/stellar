@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/VirtualAccountInfo.json",
+  "title": "VirtualAccountInfo",
+  "type": "object",
+  "description": "Virtual account information for USD deposits",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the virtual account",
+      "example": "va_789xyz"
+    },
+    "status": {
+      "$ref": "#/components/schemas/VirtualAccountStatus"
+    },
+    "developer_fee_percent": {
+      "type": "string",
+      "description": "Developer fee percentage as a string",
+      "example": "0.5"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Bridge customer ID",
+      "example": "cust_123abc"
+    },
+    "source_deposit_instructions": {
+      "$ref": "#/components/schemas/VirtualAccountDepositInstructions"
+    },
+    "destination": {
+      "$ref": "#/components/schemas/VirtualAccountDestination"
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "developer_fee_percent",
+    "customer_id",
+    "source_deposit_instructions",
+    "destination"
+  ]
+}

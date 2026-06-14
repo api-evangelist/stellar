@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/VirtualAccountStatus.json",
+  "title": "VirtualAccountStatus",
+  "type": "string",
+  "description": "Virtual account status:\n- activated: Account is active and ready for deposits\n- deactivated: Account is deactivated\n",
+  "enum": [
+    "activated",
+    "deactivated"
+  ],
+  "example": "activated"
+}

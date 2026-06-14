@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/PaymentCounters.json",
+  "title": "PaymentCounters",
+  "type": "object",
+  "properties": {
+    "draft": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "ready": {
+      "type": "integer",
+      "format": "int64",
+      "example": 2
+    },
+    "pending": {
+      "type": "integer",
+      "format": "int64",
+      "example": 3
+    },
+    "paused": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "success": {
+      "type": "integer",
+      "format": "int64",
+      "example": 5
+    },
+    "failed": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "total": {
+      "type": "integer",
+      "format": "int64",
+      "example": 14
+    }
+  }
+}

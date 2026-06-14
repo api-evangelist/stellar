@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/LiquidityPools.json",
+  "title": "LiquidityPools",
+  "type": "object",
+  "properties": {
+    "_embedded": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "$ref": "#/components/schemas/id"
+              },
+              "paging_token": {
+                "$ref": "#/components/schemas/paging_token"
+              },
+              "fee_bp": {
+                "type": "integer",
+                "format": "uint32"
+              },
+              "type": {
+                "type": "string"
+              },
+              "total_trustlines": {
+                "type": "string"
+              },
+              "total_shares": {
+                "type": "string"
+              },
+              "reserves": {
+                "type": "object",
+                "properties": {
+                  "asset": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "string"
+                  }
+                }
+              },
+              "last_modified_ledger": {
+                "type": "string"
+              },
+              "last_modified_time": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "paging_token",
+              "fee_bp",
+              "type",
+              "total_trustlines",
+              "total_shares",
+              "reserves",
+              "last_modified_ledger",
+              "last_modified_time"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

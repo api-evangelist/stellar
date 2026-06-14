@@ -1,0 +1,9 @@
+{
+  "operationId": "ListAllTransactions",
+  "method": "GET",
+  "path": "/transactions",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListAllTransactions"
+  }
+}

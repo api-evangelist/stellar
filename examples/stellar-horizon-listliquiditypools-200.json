@@ -1,0 +1,9 @@
+{
+  "operationId": "ListLiquidityPools",
+  "method": "GET",
+  "path": "/liquidity_pools",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/ListLiquidityPools"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "operationId": "LPRetrieveRelatedTransactions",
+  "method": "GET",
+  "path": "/liquidity_pools/{liquidity_pool_id}/transactions",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/LPRetrieveRelatedTransactions"
+  }
+}

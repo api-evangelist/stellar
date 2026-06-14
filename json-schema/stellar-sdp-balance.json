@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Balance.json",
+  "title": "Balance",
+  "type": "object",
+  "properties": {
+    "asset_code": {
+      "type": "string",
+      "description": "The asset code of the balance in the Stellar network.",
+      "example": "USDC"
+    },
+    "asset_issuer": {
+      "type": "string",
+      "description": "The asset issuer of the balance in the Stellar network.",
+      "example": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5"
+    },
+    "amount": {
+      "type": "string",
+      "description": "The amount of the balance.",
+      "example": "100.00"
+    }
+  },
+  "description": "The balances of the organization's distribution account. Currently, this is only used for the Circle distribution accounts."
+}

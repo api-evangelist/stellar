@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/Offer.json",
+  "title": "Offer",
+  "type": "object",
+  "properties": {
+    "_embedded": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_links": {
+                "type": "object",
+                "properties": {
+                  "self": {
+                    "$ref": "#/components/schemas/link"
+                  },
+                  "offer_maker": {
+                    "$ref": "#/components/schemas/link"
+                  }
+                },
+                "required": [
+                  "self",
+                  "offer_maker"
+                ]
+              },
+              "id": {
+                "$ref": "#/components/schemas/id"
+              },
+              "paging_token": {
+                "type": "string"
+              },
+              "seller": {
+                "$ref": "#/components/schemas/address"
+              },
+              "selling": {
+                "$ref": "#/components/schemas/BaseAsset"
+              },
+              "buying": {
+                "$ref": "#/components/schemas/BaseAsset"
+              },
+              "amount": {
+                "type": "string"
+              },
+              "price_r": {
+                "$ref": "#/components/schemas/Price"
+              },
+              "price": {
+                "type": "string"
+              },
+              "last_modified_ledger": {
+                "$ref": "#/components/schemas/last_modified_ledger"
+              },
+              "last_modified_time": {
+                "type": "string"
+              },
+              "sponser": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "paging_token",
+              "seller",
+              "selling",
+              "buying",
+              "amount",
+              "price_r",
+              "price",
+              "last_modified_ledger",
+              "last_modified_time"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

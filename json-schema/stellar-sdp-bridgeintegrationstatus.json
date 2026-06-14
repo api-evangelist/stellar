@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/BridgeIntegrationStatus.json",
+  "title": "BridgeIntegrationStatus",
+  "type": "string",
+  "description": "Current status of the Bridge integration",
+  "enum": [
+    "NOT_ENABLED",
+    "NOT_OPTED_IN",
+    "OPTED_IN",
+    "READY_FOR_DEPOSIT",
+    "ERROR"
+  ],
+  "example": "OPTED_IN"
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/RegistrationContactType.json",
+  "title": "RegistrationContactType",
+  "type": "string",
+  "enum": [
+    "EMAIL",
+    "PHONE_NUMBER",
+    "EMAIL_AND_WALLET_ADDRESS",
+    "PHONE_NUMBER_AND_WALLET_ADDRESS"
+  ]
+}

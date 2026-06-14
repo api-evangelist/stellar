@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/BaseFeeDistribution.json",
+  "title": "BaseFeeDistribution",
+  "type": "object",
+  "properties": {
+    "max": {
+      "type": "string"
+    },
+    "min": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "p10": {
+      "type": "string"
+    },
+    "p20": {
+      "type": "string"
+    },
+    "p30": {
+      "type": "string"
+    },
+    "p40": {
+      "type": "string"
+    },
+    "p50": {
+      "type": "string"
+    },
+    "p60": {
+      "type": "string"
+    },
+    "p70": {
+      "type": "string"
+    },
+    "p80": {
+      "type": "string"
+    },
+    "p90": {
+      "type": "string"
+    },
+    "p95": {
+      "type": "string"
+    },
+    "p99": {
+      "type": "string"
+    }
+  }
+}

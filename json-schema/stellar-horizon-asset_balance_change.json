@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/asset_balance_change.json",
+  "title": "asset_balance_change",
+  "type": "object",
+  "properties": {
+    "asset_type": {
+      "type": "string"
+    },
+    "asset_code": {
+      "enum": [
+        "native",
+        "credit_alphanum4",
+        "credit_alphanum12"
+      ]
+    },
+    "asset_issuer": {
+      "$ref": "#/components/schemas/address"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "transfer",
+        "mint",
+        "clawback",
+        "burn"
+      ]
+    },
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_type",
+    "type",
+    "amount"
+  ]
+}

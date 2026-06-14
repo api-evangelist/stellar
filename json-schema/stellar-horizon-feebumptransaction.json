@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/FeeBumpTransaction.json",
+  "title": "FeeBumpTransaction",
+  "type": "object",
+  "properties": {
+    "hash": {
+      "$ref": "#/components/schemas/hash"
+    },
+    "signatures": {
+      "$ref": "#/components/schemas/signatures"
+    }
+  }
+}

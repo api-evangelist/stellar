@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/Tenants.json",
+  "title": "Tenants",
+  "type": "array",
+  "items": {
+    "$ref": "#/components/schemas/Tenant"
+  }
+}

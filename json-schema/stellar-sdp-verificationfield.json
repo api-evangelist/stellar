@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/VerificationField.json",
+  "title": "VerificationField",
+  "type": "string",
+  "enum": [
+    "DATE_OF_BIRTH",
+    "YEAR_MONTH",
+    "PIN",
+    "NATIONAL_ID_NUMBER"
+  ]
+}

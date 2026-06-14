@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/horizon/AsyncTransactionSubmissionResponse.json",
+  "title": "AsyncTransactionSubmissionResponse",
+  "type": "object",
+  "properties": {
+    "error_result_xdr": {
+      "type": "string",
+      "nullable": true,
+      "description": "TransactionResult XDR string which is present only if the submission status from core is an ERROR."
+    },
+    "tx_status": {
+      "type": "string",
+      "enum": [
+        "ERROR",
+        "PENDING",
+        "DUPLICATE",
+        "TRY_AGAIN_LATER"
+      ],
+      "description": "Status of the transaction submission."
+    },
+    "hash": {
+      "type": "string",
+      "description": "Hash of the transaction."
+    }
+  }
+}

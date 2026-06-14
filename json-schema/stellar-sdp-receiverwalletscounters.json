@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/ReceiverWalletsCounters.json",
+  "title": "ReceiverWalletsCounters",
+  "type": "object",
+  "properties": {
+    "draft": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "ready": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "registered": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "flagged": {
+      "type": "integer",
+      "format": "int64",
+      "example": 1
+    },
+    "total": {
+      "type": "integer",
+      "format": "int64",
+      "example": 4
+    }
+  }
+}

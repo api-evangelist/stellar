@@ -1,0 +1,9 @@
+{
+  "operationId": "SubmitATransaction",
+  "method": "POST",
+  "path": "/transactions",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/SubmitaTransaction"
+  }
+}

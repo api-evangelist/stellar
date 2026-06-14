@@ -1,0 +1,9 @@
+{
+  "operationId": "RetrieveALedgersEffects",
+  "method": "GET",
+  "path": "/ledgers/{sequence}/effects",
+  "statusCode": "200",
+  "example": {
+    "$ref": "#/components/examples/RetrieveALedgersEffects"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developers.stellar.org/schemas/sdp/DisbursementStatusHistoryEntry.json",
+  "title": "DisbursementStatusHistoryEntry",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "example": "3f351b9e-ed0f-40fa-a314-14757b42dab1"
+    },
+    "status": {
+      "$ref": "#/components/schemas/DisbursementStatus"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2023-02-03T10:45:51Z"
+    }
+  }
+}
