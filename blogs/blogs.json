@@ -1,0 +1,14 @@
+{
+  "repo": "stellar",
+  "feeds": [
+    {
+      "source": "https://stellar.org/blog",
+      "feed_url": "https://stellar.org/blog/rss.xml",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 1,
+  "fetched": "2026-06-14T20:42:17Z"
+}
