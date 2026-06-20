@@ -11,7 +11,7 @@ tags:
   - Web3
 type: Index
 kind: company
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2026-06-14'
 modified: '2026-06-14'
@@ -42,7 +42,7 @@ apis:
       - Payments
       - Trades
       - Transactions
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://horizon.stellar.org
     humanURL: https://developers.stellar.org/docs/data/apis/horizon
     properties:
@@ -94,7 +94,7 @@ apis:
       - Soroban
       - RPC
       - Web3
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://soroban-testnet.stellar.org
     humanURL: https://developers.stellar.org/docs/data/rpc
     properties:
@@ -129,7 +129,7 @@ apis:
       - SEP
       - Cross-Border Payments
       - Interoperability
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://platform-server.exampleanchor.com
     humanURL: https://developers.stellar.org/platforms/anchor-platform
     properties:
@@ -154,7 +154,7 @@ apis:
       - Bulk Payments
       - Finance
       - Organization
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://sdp.example.org
     humanURL: https://developers.stellar.org/platforms/stellar-disbursement-platform
     properties:
