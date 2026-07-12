@@ -171,6 +171,10 @@ apis:
       monitoring. The SDP supports multi-tenant deployments and integrates with SEP-24 for wallet
       onboarding.
 common:
+  - type: DomainSecurity
+    url: security/stellar-domain-security.yml
+  - type: Authentication
+    url: authentication/stellar-authentication.yml
   - url: https://developers.stellar.org/docs
     type: Documentation
   - url: https://stellar.org/blog

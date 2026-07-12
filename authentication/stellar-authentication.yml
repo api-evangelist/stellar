@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/stellar-disbursement-platform-api.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: BearerAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Authorization header containing an SDP JWT (ES256) or an SDP_ API key.
+  sources:
+  - openapi/stellar-disbursement-platform-api.yml
+- name: SEP24QueryAuth
+  type: apiKey
+  in: query
+  parameter: token
+  description: Query parameter containing a SEP-24 JWT.
+  sources:
+  - openapi/stellar-disbursement-platform-api.yml
