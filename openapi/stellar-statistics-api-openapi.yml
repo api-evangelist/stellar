@@ -1,0 +1,250 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Statistics API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Statistics
+  description: Statistics endpoints return general aggregated data per organization, as well as disbursement-specific metrics. SDP users can use this data to monitor their disbursements over time.
+paths:
+  /statistics:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieve All Statistics
+      description: Fetches all metrics on all disbursements the organization has created. The response includes basic aggregations on payments, receivers, receiver wallets, and assets.
+      operationId: RetrieveAllStatistics
+      responses:
+        '200':
+          description: General Statistics response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralStatistics'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BearerAuth: []
+  /statistics/{id}:
+    get:
+      tags:
+      - Statistics
+      summary: Retrieve Disbursement Statistics
+      description: Fetches metrics on a specific disbursement by  `id `.
+      operationId: RetrieveDisbursementStatistics
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Disbursement`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns statistics for disbursement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisbursementsStatistics'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    PaymentCounters:
+      type: object
+      properties:
+        draft:
+          type: integer
+          format: int64
+          example: 1
+        ready:
+          type: integer
+          format: int64
+          example: 2
+        pending:
+          type: integer
+          format: int64
+          example: 3
+        paused:
+          type: integer
+          format: int64
+          example: 1
+        success:
+          type: integer
+          format: int64
+          example: 5
+        failed:
+          type: integer
+          format: int64
+          example: 1
+        total:
+          type: integer
+          format: int64
+          example: 14
+    PaymentAmountsByAsset:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        payment_amounts:
+          $ref: '#/components/schemas/PaymentAmounts'
+    DisbursementsStatistics:
+      type: object
+      properties:
+        payment_counters:
+          $ref: '#/components/schemas/PaymentCounters'
+        payment_amounts_by_asset:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentAmountsByAsset'
+        receiver_wallets_counters:
+          $ref: '#/components/schemas/ReceiverWalletsCounters'
+        total_receivers:
+          type: integer
+          description: Total number of receivers
+          format: int64
+          example: 100
+    PaymentAmounts:
+      type: object
+      properties:
+        draft:
+          type: string
+          example: '100.00'
+        ready:
+          type: string
+          example: '200.00'
+        pending:
+          type: string
+          example: '300.00'
+        paused:
+          type: string
+          example: '100.00'
+        success:
+          type: string
+          example: '500.00'
+        failed:
+          type: string
+          example: '100.00'
+        average:
+          type: string
+          example: '100.00'
+        total:
+          type: string
+          example: '1400.00'
+    ReceiverWalletsCounters:
+      type: object
+      properties:
+        draft:
+          type: integer
+          format: int64
+          example: 1
+        ready:
+          type: integer
+          format: int64
+          example: 1
+        registered:
+          type: integer
+          format: int64
+          example: 1
+        flagged:
+          type: integer
+          format: int64
+          example: 1
+        total:
+          type: integer
+          format: int64
+          example: 4
+    GeneralStatistics:
+      type: object
+      properties:
+        total_disbursements:
+          type: integer
+          description: Total number of disbursements
+          format: int64
+          example: 20
+        payment_counters:
+          $ref: '#/components/schemas/PaymentCounters'
+        payment_amounts_by_asset:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentAmountsByAsset'
+        receiver_wallets_counters:
+          $ref: '#/components/schemas/ReceiverWalletsCounters'
+        total_receivers:
+          type: integer
+          description: Total number of receivers
+          format: int64
+          example: 1000

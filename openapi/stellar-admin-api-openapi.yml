@@ -1,0 +1,556 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Admin API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Admin
+  x-displayName: Admin (Tenant Management)
+  description: The Admin API oversees the management of tenants within the system, facilitating tasks such as provisioning new tenants, updating their information, and retrieving tenant data.
+paths:
+  /tenants:
+    get:
+      tags:
+      - Admin
+      summary: Get All Tenants
+      operationId: GetAllTenants
+      responses:
+        '200':
+          description: A list of provisioned tenants with their configurations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenants'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BasicAuth: []
+    post:
+      tags:
+      - Admin
+      summary: Create Tenant
+      operationId: CreateTenant
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              required:
+              - distribution_account_type
+              - name
+              - organization_name
+              - owner_email
+              - owner_first_name
+              - owner_last_name
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The tenant name. It should match the pattern `^[a-z-]+$`
+                distribution_account_type:
+                  type: string
+                  description: The distribution account type of the tenant.
+                  enum:
+                  - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+                  - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+                  - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+                owner_email:
+                  type: string
+                  description: The owner user e-mail address
+                owner_first_name:
+                  type: string
+                  description: The owner user first name
+                owner_last_name:
+                  type: string
+                  description: The owner user last name
+                organization_name:
+                  type: string
+                  description: The organization name
+                base_url:
+                  type: string
+                  description: The SDP backend server's base URL. If this field is not provided, the SDP will generate one based on the host `BASE_URL` configuration, and the tenant name.
+                sdp_ui_base_url:
+                  type: string
+                  description: The SDP UI/dashboard Base URL. If this field is not provided, the SDP will generate one based on the host `SDP_UI_BASE_URL` configuration, and the tenant name.
+              example:
+                name: redcorp
+                distribution_account_type: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+                owner_email: owner@redcorp.org
+                owner_first_name: Owner
+                owner_last_name: Last
+                organization_name: Red Corp
+                base_url: https://redcorp-backend.sdp.org
+                sdp_ui_base_url: https://redcorp.sdp.org
+        required: false
+      responses:
+        '201':
+          description: Provision a new tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BasicAuth: []
+      x-codegen-request-body-name: body
+  /tenants/{id}:
+    get:
+      tags:
+      - Admin
+      summary: Retrieve a Tenant
+      operationId: RetrieveATenant
+      parameters:
+      - name: id
+        in: path
+        description: ID or Name of the `Tenant`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Tenant details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Resource not found
+      security:
+      - BasicAuth: []
+    delete:
+      tags:
+      - Admin
+      summary: Soft delete a Tenant
+      operationId: SoftDeleteATenant
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Tenant`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted Tenant details, with a non-empty `deleted_at` field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '304':
+          description: The tenant was already deleted before this request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad request, when the tenant is not elligible to be deleted. For example, when the tenant is the default tenant or when it has not been patched with the deactivated status.
+          $ref: '#/components/responses/BadRequestResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Resource not found
+      security:
+      - BasicAuth: []
+    patch:
+      tags:
+      - Admin
+      summary: Update a Tenant
+      description: This endpoint updates the Tenant data.
+      operationId: UpdateATenant
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Tenant`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: List of fields to update for the tenant
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                base_url:
+                  type: string
+                  description: The SDP backend server's base URL.
+                sdp_ui_base_url:
+                  type: string
+                  description: The SDP UI/dashboard Base URL.
+                status:
+                  type: string
+                  enum:
+                  - TENANT_CREATED
+                  - TENANT_PROVISIONED
+                  - TENANT_ACTIVATED
+                  - TENANT_DEACTIVATED
+        required: true
+      responses:
+        '200':
+          description: Updated Tenant details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Resource not found
+      security:
+      - BasicAuth: []
+      x-codegen-request-body-name: body
+  /tenants/default-tenant:
+    post:
+      tags:
+      - Admin
+      summary: Default Tenant
+      description: 'Sets the tenant specified in the request body as the default one, resolving all the incoming API request to that tenant when the env `SINGLE_TENANT_MODE` is set to true. Once set, the default tenant can be overwritten but never unset, although it is only effective when `SINGLE_TENANT_MODE` is set to true.
+
+
+        Default tenant is useful for development purposes or when the SDP is used by a single organization. This allows the organization to skip specifying the tenant in every request and simplifies the SDP setup operationally by removing the need of providing wildcard TLS certificates for multi-tenant configurations.
+
+        '
+      operationId: DefaultTenant
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              required:
+              - id
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The tenant id.
+              example:
+                id: 1736bed3-7b92-4760-8ff2-51fb08ee079f
+        required: false
+      responses:
+        '201':
+          description: Default tenant details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BasicAuth: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1736bed3-7b92-4760-8ff2-51fb08ee079f
+        name:
+          type: string
+          description: The tenant name. It should match the pattern `^[a-z-]+$`.
+          example: bluecorp
+        base_url:
+          type: string
+          description: The SDP backend server's base URL.
+          example: https://bluecorp-backend.sdp.org
+        sdp_ui_base_url:
+          type: string
+          description: The SDP UI/dashboard Base URL.
+          example: https://bluecorp.sdp.org
+        status:
+          type: string
+          enum:
+          - TENANT_CREATED
+          - TENANT_PROVISIONED
+          - TENANT_ACTIVATED
+          - TENANT_DEACTIVATED
+        distribution_account_address:
+          type: string
+          description: The Stellar account address used for distributing funds.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        distribution_account_type:
+          type: string
+          description: The Stellar account type used for distributing funds.
+          enum:
+          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+        distribution_account_status:
+          type: string
+          description: The status of the distribution account used for distributing funds.
+          enum:
+          - ACTIVE
+          - PENDING_USER_ACTIVATION
+        is_default:
+          type: boolean
+          description: Boolean flag that shows whether the tenant is the default or not.
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-03-27T17:21:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-03-27T17:21:51Z'
+        deleted_at:
+          type: string
+          description: The timestamp when the tenant was (soft) deleted.
+          format: date-time
+          example: '2024-03-27T17:21:51Z'
+      required:
+      - base_url
+      - created_at
+      - distribution_account_address
+      - distribution_account_status
+      - distribution_account_type
+      - id
+      - is_default
+      - name
+      - sdp_ui_base_url
+      - status
+      - updated_at
+      example:
+        id: 840dca45-d1df-44cd-83c1-65c04235c25f
+        name: redcorp
+        base_url: https://redcorp-backend.sdp.org
+        sdp_ui_base_url: https://redcorp.sdp.org
+        status: TENANT_PROVISIONED
+        distribution_account: GCQVDMPOEN3HHJJ64V42KUTONOXN7C6V2PSVPALEVJ7PIYOB6M3DJV7N
+        is_default: true
+        created_at: '2024-03-27T17:21:51.000Z'
+        updated_at: '2024-03-27T17:21:51.000Z'
+    Tenants:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tenant'
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}

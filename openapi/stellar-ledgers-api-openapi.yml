@@ -1,0 +1,1006 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Ledgers API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Ledgers
+  description: Each ledger stores the state of the network at a point in time and contains all the changes - transactions, operations, effects, etc. - to that state.
+paths:
+  /ledgers/{sequence}:
+    get:
+      tags:
+      - Ledgers
+      summary: Retrieve a Ledger
+      description: The single ledger endpoint provides information on a specific ledger.
+      operationId: RetrieveALedger
+      parameters:
+      - $ref: '#/components/parameters/SequenceParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ledger'
+              examples:
+                RetrieveALedger:
+                  $ref: '#/components/examples/RetrieveALedger'
+  /ledgers/{sequence}/transactions:
+    get:
+      tags:
+      - Ledgers
+      summary: Retrieve a Ledger's Transactions
+      description: This endpoint represents successful transactions in a given ledger.
+      operationId: RetrieveALedgersTransactions
+      parameters:
+      - $ref: '#/components/parameters/SequenceParam'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/IncludeFailedParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Transaction'
+              examples:
+                RetrieveALedgersTransactions:
+                  $ref: '#/components/examples/RetrieveALedgersTransactions'
+  /ledgers/{sequence}/payments:
+    get:
+      tags:
+      - Ledgers
+      summary: Retrieve a Ledger's Payments
+      description: 'This endpoint returns all payment-related operations in a specific ledger. Operation types that can be returned by this endpoint include: create_account, payment, path_payment, and account_merge.'
+      operationId: RetrieveALedgersPayments
+      parameters:
+      - $ref: '#/components/parameters/SequenceParam'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/IncludeFailedParam'
+      - $ref: '#/components/parameters/JoinParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Payment'
+              examples:
+                RetrieveALedgersPayments:
+                  $ref: '#/components/examples/RetrieveALedgersPayments'
+  /ledgers/{sequence}/operations:
+    get:
+      tags:
+      - Ledgers
+      summary: Retrieve a Ledger's Operations
+      description: This endpoint returns successful operations in a specific ledger.
+      operationId: RetrieveALedgersOperations
+      parameters:
+      - $ref: '#/components/parameters/SequenceParam'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/IncludeFailedParam'
+      - $ref: '#/components/parameters/JoinParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Operation'
+              examples:
+                RetrieveALedgersOperations:
+                  $ref: '#/components/examples/RetrieveALedgersOperations'
+  /ledgers/{sequence}/effects:
+    get:
+      tags:
+      - Ledgers
+      summary: Retrieve a Ledgers's Effects
+      description: This endpoint returns the effects of a specific ledger.
+      operationId: RetrieveALedgersEffects
+      parameters:
+      - $ref: '#/components/parameters/SequenceParam'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Effect'
+              examples:
+                RetrieveALedgersEffects:
+                  $ref: '#/components/examples/RetrieveALedgersEffects'
+  /ledgers:
+    get:
+      tags:
+      - Ledgers
+      summary: List All Ledgers
+      description: This endpoint lists all ledgers and can be used in streaming mode. Streaming mode allows you to listen for new ledgers as they close. If called in streaming mode, Horizon will start at the earliest known ledger unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream ledgers since your request time.
+      operationId: ListAllLedgers
+      parameters:
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      x-supports-streaming: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ledger'
+              examples:
+                ListAllLedgers:
+                  $ref: '#/components/examples/ListAllLedgers'
+components:
+  schemas:
+    id:
+      type: string
+    paging_token:
+      type: string
+    Ledger:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      transactions:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      payments:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - transactions
+                    - operations
+                    - effects
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  hash:
+                    $ref: '#/components/schemas/hash'
+                  pre_hash:
+                    $ref: '#/components/schemas/hash'
+                  sequence:
+                    type: integer
+                    format: int32
+                  successful_transaction_count:
+                    type: integer
+                    format: int32
+                  failed_transaction_count:
+                    type: integer
+                    format: int32
+                  operation_count:
+                    type: integer
+                    format: int32
+                  tx_set_operation_count:
+                    type: integer
+                    format: int32
+                  closed_at:
+                    type: string
+                  total_coins:
+                    type: string
+                  fee_pool:
+                    type: string
+                  base_fee_in_stroops:
+                    type: integer
+                    format: int32
+                  base_reserve_in_stroops:
+                    type: integer
+                    format: int32
+                  max_tx_set_size:
+                    type: integer
+                    format: int32
+                  protocol_version:
+                    type: integer
+                    format: int32
+                  header_xdr:
+                    type: string
+          required:
+          - id
+          - paging_token
+          - hash
+          - sequence
+          - successful_transaction_count
+          - failed_transaction_count
+          - operation_count
+          - tx_set_operation_count
+          - closed_at
+          - total_coins
+          - fee_pool
+          - base_fee_in_stroops
+          - base_reserve_in_stroops
+          - max_tx_set_size
+          - protocol_version
+          - header_xdr
+    Operation:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            effects:
+              $ref: '#/components/schemas/link'
+            precedes:
+              $ref: '#/components/schemas/link'
+            self:
+              $ref: '#/components/schemas/link'
+            succeds:
+              $ref: '#/components/schemas/link'
+            transaction:
+              $ref: '#/components/schemas/link'
+        id:
+          $ref: '#/components/schemas/id'
+        paging_token:
+          $ref: '#/components/schemas/paging_token'
+        type_i:
+          type: number
+          example: 0
+        type:
+          type: string
+          example: create_account
+    Links:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
+    InnerTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+        max_fee:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  memo:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      account:
+                        $ref: '#/components/schemas/link'
+                      ledger:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - account
+                    - ledger
+                    - operations
+                    - effects
+                    - precedes
+                    - succeeds
+                    - transaction
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  successful:
+                    type: boolean
+                  hash:
+                    type: string
+                  ledger:
+                    type: integer
+                    format: int32
+                  created_at:
+                    type: string
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  account_muxed:
+                    type: string
+                  account_muxed_id:
+                    type: string
+                  source_account_sequence:
+                    type: string
+                  fee_account:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed_id:
+                    type: string
+                  fee_charged:
+                    type: string
+                  max_fee:
+                    type: string
+                  operation_count:
+                    type: integer
+                    format: int32
+                  envelope_xdr:
+                    type: string
+                  result_xdr:
+                    type: string
+                  result_meta_xdr:
+                    type: string
+                  fee_meta_xdr:
+                    type: string
+                  memo_type:
+                    type: string
+                  signatures:
+                    $ref: '#/components/schemas/signatures'
+                  preconditions:
+                    $ref: '#/components/schemas/TransactionPreconditions'
+                  fee_bump_transaction:
+                    $ref: '#/components/schemas/FeeBumpTransaction'
+                  inner_transaction:
+                    $ref: '#/components/schemas/InnerTransaction'
+                required:
+                - id
+                - paging_token
+                - successful
+                - hash
+                - ledger
+                - created_at
+                - source_account
+                - source_account_sequence
+                - fee_account
+                - fee_charged
+                - max_fee
+                - operation_count
+                - envelope_xdr
+                - result_xdr
+                - result_meta_xdr
+                - memo_type
+                - signatures
+    hash:
+      type: string
+    signatures:
+      type: array
+      items:
+        type: string
+        pattern: G[A-Z0-9]{55}
+    FeeBumpTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    TransactionPreconditions:
+      type: object
+      properties:
+        timebounds:
+          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
+        ledgerbounds:
+          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
+        min_account_sequence:
+          type: string
+        min_account_sequence_age:
+          type: string
+        min_account_sequence_ledger_gap:
+          type: integer
+          format: uint32
+        extra_signers:
+          type: array
+          items:
+            type: string
+    Effect:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      operation:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    enum:
+                    - Account Created
+                    - Account Removed
+                    - Account Credited
+                    - Account Debited
+                    - Account Thresholds Updated
+                    - Account Home Domain Updated
+                    - Account Flags Updated
+                    - Account Inflation Destination Updated
+                    - Signer Created
+                    - Signer Removed
+                    - Signer Updated
+                    - Trustline Created
+                    - Trustline Removed
+                    - Trustline Updated
+                    - Trustline Authorized
+                    - Trustline Deauthorized
+                    - Offer Created
+                    - Offer Removed
+                    - Offer Updated
+                    - Trade
+                    - Data Created
+                    - Data Removed
+                    - Data Updated
+                    - Claimable Balance Created
+                    - Claimable Balance Claimant Created
+                    - Claimable Balance Claimed
+                    - Account Sponsorship Created
+                    - Account Sponsorship Updated
+                    - Account Sponsorship Removed
+                    - Trustline Sponsorship Created
+                    - Trustline Sponsorship Updated
+                    - Trustline Sponsorship Removed
+                    - Account Data Sponsorship Created
+                    - Account Data Sponsorship Updated
+                    - Account Data Sponsorship Removed
+                    - Claimable Balance Sponsorship Created
+                    - Claimable Balance Sponsorship Updated
+                    - Claimable Balance Sponsorship Removed
+                    - Account Signer Sponsorship Created
+                    - Account Signer Sponsorship Updated
+                    - Account Signer Sponsorship Removed
+                    - Liquidity Pool Created
+                    - Liquidity Pool Removed
+                    - Liquidity Pool Revoked
+                    - Liquidity Pool Deposited
+                    - Liquidity Pool Withdraw
+                    - Liquidity Pool Trade
+                    - Sequence Bumped
+                  type_i:
+                    type: number
+                    example: 1
+                  created_at:
+                    type: string
+          required:
+          - id
+          - paging_token
+          - account
+          - type
+          - type_i
+          - created_at
+    TransactionPreconditionsLedgerbounds:
+      type: object
+      properties:
+        min_ledger:
+          type: string
+        max_ledger:
+          type: string
+    TransactionPreconditionsTimebounds:
+      type: object
+      properties:
+        min_time:
+          type: string
+        max_time:
+          type: string
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
+    Payment:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - transaction
+                    - effects
+                    - succeeds
+                    - precedes
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  transaction_successful:
+                    type: boolean
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    example: payment
+                  type_i:
+                    type: string
+                  created_at:
+                    type: string
+                  transaction_hash:
+                    type: string
+                  asset_type:
+                    type: string
+                  asset_code:
+                    enum:
+                    - native
+                    - credit_alphanum4
+                    - credit_alphanum12
+                  asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  from:
+                    $ref: '#/components/schemas/address'
+                  to:
+                    $ref: '#/components/schemas/address'
+                  amount:
+                    type: string
+                required:
+                - id
+                - paging_token
+                - transaction_successful
+                - source_account
+                - type
+                - type_i
+                - created_at
+                - transaction_hash
+                - asset_type
+                - from
+                - to
+                - amount
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    JoinParam:
+      name: join
+      in: query
+      required: false
+      description: Set to transactions to include the transactions which created each of the operations in the response.
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+    SequenceParam:
+      name: sequence
+      in: path
+      required: true
+      description: The sequence number of a specific ledger.
+      schema:
+        type: integer
+        example: 0
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    IncludeFailedParam:
+      name: include_failed
+      in: query
+      required: false
+      description: Set to true to include failed operations in results. Options include true and false.
+      schema:
+        type: boolean
+        enum:
+        - true
+        - false
+  examples:
+    RetrieveALedger:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933
+          transactions:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/transactions{?cursor,limit,order}
+            templated: true
+          operations:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/operations{?cursor,limit,order}
+            templated: true
+          payments:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/payments{?cursor,limit,order}
+            templated: true
+          effects:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/effects{?cursor,limit,order}
+            templated: true
+        id: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
+        paging_token: '116595189421703168'
+        hash: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
+        prev_hash: 9eac16fecd885147067b58b7684f60d216f931b813f651265bbc97de4cea313d
+        sequence: 27146933
+        successful_transaction_count: 26
+        failed_transaction_count: 9
+        operation_count: 67
+        closed_at: '2019-12-06T22:39:32Z'
+        total_coins: '105443902087.3472865'
+        fee_pool: '1807264.7509661'
+        base_fee_in_stroops: 100
+        base_reserve_in_stroops: 5000000
+        max_tx_set_size: 1000
+        protocol_version: 12
+        header_xdr: AAAADJ6sFv7NiFFHBntYt2hPYNIW+TG4E/ZRJlu8l95M6jE9bsvzId+Gtul2mNMW4UZQ+KqSb/nbN8F1CTxAfQsyUy8AAAAAXerYpAAAAAAAAAAAXQNpS8daKGZUeY5quYUcIiJZBMB7LiLsZJsEx9qw79fx99Bu/lk+sIePNUNcuOC2euthzfhLuWJ1nZBuoQFDjgGeOrUOoh6z7HlbYQAAEG/dvCadAAABFgAAAAAIOwAqAAAAZABMS0AAAAPooSNtHXJNJKKWlBtgkAM1LBxzlzYjIlS0xwpjP+uCi76fQj59wgTy0+xtx7O1qTb+W6zcI2zWZnrUU/8v8RZHFBfoo20QYKh95+wWr348yZAexZpdrjhyCxbChxlVTZOX6nZfIgcYBMnZRkOTCLdPO76yeqpDhqu9KrPe3YPTO3wAAAAA
+    ListAllLedgers:
+      value:
+        _embedded:
+          records:
+          - _links:
+              effects:
+                href: /ledgers/1/effects/{?cursor,limit,order}
+                templated: true
+              operations:
+                href: /ledgers/1/operations/{?cursor,limit,order}
+                templated: true
+              self:
+                href: /ledgers/1
+              transactions:
+                href: /ledgers/1/transactions/{?cursor,limit,order}
+                templated: true
+            id: e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1
+            paging_token: '4294967296'
+            hash: e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1
+            sequence: 1
+            transaction_count: 0
+            successful_transaction_count: 0
+            failed_transaction_count: 0
+            operation_count: 0
+            tx_set_operation_count: 0
+            closed_at: '1970-01-01T00:00:00Z'
+            total_coins: '100000000000.0000000'
+            fee_pool: '0.0000000'
+            base_fee_in_stroops: 100
+            base_reserve_in_stroops: 100000000
+            max_tx_set_size: 50
+          - _links:
+              effects:
+                href: /ledgers/2/effects/{?cursor,limit,order}
+                templated: true
+              operations:
+                href: /ledgers/2/operations/{?cursor,limit,order}
+                templated: true
+              self:
+                href: /ledgers/2
+              transactions:
+                href: /ledgers/2/transactions/{?cursor,limit,order}
+                templated: true
+            id: e12e5809ab8c59d8256e691cb48a024dd43960bc15902d9661cd627962b2bc71
+            paging_token: '8589934592'
+            hash: e12e5809ab8c59d8256e691cb48a024dd43960bc15902d9661cd627962b2bc71
+            prev_hash: e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1
+            sequence: 2
+            transaction_count: 0
+            successful_transaction_count: 0
+            failed_transaction_count: 0
+            operation_count: 0
+            closed_at: '2015-07-16T23:49:00Z'
+            total_coins: '100000000000.0000000'
+            fee_pool: '0.0000000'
+            base_fee_in_stroops: 100
+            base_reserve_in_stroops: 100000000
+            max_tx_set_size: 100
+        _links:
+          next:
+            href: /ledgers?order=asc&limit=2&cursor=8589934592
+          prev:
+            href: /ledgers?order=desc&limit=2&cursor=4294967296
+          self:
+            href: /ledgers?order=asc&limit=2&cursor=
+    RetrieveALedgersOperations:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=&limit=2&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=116596430667259905&limit=2&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=116596430667255809&limit=2&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/116596430667255809
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/116596430667255809/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=116596430667255809
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=116596430667255809
+            id: '116596430667255809'
+            paging_token: '116596430667255809'
+            transaction_successful: true
+            source_account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            type: payment
+            type_i: 1
+            created_at: '2019-12-06T23:05:38Z'
+            transaction_hash: 3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0
+            asset_type: credit_alphanum4
+            asset_code: NODL
+            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
+            from: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            to: GAD35Y7AEQYS4WNZND5OV7HQ6ALBDDNTNFO2TN2CM4ERE7ZV4FJBNXZ6
+            amount: '0.0000077'
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/116596430667259905
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/116596430667259905/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=116596430667259905
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=116596430667259905
+            id: '116596430667259905'
+            paging_token: '116596430667259905'
+            transaction_successful: true
+            source_account: GBE63IHPHXHKQHIF7L5P5MGOV4MMDYE6RGZCJYWJPBRQZDJ5MOAPOX7A
+            type: manage_offer
+            type_i: 3
+            created_at: '2019-12-06T23:05:38Z'
+            transaction_hash: 83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479
+            amount: '0.0000023'
+            price: '0.0484621'
+            price_r:
+              n: 484621
+              d: 10000000
+            buying_asset_type: native
+            selling_asset_type: credit_alphanum4
+            selling_asset_code: RMT
+            selling_asset_issuer: GDEGOXPCHXWFYY234D2YZSPEJ24BX42ESJNVHY5H7TWWQSYRN5ZKZE3N
+            offer_id: 0
+    RetrieveALedgersTransactions:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=&limit=2&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=116596430667259904&limit=2&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=116596430667255808&limit=2&order=desc
+        _embedded:
+          records:
+          - memo: FadBcV0owHrsLQif/V2TxZKGA2YiX+MoifI7oB/UjJM=
+            _links:
+              self:
+                href: https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0
+              account:
+                href: https://horizon-testnet.stellar.org/accounts/GBKTEASNXABG2NC4TY6N3IA5UFC6YW53Y4KTIKY3CUEKQ2W5EIYRMYVB
+              ledger:
+                href: https://horizon-testnet.stellar.org/ledgers/27147222
+              operations:
+                href: https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0/operations{?cursor,limit,order}
+                templated: true
+              effects:
+                href: https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0/effects{?cursor,limit,order}
+                templated: true
+              precedes:
+                href: https://horizon-testnet.stellar.org/transactions?order=asc&cursor=116596430667255808
+              succeeds:
+                href: https://horizon-testnet.stellar.org/transactions?order=desc&cursor=116596430667255808
+            id: 3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0
+            paging_token: '116596430667255808'
+            successful: true
+            hash: 3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0
+            ledger: 27147222
+            created_at: '2019-12-06T23:05:38Z'
+            source_account: GBKTEASNXABG2NC4TY6N3IA5UFC6YW53Y4KTIKY3CUEKQ2W5EIYRMYVB
+            source_account_sequence: '113943107245989112'
+            fee_charged: 100
+            max_fee: 100
+            operation_count: 1
+            envelope_xdr: AAAAAFUyAk24Am00XJ483aAdoUXsW7vHFTQrGxUIqGrdIjEWAAAAZAGUzqcAAFz4AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAADFadBcV0owHrsLQif/V2TxZKGA2YiX+MoifI7oB/UjJMAAAABAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAEAAAAAB77j4CQxLlm5aPrq/PDwFhGNs2ldqbdCZwkSfzXhUhYAAAABTk9ETAAAAAB1jYLXrFzNBOWCoPnZSHI3PJAhHtc1TrCaiPuZwSf5pgAAAAAAAABNAAAAAAAAAALw9Tl2AAAAQLSLnL3XT3F6dq5m2WHZ7tH3HBrK/e+p2G7Hrl3WXQToUsgxKIRH6bhHT/mIWwnrfLZ9nlVjMCFoZPqVKrI2lgLdIjEWAAAAQCrZ9IbjDAB408VgQaqNpwX8hXr/OUsoEexkWGkN9PjcBG2nf4bKWdbjiaqHZ+LrvM+DdmhxtA3L9bzmCie8NgA=
+            result_xdr: AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAA=
+            result_meta_xdr: AAAAAQAAAAIAAAADAZ471gAAAAAAAAAAVTICTbgCbTRcnjzdoB2hRexbu8cVNCsbFQioat0iMRYAAAAAB5tToAGUzqcAAFz3AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAZ471gAAAAAAAAAAVTICTbgCbTRcnjzdoB2hRexbu8cVNCsbFQioat0iMRYAAAAAB5tToAGUzqcAAFz4AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAABAAAAAMBnju+AAAAAQAAAAAHvuPgJDEuWblo+ur88PAWEY2zaV2pt0JnCRJ/NeFSFgAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAAAAAIP38ASptjhEiAAAAAAAEAAAAAAAAAAAAAAAEBnjvWAAAAAQAAAAAHvuPgJDEuWblo+ur88PAWEY2zaV2pt0JnCRJ/NeFSFgAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAAAAAIP8wASptjhEiAAAAAAAEAAAAAAAAAAAAAAAMBnjvVAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAALEhqMpZ//////////wAAAAEAAAAAAAAAAAAAAAEBnjvWAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAALEhqMkl//////////wAAAAEAAAAAAAAAAA==
+            fee_meta_xdr: AAAAAgAAAAMBnjvKAAAAAAAAAABVMgJNuAJtNFyePN2gHaFF7Fu7xxU0KxsVCKhq3SIxFgAAAAAHm1QEAZTOpwAAXPcAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEBnjvWAAAAAAAAAABVMgJNuAJtNFyePN2gHaFF7Fu7xxU0KxsVCKhq3SIxFgAAAAAHm1OgAZTOpwAAXPcAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==
+            memo_type: hash
+            signatures:
+            - tIucvddPcXp2rmbZYdnu0fccGsr976nYbseuXdZdBOhSyDEohEfpuEdP+YhbCet8tn2eVWMwIWhk+pUqsjaWAg==
+            - Ktn0huMMAHjTxWBBqo2nBfyFev85SygR7GRYaQ30+NwEbad/hspZ1uOJqodn4uu8z4N2aHG0Dcv1vOYKJ7w2AA==
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479
+              account:
+                href: https://horizon-testnet.stellar.org/accounts/GDUHYA43LEQWXLJ5GQGNDJHZY6TZN2OK3KA4YQXQ47BRMRDRIUUC4IU5
+              ledger:
+                href: https://horizon-testnet.stellar.org/ledgers/27147222
+              operations:
+                href: https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479/operations{?cursor,limit,order}
+                templated: true
+              effects:
+                href: https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479/effects{?cursor,limit,order}
+                templated: true
+              precedes:
+                href: https://horizon-testnet.stellar.org/transactions?order=asc&cursor=116596430667259904
+              succeeds:
+                href: https://horizon-testnet.stellar.org/transactions?order=desc&cursor=116596430667259904
+            id: 83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479
+            paging_token: '116596430667259904'
+            successful: true
+            hash: 83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479
+            ledger: 27147222
+            created_at: '2019-12-06T23:05:38Z'
+            source_account: GDUHYA43LEQWXLJ5GQGNDJHZY6TZN2OK3KA4YQXQ47BRMRDRIUUC4IU5
+            source_account_sequence: '113383696345604336'
+            fee_charged: 100
+            max_fee: 100
+            operation_count: 1
+            envelope_xdr: AAAAAOh8A5tZIWutPTQM0aT5x6eW6cragcxC8OfDFkRxRSguAAAAZAGS0d8AACDwAAAAAQAAAAAAAAAAAAAAAF3q3zYAAAAAAAAAAQAAAAEAAAAASe2g7z3OqB0F+vr+sM6vGMHgnomyJOLJeGMMjT1jgPcAAAADAAAAAVJNVAAAAAAAyGdd4j3sXGNb4PWMyeROuBvzRJJbU+On/O1oSxFvcqwAAAAAAAAAAAAAABcAB2UNAJiWgAAAAAAAAAAAAAAAAAAAAAJxRSguAAAAQG/ksOk2naI/PrA/6qes3c0IhoOpnBghd038S62rayiophPSs3HyUbgbOEpYQCkJezrf1bP+s2fFXVCEXbgveQk9Y4D3AAAAQAINPdxGV1VIeQ1OUDDlqtrSy8FrWQ/+CtRxqVHcHg98SYh5co/gd83R4IGDxukCByTbYapkrUOD0XDJKC/hcg4=
+            result_xdr: AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAADAAAAAAAAAAAAAAACAAAAAA==
+            result_meta_xdr: AAAAAQAAAAIAAAADAZ471gAAAAAAAAAA6HwDm1kha609NAzRpPnHp5bpytqBzELw58MWRHFFKC4AAAAAAKovMAGS0d8AACDvAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAZ471gAAAAAAAAAA6HwDm1kha609NAzRpPnHp5bpytqBzELw58MWRHFFKC4AAAAAAKovMAGS0d8AACDwAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA==
+            fee_meta_xdr: AAAAAgAAAAMBnjukAAAAAAAAAADofAObWSFrrT00DNGk+cenlunK2oHMQvDnwxZEcUUoLgAAAAAAqi+UAZLR3wAAIO8AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEBnjvWAAAAAAAAAADofAObWSFrrT00DNGk+cenlunK2oHMQvDnwxZEcUUoLgAAAAAAqi8wAZLR3wAAIO8AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==
+            memo_type: none
+            signatures:
+            - b+Sw6Tadoj8+sD/qp6zdzQiGg6mcGCF3TfxLratrKKimE9KzcfJRuBs4SlhAKQl7Ot/Vs/6zZ8VdUIRduC95CQ==
+            - Ag093EZXVUh5DU5QMOWq2tLLwWtZD/4K1HGpUdweD3xJiHlyj+B3zdHggYPG6QIHJNthqmStQ4PRcMkoL+FyDg==
+    RetrieveALedgersEffects:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=&limit=10&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=33676838572034-1&limit=10&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=12884905985-1&limit=10&order=desc
+        _embedded:
+          records:
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/12884905985
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-1
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-1
+            id: 0000000012884905985-0000000001
+            paging_token: 12884905985-1
+            account: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
+            type: account_created
+            type_i: 0
+            created_at: '2015-09-30T17:15:54Z'
+            starting_balance: '20.0000000'
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/12884905985
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-2
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-2
+            id: 0000000012884905985-0000000002
+            paging_token: 12884905985-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: account_debited
+            type_i: 3
+            created_at: '2015-09-30T17:15:54Z'
+            asset_type: native
+            amount: '20.0000000'
+    RetrieveALedgersPayments:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=&limit=1&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/118202550867476481
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/118202550867476481/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=118202550867476481
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=118202550867476481
+            id: '118202550867476481'
+            paging_token: '118202550867476481'
+            transaction_successful: true
+            source_account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            type: payment
+            type_i: 1
+            created_at: '2019-12-30T22:35:49Z'
+            transaction_hash: 971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
+            asset_type: credit_alphanum4
+            asset_code: NODL
+            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
+            from: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            to: GDGJS7AXAUFDZARIRDVZ5V7CFW6XY47WSBE2OVLCCGCDWOE7INKYN3PS
+            amount: '0.0000017'

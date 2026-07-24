@@ -1,0 +1,896 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Receivers API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Receivers
+  description: 'Endpoints related to receivers. A receiver is an individual receiving a payment in a disbursement. The receiver is tracked by phone number to reduce the need for personally identifiable information. Each receiver must be unique within the disbursement.
+
+
+    Each receiver will have at least one wallet associated with them. The wallet public key will remain null until the receiver registers with a wallet provider and links the wallet to the SDP through SEP-24. Receivers must verify their identity through that process, which requires the SDP to store verification information on receivers like date of birth, national ID number, or personal PIN. This information can be updated by the organization through the receiver endpoints.
+
+    '
+paths:
+  /receivers/verification-types:
+    get:
+      tags:
+      - Receivers
+      summary: List Verification Types
+      description: Returns the supported receiver verification types.
+      operationId: ListReceiverVerificationTypes
+      responses:
+        '200':
+          description: A list of verification types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VerificationField'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+      security:
+      - BearerAuth: []
+  /receivers:
+    get:
+      tags:
+      - Receivers
+      summary: List All Receivers
+      description: Returns all receivers matching the request criteria. This endpoint supports pagination and filtering on receiver status, receiver attributes, and timestamp. Each payment has details on the receiver, high-level payments metrics, and wallets associated with the receiver.
+      operationId: ListAllReceivers
+      parameters:
+      - name: page
+        in: query
+        description: The page requested.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 1
+      - name: page_limit
+        in: query
+        description: Define how many results will be returned in the response.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 20
+      - name: q
+        in: query
+        description: A search term used to query through the receiver phone_number, email, and ID.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Exact match on the status of the receiver wallet.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - DRAFT
+          - READY
+          - REGISTERED
+          - FLAGGED
+        example: DRAFT
+      - name: created_at_after
+        in: query
+        description: 'Only return receivers that are created after this date. Format: YYYY-MM-DD'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: '2006-01-02'
+      - name: created_at_before
+        in: query
+        description: 'Only return receivers that are created before this date. Format: YYYY-MM-DD'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: '2006-01-02'
+      - name: sort
+        in: query
+        description: Field used to sort receivers
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: updated_at
+          enum:
+          - updated_at
+          - created_at
+      - name: direction
+        in: query
+        description: Direction for sorting receivers.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: desc
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          description: A paginated list of Receiver details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiverPagination'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Receivers
+      summary: Create Receiver
+      description: Creates a new Receiver. Allows clients to create a single receiver record, which can later be referenced in payments or disbursements.
+      operationId: CreateReceiver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReceiverRequest'
+        required: true
+      responses:
+        '201':
+          description: Receiver created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receiver'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '409':
+          description: Conflict - receiver already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+      security:
+      - BearerAuth: []
+  /receivers/{id}:
+    get:
+      tags:
+      - Receivers
+      summary: Retrieve a Receiver
+      description: Fetches detailed information on a specific receiver by  `id `, including all associated wallets.
+      operationId: RetrieveAReceiver
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Receiver`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Receiver Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receiver'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Resource not found
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Receivers
+      summary: Update a Receiver
+      description: This endpoint allows an organization to add and update information on the receiver, including email address, external ID, date of birth, personal PIN, and national ID number. The response includes all information on the receiver.
+      operationId: UpdateReceiver
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Receiver`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: List of fields to patch for the receiver
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/PatchReceiverRequest'
+        required: true
+      responses:
+        '200':
+          description: Updated Receiver Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receiver'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Resource not found
+        '409':
+          description: Conflicting phone number or email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+              example:
+                error: The provided email is already associated with another user.
+                extras:
+                  email: email must be unique
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /receivers/{receiver_id}/wallets/{receiver_wallet_id}:
+    patch:
+      tags:
+      - Receivers
+      summary: Update Receiver Wallet
+      description: Updates a receiver wallet's Stellar address and memo for user-managed wallets.
+      operationId: UpdateReceiverWallet
+      parameters:
+      - name: receiver_id
+        in: path
+        description: ID of the `Receiver`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: receiver_wallet_id
+        in: path
+        description: ID of the receiver wallet.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - stellar_address
+              properties:
+                stellar_address:
+                  type: string
+                  description: Stellar account or contract address for the receiver wallet.
+                stellar_memo:
+                  type: string
+                  description: Optional memo for the Stellar address.
+            example:
+              stellar_address: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+              stellar_memo: '12345'
+        required: true
+      responses:
+        '200':
+          description: Receiver wallet updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiverWallet'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+  /receivers/wallets/{receiver_wallet_id}/status:
+    patch:
+      tags:
+      - Receivers
+      summary: Update Receiver Wallet Status
+      description: Updates a receiver wallet's status. Only `READY` is supported.
+      operationId: UpdateReceiverWalletStatus
+      parameters:
+      - name: receiver_wallet_id
+        in: path
+        description: ID of the receiver wallet.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - status
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - READY
+            example:
+              status: READY
+        required: true
+      responses:
+        '200':
+          description: Receiver wallet status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    Amount:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        asset_issuer:
+          type: string
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        received_amount:
+          type: string
+          example: '100.00'
+    CreateReceiverRequest:
+      oneOf:
+      - type: object
+        required:
+        - external_id
+        - verifications
+        properties:
+          email:
+            type: string
+            description: Email address of the receiver
+            format: email
+          phone_number:
+            type: string
+            description: Phone number of the receiver
+          external_id:
+            type: string
+            description: External identifier for the receiver
+          verifications:
+            type: array
+            description: Verification requirements for the receiver
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - date_of_birth
+                  - pin
+                  - national_id
+                  - year_month
+                  description: Type of verification required
+                value:
+                  type: string
+                  description: Expected verification value
+              required:
+              - type
+              - value
+      - type: object
+        required:
+        - external_id
+        - wallets
+        properties:
+          email:
+            type: string
+            description: Email address of the receiver
+            format: email
+          phone_number:
+            type: string
+            description: Phone number of the receiver
+          external_id:
+            type: string
+            description: External identifier for the receiver
+          wallets:
+            type: array
+            description: Wallet information for the receiver (max 1 wallet)
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                  description: Stellar address of the wallet
+                memo:
+                  type: string
+                  description: Optional memo for the wallet address
+              required:
+              - address
+            maxItems: 1
+    Pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          example: ?page=3&page_limit=2
+        prev:
+          type: string
+          example: ?page=1&page_limit=2
+        pages:
+          type: integer
+          example: 8
+        total:
+          type: integer
+          example: 16
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
+    ReceiverPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver'
+    WalletLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
+    ReceiverWallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 803031d4-1d04-4879-b6d9-dc5641f9988e
+        receiver:
+          $ref: '#/components/schemas/ReceiverLite'
+        wallet:
+          $ref: '#/components/schemas/WalletLite'
+        stellar_address:
+          type: string
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        stellar_memo:
+          type: string
+        stellar_memo_type:
+          type: string
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        updated_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        invited_at:
+          type: string
+          example: '2023-02-09T10:45:51.000Z'
+        last_message_sent_at:
+          type: string
+          description: timestamp when the receiver last received an invitation about this wallet
+          example: '2023-02-10T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        payments_received:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        status_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    Receiver:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f83bb638-dda4-41e6-80c9-d03e6eec2aef
+        phone_number:
+          type: string
+          example: '+15552368475'
+        external_id:
+          type: string
+          example: usr12334
+        email:
+          type: string
+          example: jdoe@mail.org
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        successful_payments:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        registered_wallets:
+          type: string
+          example: '1'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiverWallet'
+    ReceiverLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
+    PatchReceiverRequest:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+          description: Date of birth of the receiver
+        pin:
+          type: string
+          description: Personal identification number of the receiver
+        national_id:
+          type: string
+          description: National ID of the receiver
+        email:
+          type: string
+          description: Email of the receiver
+        phone_number:
+          type: string
+          description: Phone number of the receiver
+        external_id:
+          type: string
+          description: External ID of the receiver
+      example:
+        date_of_birth: '1980-01-01'
+        pin: '1234'
+        national_id: '123456789'
+        email: john@example.com
+        external_id: external123
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found

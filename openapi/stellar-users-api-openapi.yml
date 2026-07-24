@@ -1,0 +1,420 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Users API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Users
+  description: The users endpoints facilitate the creation of new SDP users - including setting the appropriate role, sending an email invitation, and activating a user - and managing roles.
+paths:
+  /users:
+    get:
+      tags:
+      - Users
+      summary: Get All Users
+      description: Fetches all SDP users within the organization, whether they are active yet or not.
+      operationId: GetAllUsers
+      responses:
+        '200':
+          description: Returns a paginated list of User Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Users
+      summary: Create User
+      description: This endpoint creates a new SDP user as the result of an SDP owner adding their information in the UI. It also handles sending the invite email.
+      operationId: CreateUser
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+                email:
+                  type: string
+              example:
+                first_name: John
+                last_name: Doe
+                roles:
+                - business
+                email: email@email.com
+        required: false
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /users/activation:
+    patch:
+      tags:
+      - Users
+      summary: Update User Activation Status
+      description: Updates the SDP user’s activation status. This endpoint is primarily used to move a user into active status when they accept the invite to join an SDP organization account and create a password.
+      operationId: UpdateUserActivationStatus
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                is_active:
+                  type: boolean
+              example:
+                user_id: 5ca230c9-da95-4bd1-b2a2-aa5d0df65efd
+                is_active: false
+        required: false
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                message: user activation was updated successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /users/roles:
+    get:
+      tags:
+      - Users
+      summary: Get All Roles
+      description: Fetches available SDP roles, such as owner, financial controller, business user, and developer.
+      operationId: GetAllRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  roles:
+                  - developer
+                  - financial_controller
+                  - business
+                  - owner
+              example:
+                roles:
+                - developer
+                - financial_controller
+                - business
+                - owner
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Users
+      summary: Update User Role
+      description: Updates an SDP user’s role by  `user_ID `.
+      operationId: UpdateUserRole
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+              example:
+                user_id: 5ca230c9-da95-4bd1-b2a2-aa5d0df65efd
+                roles:
+                - developer
+        required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: user roles were updated successfully
+              example:
+                message: user roles were updated successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    User:
+      required:
+      - email
+      - first_name
+      - id
+      - is_active
+      - last_name
+      - roles
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1736bed3-7b92-4760-8ff2-51fb08ee079f
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        is_active:
+          type: boolean
+      example:
+      - id: 7a4c6555-1f73-49b3-a211-f95bd2b8ec90
+        first_name: John
+        last_name: Doe
+        email: email@email.com
+        roles:
+        - developer
+        is_active: true
+      - id: 5f4df1dd-c84f-482a-84ad-541ffd46e75a
+        first_name: Jane
+        last_name: Doe
+        email: email@email.com
+        roles:
+        - financial_controller
+        is_active: false
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'

@@ -1,0 +1,447 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Wallets API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Wallets
+paths:
+  /wallets:
+    get:
+      tags:
+      - Wallets
+      summary: Get All Wallets
+      description: Fetches the list of available wallet providers to populate the dropdown box in the New Disbursement flow. The organization should coordinate with the wallet provider before selecting a particular wallet provider for a disbursement. By default, soft-deleted wallets are excluded from the response. Use the `include_deleted` parameter to include them.
+      operationId: GetAllWallets
+      parameters:
+      - name: include_deleted
+        in: query
+        description: When set to `true`, includes soft-deleted wallets in the response. When `false` or omitted, only non-deleted wallets are returned.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      - name: enabled
+        in: query
+        description: Filter wallets by enabled/disabled status.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: user_managed
+        in: query
+        description: Filter by user-managed wallets.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: supported_assets
+        in: query
+        description: Comma-separated list of asset codes or IDs to filter wallets by supported assets (max 20).
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of wallets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Bad request - validation errors
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Wallets
+      summary: Create Wallet
+      description: Creates a new wallet provider that can be used for disbursements. The wallet must be configured with supported assets and proper authentication domains.
+      operationId: CreateWallet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWalletRequest'
+        required: true
+      responses:
+        '201':
+          description: Wallet created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Bad request - validation errors
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '409':
+          description: Conflict - wallet name, homepage, or deep link schema already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+      security:
+      - BearerAuth: []
+  /wallets/{id}:
+    patch:
+      tags:
+      - Wallets
+      summary: Update Wallet
+      description: 'This endpoint is used to enable or disable a wallet provider. Note: the organization should coordinate with the wallet provider before selecting a particular wallet provider for a disbursement.'
+      operationId: UpdateWallet
+      parameters:
+      - name: id
+        in: path
+        description: ID of the wallet to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Wallet to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWalletRequest'
+        required: true
+      responses:
+        '200':
+          description: Wallet updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Bad request, usually caused by the `enabled` field missing from the request body.
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Wallet not found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - Wallets
+      summary: Delete Wallet
+      description: Soft deletes a wallet provider.
+      operationId: DeleteWallet
+      parameters:
+      - name: id
+        in: path
+        description: ID of the wallet to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Wallet deleted successfully
+          content: {}
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Wallet not found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    UpdateWalletRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the wallet provider
+        homepage:
+          type: string
+          description: Homepage URL of the wallet provider
+        deep_link_schema:
+          type: string
+          description: Deep link schema for the wallet application
+        sep_10_client_domain:
+          type: string
+          description: SEP-10 client domain for authentication
+        enabled:
+          type: boolean
+          description: Whether the wallet is enabled for use
+        assets:
+          type: array
+          description: Array of asset references supported by this wallet
+          items:
+            oneOf:
+            - type: object
+              description: Asset reference by ID
+              properties:
+                id:
+                  type: string
+                  description: Asset ID
+              required:
+              - id
+            - type: object
+              description: Classic asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - classic
+                code:
+                  type: string
+                  description: Asset code
+                issuer:
+                  type: string
+                  description: Asset issuer address
+              required:
+              - type
+              - code
+              - issuer
+            - type: object
+              description: Native XLM asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - native
+              required:
+              - type
+      minProperties: 1
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+    CreateWalletRequest:
+      type: object
+      required:
+      - name
+      - homepage
+      - deep_link_schema
+      - sep_10_client_domain
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the wallet provider
+        homepage:
+          type: string
+          description: Homepage URL of the wallet provider
+        deep_link_schema:
+          type: string
+          description: Deep link schema for the wallet application
+        sep_10_client_domain:
+          type: string
+          description: SEP-10 client domain for authentication
+        enabled:
+          type: boolean
+          description: Whether the wallet is enabled for use
+          default: true
+        assets:
+          type: array
+          description: Array of asset references supported by this wallet
+          items:
+            oneOf:
+            - type: object
+              description: Asset reference by ID
+              properties:
+                id:
+                  type: string
+                  description: Asset ID
+              required:
+              - id
+            - type: object
+              description: Classic asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - classic
+                code:
+                  type: string
+                  description: Asset code
+                issuer:
+                  type: string
+                  description: Asset issuer address
+              required:
+              - type
+              - code
+              - issuer
+            - type: object
+              description: Native XLM asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - native
+              required:
+              - type
+        assets_ids:
+          type: array
+          description: 'Legacy: Array of asset IDs (cannot be used with assets field)
+
+            '
+          items:
+            type: string
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized

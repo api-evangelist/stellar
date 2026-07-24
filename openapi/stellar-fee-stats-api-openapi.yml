@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Fee Stats API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Fee Stats
+  description: Fee stats are used to predict what fee to set for a transaction before submitting it to the network.
+paths:
+  /fee_stats:
+    get:
+      tags:
+      - Fee Stats
+      summary: Retrieve Fee Stats
+      description: The fee stats endpoint provides information about per-operation fee stats over the last 5 ledgers.
+      operationId: RetrieveFeeStats
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeeStats'
+              examples:
+                RetrieveFeeStats:
+                  $ref: '#/components/examples/RetrieveFeeStats'
+      x-codeSamples:
+      - lang: JavaScript
+        label: '@stellar/stellar-sdk'
+        source: "var StellarSdk = require(\"@stellar/stellar-sdk\");\nvar server = new StellarSdk.Horizon.Server(\n  \"https://horizon-testnet.stellar.org\",\n);\n\nserver\n  .feeStats()\n  .then(function (resp) {\n    console.log(resp);\n  })\n  .catch(function (err) {\n    console.error(err);\n  });\n"
+components:
+  examples:
+    RetrieveFeeStats:
+      value:
+        last_ledger: '43277313'
+        last_ledger_base_fee: '100'
+        ledger_capacity_usage: '1'
+        fee_charged:
+          max: '5500'
+          min: '5000'
+          mode: '5000'
+          p10: '5000'
+          p20: '5000'
+          p30: '5000'
+          p40: '5000'
+          p50: '5001'
+          p60: '5001'
+          p70: '5066'
+          p80: '5066'
+          p90: '5500'
+          p95: '5500'
+          p99: '5500'
+        max_fee:
+          max: '616065406'
+          min: '5000'
+          mode: '10003'
+          p10: '10000'
+          p20: '10003'
+          p30: '10003'
+          p40: '20005'
+          p50: '20005'
+          p60: '50020'
+          p70: '50020'
+          p80: '150000'
+          p90: '500000'
+          p95: '500000'
+          p99: '1490000'
+  schemas:
+    MaxFeeDistribution:
+      allOf:
+      - $ref: '#/components/schemas/BaseFeeDistribution'
+      - type: object
+        properties:
+          max:
+            description: Maximum (highest) value of the maximum fee bid over the last 5 ledgers.
+          min:
+            description: Minimum (lowest) value of the maximum fee bid over the last 5 ledgers.
+          mode:
+            description: Mode (middle) value of the maximum fee bid over the last 5 ledgers.
+          p10:
+            description: 10th percentile value of the maximum fee bid over the last 5 ledgers.
+          p20:
+            description: 20th percentile value of the maximum fee bid over the last 5 ledgers.
+          p30:
+            description: 30th percentile value of the maximum fee bid over the last 5 ledgers.
+          p40:
+            description: 40th percentile value of the maximum fee bid over the last 5 ledgers.
+          p50:
+            description: 50th percentile value of the maximum fee bid over the last 5 ledgers.
+          p60:
+            description: 60th percentile value of the maximum fee bid over the last 5 ledgers.
+          p70:
+            description: 70th percentile value of the maximum fee bid over the last 5 ledgers.
+          p80:
+            description: 80th percentile value of the maximum fee bid over the last 5 ledgers.
+          p90:
+            description: 90th percentile value of the maximum fee bid over the last 5 ledgers.
+          p95:
+            description: 95th percentile value of the maximum fee bid over the last 5 ledgers.
+          p99:
+            description: 99th percentile value of the maximum fee bid over the last 5 ledgers.
+    FeeStats:
+      type: object
+      properties:
+        last_ledger:
+          type: string
+          description: The last ledger's sequence number.
+        last_ledger_base_fee:
+          type: string
+          description: The base fee as defined in the last ledger.
+        ledger_capacity_usage:
+          type: string
+          description: The average capacity usage over the last 5 ledgers (0 is no usage, 1.0 is completely full ledgers).
+        fee_charged:
+          allOf:
+          - description: Information about the fee charged for transactions in the last 5 ledgers.
+          - $ref: '#/components/schemas/ChargedFeeDistribution'
+        max_fee:
+          allOf:
+          - description: Information about max fee bid for transactions over the last 5 ledgers.
+          - $ref: '#/components/schemas/MaxFeeDistribution'
+    BaseFeeDistribution:
+      type: object
+      properties:
+        max:
+          type: string
+        min:
+          type: string
+        mode:
+          type: string
+        p10:
+          type: string
+        p20:
+          type: string
+        p30:
+          type: string
+        p40:
+          type: string
+        p50:
+          type: string
+        p60:
+          type: string
+        p70:
+          type: string
+        p80:
+          type: string
+        p90:
+          type: string
+        p95:
+          type: string
+        p99:
+          type: string
+    ChargedFeeDistribution:
+      allOf:
+      - $ref: '#/components/schemas/BaseFeeDistribution'
+      - type: object
+        properties:
+          max:
+            description: Maximum (highest) fee charged over the last 5 ledgers.
+          min:
+            description: Minimum (lowest) fee charged over the last 5 ledgers.
+          mode:
+            description: Mode (middle) fee charged over the last 5 ledgers.
+          p10:
+            description: 10th percentile fee charged over the last 5 ledgers.
+          p20:
+            description: 20th percentile fee charged over the last 5 ledgers.
+          p30:
+            description: 30th percentile fee charged over the last 5 ledgers.
+          p40:
+            description: 40th percentile fee charged over the last 5 ledgers.
+          p50:
+            description: 50th percentile fee charged over the last 5 ledgers.
+          p60:
+            description: 60th percentile fee charged over the last 5 ledgers.
+          p70:
+            description: 70th percentile fee charged over the last 5 ledgers.
+          p80:
+            description: 80th percentile fee charged over the last 5 ledgers.
+          p90:
+            description: 90th percentile fee charged over the last 5 ledgers.
+          p95:
+            description: 95th percentile fee charged over the last 5 ledgers.
+          p99:
+            description: 99th percentile fee charged over the last 5 ledgers.

@@ -1,0 +1,405 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts API Keys API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: API Keys
+  description: API Keys functionality allows to create access key with granular permissions and resource management.
+paths:
+  /api-keys:
+    get:
+      tags:
+      - API Keys
+      summary: List API Keys
+      description: Retrieves all API keys created by the current user. The results are ordered by creation date in descending order (most recent first). API key values are not included in the response for security reasons.
+      operationId: ListAPIKeys
+      responses:
+        '200':
+          description: API keys retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APIKey'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - API Keys
+      summary: Create API Key
+      description: Creates a new API Key to access SDP endpoints. API Key can be configured to have a granular read/write access, also API key can be restricted to the specific IP or range of the IPs.
+      operationId: CreateAPIKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAPIKeyRequest'
+        required: true
+      responses:
+        '201':
+          description: API key created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAPIKeyResponse'
+        '400':
+          description: Bad request - validation errors
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+      security:
+      - BearerAuth: []
+  /api-keys/{id}:
+    get:
+      tags:
+      - API Keys
+      summary: Get API Key Details
+      description: Retrieves a specific API key by its ID. Returns the API key details including permissions and restrictions, but does not include the actual key value for security reasons.
+      operationId: GetAPIKey
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the API key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: API key retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: API key not found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - API Keys
+      summary: Update API Key
+      description: Updates an existing API key's permissions and IP restrictions. The API key name and expiration date cannot be modified after creation.
+      operationId: UpdateAPIKey
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the API key to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAPIKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: API key updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+        '400':
+          description: Bad request - validation errors
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: API key not found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - API Keys
+      summary: Delete API Key
+      description: Permanently deletes an API key. This action cannot be undone. Once deleted, the API key will no longer be able to authenticate API requests.
+      operationId: DeleteAPIKey
+      parameters:
+      - name: id
+        in: path
+        description: The unique identifier of the API key to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: API key deleted successfully
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: API key not found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    CreateAPIKeyRequest:
+      type: object
+      required:
+      - name
+      - permissions
+      properties:
+        name:
+          type: string
+          description: Human-readable name for the API key
+        permissions:
+          type: array
+          description: List of permissions granted to this API key
+          items:
+            type: string
+            enum:
+            - read:all
+            - write:all
+            - read:disbursements
+            - write:disbursements
+            - read:receivers
+            - write:receivers
+            - read:payments
+            - write:payments
+            - read:organization
+            - write:organization
+            - read:users
+            - write:users
+            - read:wallets
+            - write:wallets
+            - read:statistics
+            - read:exports
+          minItems: 1
+        expiry_date:
+          type: string
+          format: date-time
+          description: Optional expiration date for the API key (must be in the future)
+        allowed_ips:
+          oneOf:
+          - type: string
+            description: Single IP address or CIDR range
+          - type: array
+            items:
+              type: string
+            description: Array of IP addresses or CIDR ranges
+          description: IP restrictions for the API key. If not provided, the key can be used from any IP
+    UpdateAPIKeyRequest:
+      type: object
+      required:
+      - permissions
+      properties:
+        permissions:
+          type: array
+          description: List of permissions granted to this API key
+          items:
+            type: string
+            enum:
+            - read:all
+            - write:all
+            - read:disbursements
+            - write:disbursements
+            - read:receivers
+            - write:receivers
+            - read:payments
+            - write:payments
+            - read:organization
+            - write:organization
+            - read:users
+            - write:users
+            - read:wallets
+            - write:wallets
+            - read:statistics
+            - read:exports
+          minItems: 1
+        allowed_ips:
+          oneOf:
+          - type: string
+            description: Single IP address or CIDR range
+          - type: array
+            items:
+              type: string
+            description: Array of IP addresses or CIDR ranges
+          description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
+    CreateAPIKeyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Human-readable name for the API key
+        key:
+          type: string
+          description: The actual API key (only returned once at creation)
+        permissions:
+          type: array
+          items:
+            type: string
+          description: List of permissions granted to this API key
+        allowed_ips:
+          type: array
+          items:
+            type: string
+          description: List of allowed IP addresses or CIDR ranges
+        expiry_date:
+          type: string
+          format: date-time
+          description: Expiration date of the API key
+        created_at:
+          type: string
+          format: date-time
+          description: When the API key was created
+        created_by:
+          type: string
+          description: User who created the API key
+        updated_at:
+          type: string
+          format: date-time
+          description: When the API key was last updated
+        updated_by:
+          type: string
+          description: User who last updated the API key
+        last_used_at:
+          type: string
+          format: date-time
+          description: When the API key was last used
+    APIKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Human-readable name for the API key
+        permissions:
+          type: array
+          items:
+            type: string
+          description: List of permissions granted to this API key
+        allowed_ips:
+          type: array
+          items:
+            type: string
+          description: List of allowed IP addresses or CIDR ranges
+        expiry_date:
+          type: string
+          format: date-time
+          description: Expiration date of the API key
+        created_at:
+          type: string
+          format: date-time
+          description: When the API key was created
+        created_by:
+          type: string
+          description: User who created the API key
+        updated_at:
+          type: string
+          format: date-time
+          description: When the API key was last updated
+        updated_by:
+          type: string
+          description: User who last updated the API key
+        last_used_at:
+          type: string
+          format: date-time
+          description: When the API key was last used
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized

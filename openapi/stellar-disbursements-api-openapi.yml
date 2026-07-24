@@ -1,0 +1,1345 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Disbursements API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Disbursements
+  description: Endpoints related to disbursements. A disbursement is a group of payments sent to multiple individuals at once. An SDP user with the appropriate role triggers a new disbursement through the SDP dashboard by uploading a list of receivers and amounts. When the receiver has linked their wallet to the SDP, the payment automatically begins. SDP users can track their disbursements in real-time through the SDP dashboard. Each disbursement must have a unique name defined by the organization.
+paths:
+  /disbursements:
+    get:
+      tags:
+      - Disbursements
+      summary: List All Disbursements
+      description: Fetches all disbursements the organization has created. This endpoint supports pagination. The response includes basic aggregations on payments within the disbursement.
+      operationId: ListAllDisbursements
+      parameters:
+      - name: page
+        in: query
+        description: The page requested.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 1
+      - name: page_limit
+        in: query
+        description: Define how many results will be returned in the response.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 20
+      - name: q
+        in: query
+        description: A search term used to query through the disbursement names.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Comma-separated list of disbursement statuses to filter by.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - DRAFT
+          - READY
+          - STARTED
+          - PAUSED
+          - COMPLETED
+        example: DRAFT
+      - name: created_at_after
+        in: query
+        description: 'Only return disbursements that are created after this date. Format: YYYY-MM-DD'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: '2006-01-02'
+      - name: created_at_before
+        in: query
+        description: 'Only return disbursements that are created before this date. Format: YYYY-MM-DD'
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: '2006-01-02'
+      - name: sort
+        in: query
+        description: Field used to sort disbursements
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: created_at
+          enum:
+          - name
+          - created_at
+      - name: direction
+        in: query
+        description: Direction for sorting disbursements.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: desc
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          description: A list of Disbursement details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisbursementPagination'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Disbursements
+      summary: Create Disbursement
+      description: 'Creates a new disbursement in  `draft ` state with basic details. Important: a disbursement is not triggered until the organization adds receivers through the Upload Disbursement Instructions endpoint and the status changes from  `draft ` to  `ready `.'
+      operationId: CreateDisbursement
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                wallet_id:
+                  type: string
+                asset_id:
+                  type: string
+                verification_field:
+                  $ref: '#/components/schemas/VerificationField'
+                registration_contact_type:
+                  $ref: '#/components/schemas/RegistrationContactType'
+                receiver_registration_message_template:
+                  type: string
+              example:
+                name: My New Disbursement name
+                wallet_id: e2de8544-b7e2-40a9-ad40-411f70d5c4bf
+                asset_id: d227a68c-2f40-11ee-be56-0242ac120002
+                verification_field: DATE_OF_BIRTH
+                registration_contact_type: PHONE_NUMBER
+                receiver_registration_message_template: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
+        required: false
+      responses:
+        '201':
+          description: A new disbursement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disbursement'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Bad request
+                  extras:
+                    status: 400
+                    message: Invalid wallet provided
+              example:
+                error: Bad request
+                extras:
+                  status: 400
+                  message: Invalid wallet provided
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /disbursements/{id}:
+    get:
+      tags:
+      - Disbursements
+      summary: Retrieve a Disbursement
+      description: Fetches information on a specific disbursement by  `id `.
+      operationId: RetrieveADisbursement
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Disbursement`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disbursement details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disbursement'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not found
+                  extras:
+                    status: 404
+                    message: Disbursement not found
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Disbursement not found
+      security:
+      - BearerAuth: []
+    delete:
+      tags:
+      - Disbursements
+      summary: Deletes a Draft Disbursement
+      description: Deletes a Disbursement in Draft or Ready Status by `id`.
+      operationId: DeleteADisbursement
+      parameters:
+      - name: id
+        in: path
+        description: ID of the `Disbursement`.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted Disbursement details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disbursement'
+        '400':
+          description: Bad Request, Cannot delete a disbursement that has started
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+  /disbursements/{id}/receivers:
+    get:
+      tags:
+      - Disbursements
+      summary: List All Disbursement Receivers
+      description: Fetches a list of receivers within a specific disbursement using the disbursement  `id `. This endpoint supports pagination and sorting.
+      operationId: ListAllDisbursementReceivers
+      parameters:
+      - name: id
+        in: path
+        description: ID of the Disbursement
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: The page number to fetch.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 1
+      - name: page_limit
+        in: query
+        description: The number of records to return per page.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+          default: 20
+      - name: sort
+        in: query
+        description: Field used to sort receivers
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: updated_at
+          enum:
+          - updated_at
+          - created_at
+      - name: direction
+        in: query
+        description: Direction for sorting receivers.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: desc
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          description: A list of Disbursement Receivers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisbursementReceiverPagination'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+  /disbursements/{id}/instructions:
+    get:
+      tags:
+      - Disbursements
+      summary: Download Disbursement Instructions
+      description: Allows an SDP user to download the raw CSV file that was uploaded when creating the disbursement. This will only return results after instructions have been attached to a draft disbursement.
+      operationId: DownloadDisbursementInstructions
+      parameters:
+      - name: id
+        in: path
+        description: ID of the Disbursement
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Disbursement CSV file
+          headers:
+            Content-Disposition:
+              description: The filename of the returned CSV file.
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Content-Type:
+              description: text/csv
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            text/csv:
+              example: ''
+        '400':
+          description: Bad request, invalid request parameters
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          description: Disbursement Not Found
+          $ref: '#/components/responses/NotFoundResponse'
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Disbursements
+      summary: Upload Disbursement Instructions
+      description: Adds a file containing a list of receivers to a  `DRAFT` disbursement. This step is required before a disbursement can begin. The file must be a CSV and has a different possible formats according with the disbursement configuration, and they can be found at [public/resources/disbursementTemplates](https://github.com/stellar/stellar-disbursement-platform-frontend/tree/58873bbf36cff4614e603daf449079b1d9fad24a/public/resources/disbursementTemplates). The operation is idempotent, guaranteed by deleting and recreating the disbursement attributes when this endpoint is called.
+      operationId: UploadDisbursementInstructions
+      parameters:
+      - name: id
+        in: path
+        description: ID of the Disbursement
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: 'Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]'
+                  format: binary
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: File uploaded succesfully
+              example:
+                message: File uploaded succesfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      foo:
+                        type: string
+                      message:
+                        type: string
+                example:
+                  error: Invalid file format *.xyz
+                  extras:
+                    foo: bar
+                    message: Not authorized
+              example:
+                error: Invalid file format *.xyz
+                extras:
+                  foo: bar
+                  message: Not authorized
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not found
+                  extras:
+                    status: 404
+                    message: Disbursement not found
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Disbursement not found
+      security:
+      - BearerAuth: []
+  /disbursements/{id}/status:
+    patch:
+      tags:
+      - Disbursements
+      summary: Update a Disbursement Status
+      description: Updates the status of a disbursement according to the state machine. The disbursement must move from  `draft ` to  `ready ` in order to start the disbursement and trigger payments. Payments will start as soon as this endpoint is hit. A disbursement can also be moved into  `paused ` state by an SDP user to prevent further payments from going out and restarted when they are ready.
+      operationId: UpdateADisbursementStatus
+      parameters:
+      - name: id
+        in: path
+        description: ID of the disbursement
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Message Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: Disbursement started
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Bad request
+                  extras:
+                    status: 400
+                    message: Disbursement is not ready to be started
+              example:
+                error: Bad request
+                extras:
+                  status: 400
+                  message: Disbursement is not ready to be started
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not found
+                  extras:
+                    status: 404
+                    message: Disbursement not found
+              example:
+                error: Not found
+                extras:
+                  status: 404
+                  message: Disbursement not found
+      security:
+      - BearerAuth: []
+  /registration-contact-types:
+    get:
+      tags:
+      - Disbursements
+      summary: List Registration Contact Types
+      description: Returns the supported registration contact types for disbursement instructions.
+      operationId: ListRegistrationContactTypes
+      responses:
+        '200':
+          description: A list of registration contact types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegistrationContactType'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    PaymentStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        status_message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    PaymentStatusHistory:
+      type: array
+      description: An aggregated list of metadata objects containing the statuses and the timestamp of when these status changes occurred.
+      items:
+        $ref: '#/components/schemas/PaymentStatusHistoryEntry'
+    RegistrationContactType:
+      type: string
+      enum:
+      - EMAIL
+      - PHONE_NUMBER
+      - EMAIL_AND_WALLET_ADDRESS
+      - PHONE_NUMBER_AND_WALLET_ADDRESS
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+    WalletLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+    Amount:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        asset_issuer:
+          type: string
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        received_amount:
+          type: string
+          example: '100.00'
+    ReceiverWalletLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 803031d4-1d04-4879-b6d9-dc5641f9988e
+        receiver:
+          $ref: '#/components/schemas/ReceiverLite'
+        wallet:
+          $ref: '#/components/schemas/WalletLite'
+        stellar_address:
+          type: string
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        stellar_memo:
+          type: string
+        stellar_memo_type:
+          type: string
+        sep24_transaction_id:
+          type: string
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        updated_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        invitation_sent_at:
+          type: string
+          example: '2023-02-09T10:45:51.000Z'
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        status_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
+        otp_confirmed_at:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+        otp_confirmed_with:
+          type: string
+    DisbursementReceiver:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ec3a57c0-5660-4b5a-af76-acadc7b09b93
+        email:
+          type: string
+          example: receiver@mail.org
+        phone_number:
+          type: string
+          example: '+15552368475'
+        external_id:
+          type: string
+          example: usr129001
+        receiver_wallet:
+          $ref: '#/components/schemas/ReceiverWallet'
+        payment:
+          $ref: '#/components/schemas/Payment'
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    DisbursementPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disbursement'
+    Pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          example: ?page=3&page_limit=2
+        prev:
+          type: string
+          example: ?page=1&page_limit=2
+        pages:
+          type: integer
+          example: 8
+        total:
+          type: integer
+          example: 16
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    PaymentStatus:
+      type: string
+      description: The status of the payment
+      enum:
+      - DRAFT
+      - READY
+      - PENDING
+      - PAUSED
+      - SUCCESS
+      - FAILED
+      - CANCELED
+    DisbursementStatusHistory:
+      type: array
+      items:
+        $ref: '#/components/schemas/DisbursementStatusHistoryEntry'
+    DisbursementStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - STARTED
+      - PAUSED
+      - COMPLETED
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
+        code:
+          type: string
+          description: Asset code
+          example: USDC
+        issuer:
+          type: string
+          description: Asset issuer address
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2023-06-03T10:55:51Z'
+      description: The Stellar asset object
+    DisbursementStatusHistoryEntry:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: 3f351b9e-ed0f-40fa-a314-14757b42dab1
+        status:
+          $ref: '#/components/schemas/DisbursementStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    ReceiverWallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 803031d4-1d04-4879-b6d9-dc5641f9988e
+        receiver:
+          $ref: '#/components/schemas/ReceiverLite'
+        wallet:
+          $ref: '#/components/schemas/WalletLite'
+        stellar_address:
+          type: string
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        stellar_memo:
+          type: string
+        stellar_memo_type:
+          type: string
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        updated_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        invited_at:
+          type: string
+          example: '2023-02-09T10:45:51.000Z'
+        last_message_sent_at:
+          type: string
+          description: timestamp when the receiver last received an invitation about this wallet
+          example: '2023-02-10T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        payments_received:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        status_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
+    Disbursement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the disbursement
+          example: 619da857-8725-4c58-933d-c120a458e0f5
+        name:
+          type: string
+          description: The name of the disbursement
+          example: Disbursement Name
+        receiver_registration_message_template:
+          type: string
+          description: 'The custom template used to send invitations to receivers. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.RegistrationLink}} which is the link generated by SDP to send to the receiver (in case this is not present in the message, it''s automatically appended at the end).'
+          example: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
+        registration_contact_type:
+          $ref: '#/components/schemas/RegistrationContactType'
+        wallet:
+          $ref: '#/components/schemas/Wallet'
+        asset:
+          $ref: '#/components/schemas/Asset'
+        status:
+          $ref: '#/components/schemas/DisbursementStatus'
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        status_history:
+          $ref: '#/components/schemas/DisbursementStatusHistory'
+        file_name:
+          type: string
+          example: disbursement-feb-03-2023.csv
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        total_payments:
+          type: integer
+          description: Total number of payments
+          example: 10
+        total_payments_sent:
+          type: integer
+          description: Total number of successful payments
+          example: 8
+        total_payments_failed:
+          type: integer
+          description: Total number of failed payments
+          example: 1
+        total_payments_remaining:
+          type: integer
+          description: Total number of remaining payments
+          example: 1
+        amount_disbursed:
+          type: string
+          description: The total amount disbursed so far
+          example: '800.00'
+        total_amount:
+          type: string
+          description: The total amount to be disbursed
+          example: '1000.00'
+        average_amount:
+          type: string
+          description: The average amount per payment
+          example: '100.00'
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
+    DisbursementLite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the disbursement
+          format: uuid
+          example: c51ba1d5-52d3-412f-a59c-6ef32d59ab43
+        name:
+          type: string
+          description: The name of the disbursement
+          example: disbursement-june-29
+        receiver_registration_message_template:
+          type: string
+          description: 'The custom template used to send invitations to receivers. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: `{{.OrganizationName}}` which is the Organization Name configured and `{{.RegistrationLink}}` which is the link generated by SDP to send to the receiver (in case this is not present in the message, it''s automatically appended at the end).'
+          example: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
+        registration_contact_type:
+          $ref: '#/components/schemas/RegistrationContactType'
+        status:
+          $ref: '#/components/schemas/DisbursementStatus'
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        status_history:
+          $ref: '#/components/schemas/DisbursementStatusHistory'
+        file_name:
+          type: string
+          example: disbursement-feb-03-2023.csv
+        created_at:
+          type: string
+          description: The creation timestamp of the disbursement
+          format: date-time
+          example: '2023-06-30T01:22:57.831975Z'
+        updated_at:
+          type: string
+          description: The last update timestamp of the disbursement
+          format: date-time
+          example: '2023-06-30T01:22:58.316511Z'
+    DisbursementReceiverPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DisbursementReceiver'
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ddf22f55-3259-4822-a4e2-ce01334997f4
+        amount:
+          type: string
+          description: The amount of the payment
+          example: '100.00'
+        stellar_transaction_id:
+          type: string
+          description: The ID of the transaction in the Stellar network. It can be used tio track the payment in the Stellar network using [Stellar Laboratory](https://laboratory.stellar.org/), or [StellarExpert](https://stellar.expert/).
+          example: 0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b
+        circle_transfer_request_id:
+          type: string
+          description: The Circle transfer request ID. It is only present when the payment was made using Circle.
+          example: 74a68b6a-3f67-424b-b8b0-e593a19d7463
+        stellar_operation_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        status_history:
+          $ref: '#/components/schemas/PaymentStatusHistory'
+        type:
+          type: string
+          description: The type of the payment.
+          enum:
+          - DISBURSEMENT
+          - DIRECT
+        disbursement:
+          $ref: '#/components/schemas/DisbursementLite'
+        asset:
+          $ref: '#/components/schemas/Asset'
+        receiver_wallet:
+          $ref: '#/components/schemas/ReceiverWalletLite'
+        external_payment_id:
+          type: string
+          description: Optional external payment identifier provided by the client.
+          example: payment-001
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    ReceiverLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
+  responses:
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden

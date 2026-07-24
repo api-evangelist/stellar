@@ -1,0 +1,233 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Rates API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Rates
+  description: Requests containing data that can be used to provide exchange rates between on & off-chain assets.
+paths:
+  /rate:
+    get:
+      description: "Transactions that involve two non-equivalent on & off-chain assets (such as USDC on Stellar and fiat EUR) must\nuse exchange rates that are communicated to the client application requesting the transaction. When clients make\nrequests to the Platform for these exchange rates, the Platform sends this request to the anchor to fetch it.\n\nRates can be [indicative](https://www.investopedia.com/terms/i/indicativequote.asp) or\n[firm](https://www.investopedia.com/terms/f/firmquote.asp). The anchor must provide an ID and expiration if the\nclient requests a firm rate.\n\nAnchors can provide discounted rates specific client applications. The Platform includes the `client_id` parameter\nfor this reason.\n\nEither `sell_amount` or `buy_amount` will be included in requests as parameters, but never both. In the same way,\neither `sell_delivery_method` and `buy_delivery_method` may be included in requests, but never both, since either\n`sell_asset` or `buy_asset` is a Stellar asset.\n\n\nUpon receiving the response, the Anchor Platform will validate the amount and price of the response.\n\nIf the validation fails, the Platform will respond to the client application's request with a HTTP status\ncode of `502 Bad Gateway`.\n\nThe `sell_amount`, `buy_amount`, `price`, and `fee` are validated as follows:\n\n- if `rate.fee` exists,\n  - `rate.fee.asset` must have a positive value of `significant_decimals` defined in the asset configuration.\n  - `rate.fee.total` must equal to the sum of `rate.fee.details.amount`.\n  - if the `rate.fee.asset == rate.sell_asset`, `sell_amount ~= price * buy_amount + fee` must hold true.\n  - if the `rate.fee.asset == rate.buy_asset`,  `sell_amount ~= price * (buy_amount + fee)` must hold true.\n- if `rate.fee` does not exist, `sell_amount ~= price * buy_amount` must hold true.\n\nThe `~=` is defined as equality within rounding error.\n    The rounding error is defined as `10^(-significant_decimals)`\n"
+      tags:
+      - Rates
+      x-seps:
+      - SEP-31
+      - SEP-38
+      summary: Retrieve Rates
+      operationId: getRates
+      parameters:
+      - in: query
+        name: type
+        description: The type of rate requested. If `firm`, the response must include `rate.id` and `rate.expires_at`.
+        schema:
+          type: string
+          enum:
+          - indicative
+          - firm
+        required: true
+      - in: query
+        name: client_id
+        description: 'An identifier for the client application making the request. This ID can be used to offer different fees to different clients.
+
+
+          Client IDs will be the Stellar public key the public key used to authenticate via SEP-10. Anchors must ensure
+
+          that the public key specified in the request matches a public key known to belong to the sending anchor.
+
+
+          This parameter will only be specified if the client is authenticated via SEP-10. Anchors can define whether or not
+
+          authentication is required for fetching indicative rates. Firm rates always require authentication.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: sell_asset
+        description: 'The asset the client application will send to the anchor in exchange for `buy_asset` in
+
+          [Asset Identification Format](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#asset-identification-format).
+
+          '
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: buy_asset
+        description: 'The asset the that the anchor will send in exchange for `sell_asset` in
+
+          [Asset Identification Format](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#asset-identification-format).
+
+          '
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: sell_amount
+        description: 'The amount of `sell_asset` the client application will send in exchange for `buy_asset`. Will not be used in
+
+          conjunction with `buy_amount`.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: buy_amount
+        description: 'The amount of `buy_asset` the anchor will send in exchange for `sell_asset`. Will not be used in conjunction
+
+          with `sell_amount`.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: country_code
+        description: 'The [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code of the user''s current address.
+
+          Anchors should expect this parameter to be provided if one of the assets of the buy/sell pair is fiat and it
+
+          is available in two or more countries.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: expire_after
+        description: 'The client''s desired `expires_at` date and time for the quote that can be used if this is a firm quote. This should
+
+          be a [UTC ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) string. Anchors should return `400 Bad
+
+          Request` if an expiration date on or after the requested value cannot be provided.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: sell_delivery_method
+        description: 'The method the client or user will use to deliver `sell_asset` to the Anchor. This value may affect the
+
+          expiration and price provided. The values used for this parameter is defined in the application''s configuration.
+
+          Will not be used in conjunction with `buy_delivery_method`.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: buy_delivery_method
+        description: 'The method the client or user wants used to receive `buy_asset` from the Anchor. This value may affect the
+
+          expiration and price provided. The values used for this parameter is defined in the application''s configuration.
+
+          Will not be used in conjunction with `sell_delivery_method`.
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateResponse'
+        '422':
+          description: 'Unprocessable Entity. This status should be returned when the anchor understood the request but cannot
+
+            return a success response.
+
+            In these cases, the Platform will respond to the client application''s request with a `400 Bad Request`
+
+            and include the error message provided by the anchor in the response body.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error. The Platform will respond to the client application with the same response code and body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    RateFeeResponse:
+      type: object
+      description: An object describing the fees added on top of the rate provided via the `price` attribute.
+      properties:
+        total:
+          type: string
+          description: The total fee to be applied.
+        asset:
+          type: string
+          description: The asset the fee will be charged in. Must be represented in [Asset Identification Format](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#asset-identification-format).
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/RateFeeDetailResponse'
+      required:
+      - total
+      - asset
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
+    RateResponse:
+      type: object
+      properties:
+        rate:
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the firm quote. NOT USED when `type=indicative`.
+            expires_at:
+              type: string
+              format: date-time
+              description: Expiration for the quote. NOT USED when `type=indicative`.
+            price:
+              type: string
+              description: The conversion price offered by the anchor for one unit of `buy_asset` in terms of `sell_asset`, without including fees. In traditional finance, `buy_asset` would be referred to as the base asset and `sell_asset` as the counter asset. The formula `sell_amount - fee = price * buy_amount` must hold true ([ref](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#price-formulas)).
+            sell_amount:
+              type: string
+              description: The amount of `sell_asset` the anchor will exchange for `buy_asset`. It could be different from the `sell_amount` provided in the request, depending on how fees are applied by the Anchor.
+            buy_amount:
+              type: string
+              description: The amount of `buy_asset` the anchor will provide with `sell_asset`. It could be different from the `buy_amount` provided in the request, depending on how fees are applied by the Anchor.
+            fee:
+              $ref: '#/components/schemas/RateFeeResponse'
+          required:
+          - price
+          - sell_amount
+          - buy_amount
+    RateFeeDetailResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the fee, for example `ACH fee`, `Brazilian conciliation fee`, `Service fee`, etc.
+        description:
+          type: string
+          description: A text describing the fee.
+        amount:
+          type: string
+          description: The amount of asset applied. If `fee.details` is provided, `sum(fee.details.amount)` should be equals `fee.total`.
+      required:
+      - name
+      - amount

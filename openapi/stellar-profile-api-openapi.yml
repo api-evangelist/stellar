@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Profile API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Profile
+  description: 'Profiles endpoints manage the process of getting and updating individual profile information. Profile information is set when the account is created and can be updated by the user on the SDP dashboard Profile page. Note: profiles never refer to receivers of funds.'
+paths:
+  /profile:
+    get:
+      tags:
+      - Profile
+      summary: Get Profile
+      description: Fetches the individual information of the logged in user to populate the Profile page.
+      operationId: GetProfile
+      responses:
+        '200':
+          description: Returns user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Profile
+      summary: Update User Profile
+      description: 'Updates the profile details of the logged in user. Note: all fields are optional but at least one should be sent in the request.'
+      operationId: UpdateUserProfile
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:
+                  type: string
+              example:
+                first_name: FirstName
+                last_name: LastName
+                email: email@email.com
+        required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: user profile updated successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+  /profile/reset-password:
+    patch:
+      tags:
+      - Profile
+      summary: Reset Password
+      description: Updates the password for the logged in user.
+      operationId: ResetUserPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - current_password
+              - new_password
+              properties:
+                current_password:
+                  type: string
+                new_password:
+                  type: string
+            example:
+              current_password: currentPassword123!
+              new_password: newPassword123!
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: user password updated successfully
+        '400':
+          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+components:
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
+  schemas:
+    Profile:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Jane
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: jdoe@mail.org
+        roles:
+          type: array
+          items:
+            type: string
+        organization_name:
+          type: string
+      example:
+        first_name: Jane
+        last_name: Doe
+        email: jdoe@mail.org
+        roles:
+        - developer
+        organization_name: Stellar Aid
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string

@@ -1,0 +1,428 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Organization API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Organization
+  description: Organization endpoints manage the process of getting and updating organizational profile information. The organization's profile has basic information set at the time of SDP deployment. It can be modified by the Owner. Organizations can also manage their preferences, like which assets to use, through these endpoints.
+paths:
+  /organization:
+    get:
+      tags:
+      - Organization
+      summary: Get Organization Info
+      description: This endpoint returns the organization's info. It is used in many places across the UI. It returns the name in the navbar and the public key of the organization’s distribution account.
+      operationId: GetOrganizationInfo
+      responses:
+        '200':
+          description: Returns organization details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BearerAuth: []
+    patch:
+      tags:
+      - Organization
+      summary: Update Organization Profile
+      description: 'Updates the organization profile details. Only account owners have permission to do this. Note: both fields are optional but at least one should be sent in the request. It is not necessary to set the header Content-Type for this request. It is set automatically by the HTTP client.'
+      operationId: UpdateOrganizationProfile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                logo:
+                  type: string
+                  description: The logo of the organization, file type must be png or jpeg.
+                  format: binary
+                data:
+                  type: string
+                  description: 'A JSON string that contains the details to update. Contains the following keys:  `organization_name` (string): the new name of the organization, `timezone_utc_offset` (string): the new timezone offset of the organization, `is_approval_required` (boolean): whether the approval workflow is enabled or not. `receiver_registration_message_template` (string): the message template sent to the receivers inviting them to registration. Sending this field empty sets the `default` value for it. `otp_message_template` (string): the message template sent to the receivers sending the OTP to complete the registration flow. Sending this field empty sets the `default` value for it. For example: ''{"organization_name": "NewOrgName", "timezone_utc_offset": "+02:00", "is_approval_required": true, "receiver_registration_message_template": "You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.", "otp_message_template": "{{.OTP}} is your {{.OrganizationName}} phone verification code."}''
+
+                    '
+                  format: json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: organization profile updated successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+  /organization/logo:
+    get:
+      tags:
+      - Organization
+      summary: Retrieve Organization Logo
+      description: Retrieves the logo of the organization for display in the UI navbar.
+      operationId: GetOrganizationLogo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /organization/circle-config:
+    patch:
+      tags:
+      - Organization
+      summary: Circle Account Setup
+      description: 'Updates the Circle configuration for the organization. Only account owners have permission to do this. Note: in the first time configuration, all fields are mandatory, but after it is been configured at least once, you can replace a single field at a time.'
+      operationId: PatchOrganizationCircle
+      requestBody:
+        description: Circle configuration to be updated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                api_key:
+                  type: string
+                  description: The Circle API key with permissions to POST & GET transfers
+                wallet_id:
+                  type: string
+                  description: The ID of the Circle walet from where the funds will be sent
+        required: true
+      responses:
+        '200':
+          description: Circle configuration updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Circle configuration updated
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /assets:
+    get:
+      tags:
+      - Organization
+      summary: Get All Assets
+      description: 'Fetches the list of available assets to populate the dropdown box in the New Disbursement flow. Note: the organization must hold a balance in a particular asset to use it in a disbursement.'
+      operationId: GetAllAssets
+      responses:
+        '200':
+          description: A list of assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Forbidden
+              example:
+                error: Forbidden
+      security:
+      - BearerAuth: []
+    post:
+      tags:
+      - Organization
+      summary: Create Asset
+      description: 'This endpoint is used to create a new asset that can be used in a Disbursement. Note: the organization must hold a balance in a particular asset to use it in a disbursement.'
+      operationId: CreateAsset
+      requestBody:
+        description: Asset to be created
+        content:
+          application/json:
+            schema:
+              required:
+              - code
+              - issuer
+              type: object
+              properties:
+                code:
+                  type: string
+                  description: The asset code
+                  example: USDC
+                issuer:
+                  type: string
+                  description: The issuer
+                  example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        required: true
+      responses:
+        '201':
+          description: Asset created successfully
+          content: {}
+        '400':
+          description: Bad request, invalid request body or the provided code/issuer is invalid.
+          content: {}
+      security:
+      - BearerAuth: []
+      x-codegen-request-body-name: body
+  /assets/{id}:
+    delete:
+      tags:
+      - Organization
+      summary: Delete Asset
+      description: This endpoint is used to soft delete an asset.
+      operationId: DeleteAsset
+      parameters:
+      - name: id
+        in: path
+        description: ID of the asset to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Asset deleted successfully
+          content: {}
+        '204':
+          description: Asset already deleted
+          content: {}
+        '404':
+          description: Asset not found
+          content: {}
+      security:
+      - BearerAuth: []
+components:
+  schemas:
+    Organization:
+      required:
+      - distribution_account
+      - is_approval_required
+      - logo_url
+      - name
+      - payment_cancellation_period_days
+      - privacy_policy_link
+      - receiver_invitation_resend_interval_days
+      - timezone_utc_offset
+      type: object
+      properties:
+        name:
+          type: string
+          example: Stellar Aid
+        logo_url:
+          type: string
+          example: https://stellar-disbursement-platform-backend-dev.stellar.org/organization/logo
+        distribution_account:
+          $ref: '#/components/schemas/DistributionAccount'
+        distribution_account_public_key:
+          type: string
+          description: DEPRECATED! Please refer to distribution_account.address instead.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        timezone_utc_offset:
+          type: string
+          example: +00:00
+        is_approval_required:
+          type: boolean
+          description: Enables multi-user approval workflow for disbursements
+          example: true
+        receiver_invitation_resend_interval_days:
+          type: integer
+          description: The amount of days that the SDP will wait to resend the invitation to the receivers that have not registered. If `0`, that means the resending invitation feature is disabled.
+          example: 5
+        payment_cancellation_period_days:
+          type: integer
+          description: The amount of days that the SDP will wait to cancel a payment that is waiting for the receiver to register. If `0`, that means the payment cancellation feature is disabled.
+          example: 5
+        privacy_policy_link:
+          type: string
+          description: The link to the organization privacy policy
+          example: https://stellar.org/privacy-policy
+        receiver_registration_message_template:
+          type: string
+          description: 'The custom template used to send invitations to receivers. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.RegistrationLink}} which is the link generated by SDP to send to the receiver (in case this is not present in the message, it''s automatically appended at the end).'
+          example: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
+        otp_message_template:
+          type: string
+          description: 'The custom OTP message template set to send OTP code to the receiver complete the registration flow. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.OTP}} which is the OTP code to send to the receiver complete the registration flow (in case this is not present in the message, it''s automatically appended at the end).'
+          example: '{{.OTP}} is your {{.OrganizationName}} phone verification code.'
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
+        code:
+          type: string
+          description: Asset code
+          example: USDC
+        issuer:
+          type: string
+          description: Asset issuer address
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2023-06-03T10:55:51Z'
+      description: The Stellar asset object
+    DistributionAccount:
+      required:
+      - status
+      - type
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the distribution account, present when the account type is `STELLAR`.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        circle_wallet_id:
+          type: string
+          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
+          example: '1000646072'
+        type:
+          type: string
+          description: The type of the distribution account.
+          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          enum:
+          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+        status:
+          type: string
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - PENDING_USER_ACTIVATION

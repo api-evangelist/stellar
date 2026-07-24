@@ -1,0 +1,563 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Customers API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Customers
+  description: '[SEP-12](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md) requests made from client
+
+    applications.
+
+    '
+paths:
+  /customer:
+    get:
+      description: "The request and response for this endpoint is identical to the\n[`GET /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-get)\nrequest and response defined in SEP-12.\n\nThis endpoint allows clients to:\n\n  1. Fetch the fields the server requires in order to register a new customer via a SEP-12\n[`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put) request\n\nIf the server does not have a customer registered for the parameters sent in the request, it should return the\nfields required in the response. The same response should be returned when no parameters are sent.\n\n  2. Check the status of a customer that may already be registered\n\nThis allows clients to check whether the customers information was accepted, rejected, or still needs more info.\nIf the server still needs more info, or the server needs updated information, it should return the fields required.\n"
+      tags:
+      - Customers
+      x-seps:
+      - SEP-6
+      - SEP-12
+      - SEP-31
+      summary: Retrieve Customer's Info
+      operationId: getCustomer
+      parameters:
+      - in: query
+        name: id
+        description: The ID of the customer as returned in the response of a previous PUT request.
+        schema:
+          type: string
+      - in: query
+        name: account
+        description: The Stellar or Muxed Account authenticated with the Platform via SEP-10.
+        schema:
+          type: string
+      - in: query
+        name: memo
+        description: The memo value identifying a customer with a shared account, where the shared account is `account`.
+        schema:
+          type: string
+      - in: query
+        name: memo_type
+        description: The type of memo used to identify a customer with a shared account.
+        schema:
+          type: string
+          enum:
+          - id
+          - hash
+          - text
+      - in: query
+        name: type
+        description: 'The type of action the customer is being KYCd for. See the
+
+          [Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification)
+
+          documented in SEP-12.
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: transaction_id
+        description: 'The transaction id with which the customer''s info is associated. When information from the customer depends on the
+
+          transaction (e.g., more information is required for larger amounts)
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: lang
+        description: 'Defaults to `en`. Language code specified using ISO 639-1. Human readable descriptions, choices, and
+
+          messages should be in this language.
+
+          '
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 'Valid request. Customer either already exists or the customer identified by the parameters is new and must
+
+            provide the field values described in the response body. Response bodies are identical to the schema defined
+
+            in [SEP-12](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-get).
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerResponse'
+              examples:
+                SuccessKYC:
+                  $ref: '#/components/examples/SuccessKYC'
+        '400':
+          description: Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - Customers
+      x-seps:
+      - SEP-6
+      - SEP-12
+      - SEP-24
+      - SEP-31
+      description: '**The Anchor Platform does not persist any customer KYC data.**
+
+
+        The request and response for this endpoint are identical to the
+
+        [`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put)
+
+        request and response defined in SEP-12.
+
+
+        Client applications make requests with the following request body, which is forwarded to the anchor. Anchors
+
+        must validate and persist the data passed, and return the customer''s `id`. Requests containing only string fields will
+
+        be forwarded to the anchor as with the `application/json` content type. Requests containing
+
+        binary fields will be forwarded to the anchor as with the `multipart/form-data` content type.
+
+        '
+      summary: Create or Update Customer Info
+      operationId: putCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutCustomerRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PutCustomerMultipartRequest'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCustomerResponse'
+        '400':
+          description: Invalid data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /customer/{id}:
+    delete:
+      tags:
+      - Customers
+      x-seps:
+      - SEP-12
+      - SEP-31
+      description: 'The request for this endpoint is identical to the
+
+        [`DELETE /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-delete)
+
+        request defined in SEP-12.
+
+
+        Delete the customer''s data or queue the customers data for deletion.
+
+        '
+      summary: Delete Customer Data
+      operationId: delCustomer
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: Success.
+        '404':
+          description: Customer not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    GetCustomerResponse:
+      type: object
+      required:
+      - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - PROCESSING
+          - NEEDS_INFO
+          - REJECTED
+        fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+        provided_fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - PROCESSING
+                - REJECTED
+                - VERIFICATION_REQUIRED
+              error:
+                type: string
+        message:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
+    PutCustomerRequest:
+      type: object
+      properties:
+        id:
+          description: The ID of the customer as returned in the response of a previous PUT request.
+          type: string
+        account:
+          description: The Stellar or Muxed Account authenticated with the Platform via SEP-10.
+          type: string
+        memo:
+          description: The memo value identifying a customer with a shared account, where the shared account is `account`.
+          type: string
+        memo_type:
+          description: The type of memo used to identify a customer with a shared account.
+          type: string
+          enum:
+          - id
+          - hash
+          - text
+        type:
+          description: 'The type of action the customer is being KYCd for.
+
+            See the [Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification) documented in SEP-12 for more info.
+
+            For SEP-31 you can define your own types in the assets configuration.
+
+            For SEP-24 pre-defined value `sep24-customer` is used.
+
+            '
+          type: string
+        transaction_id:
+          description: 'The transaction id with which the customer''s info is associated. When information from the customer depends on the
+
+            transaction (e.g., more information is required for larger amounts)
+
+            '
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        additional_name:
+          type: string
+        address_country_code:
+          type: string
+        state_or_province:
+          type: string
+        city:
+          type: string
+        postal_code:
+          type: string
+        address:
+          type: string
+        mobile_number:
+          type: string
+        email_address:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        birth_place:
+          type: string
+        birth_country_code:
+          type: string
+        bank_name:
+          type: string
+        bank_account_number:
+          type: string
+        bank_account_type:
+          type: string
+        bank_number:
+          type: string
+        bank_phone_number:
+          type: string
+        bank_branch_number:
+          type: string
+        external_transfer_memo:
+          type: string
+        clabe_number:
+          type: string
+        cbu_alias:
+          type: string
+        mobile_money_number:
+          type: string
+        mobile_money_provider:
+          type: string
+        crypto_address:
+          type: string
+        crypto_memo:
+          description: Deprecated. Use `external_transfer_memo` instead.
+          type: string
+        tax_id:
+          type: string
+        tax_id_name:
+          type: string
+        occupation:
+          type: string
+        employer_name:
+          type: string
+        employer_address:
+          type: string
+        language_code:
+          type: string
+        id_type:
+          type: string
+        id_country_code:
+          type: string
+        id_issue_date:
+          type: string
+          format: date
+        id_expiration_date:
+          type: string
+          format: date
+        id_number:
+          type: string
+        ip_address:
+          type: string
+        sex:
+          type: string
+        referral_id:
+          type: string
+        mobile_number_verification:
+          type: string
+        email_address_verification:
+          type: string
+    PutCustomerMultipartRequest:
+      type: object
+      properties:
+        id:
+          description: The ID of the customer as returned in the response of a previous PUT request.
+          type: string
+        account:
+          description: The Stellar or Muxed Account authenticated with the Platform via SEP-10.
+          type: string
+        memo:
+          description: The memo value identifying a customer with a shared account, where the shared account is `account`.
+          type: string
+        memo_type:
+          description: The type of memo used to identify a customer with a shared account.
+          type: string
+          enum:
+          - id
+          - hash
+          - text
+        type:
+          description: 'The type of action the customer is being KYCd for.
+
+            See the [Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification) documented in SEP-12 for more info.
+
+            For SEP-31 you can define your own types in the assets configuration.
+
+            For SEP-24 pre-defined value `sep24-customer` is used.
+
+            '
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        additional_name:
+          type: string
+        address_country_code:
+          type: string
+        state_or_province:
+          type: string
+        city:
+          type: string
+        postal_code:
+          type: string
+        address:
+          type: string
+        mobile_number:
+          type: string
+        email_address:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        birth_place:
+          type: string
+        birth_country_code:
+          type: string
+        bank_name:
+          type: string
+        bank_account_number:
+          type: string
+        bank_account_type:
+          type: string
+        bank_number:
+          type: string
+        bank_phone_number:
+          type: string
+        bank_branch_number:
+          type: string
+        external_transfer_memo:
+          type: string
+        clabe_number:
+          type: string
+        cbu_alias:
+          type: string
+        mobile_money_number:
+          type: string
+        mobile_money_provider:
+          type: string
+        crypto_address:
+          type: string
+        crypto_memo:
+          description: Deprecated. Use `external_transfer_memo` instead.
+          type: string
+        tax_id:
+          type: string
+        tax_id_name:
+          type: string
+        occupation:
+          type: string
+        employer_name:
+          type: string
+        employer_address:
+          type: string
+        language_code:
+          type: string
+        id_type:
+          type: string
+        id_country_code:
+          type: string
+        id_issue_date:
+          type: string
+          format: date
+        id_expiration_date:
+          type: string
+          format: date
+        id_number:
+          type: string
+        photo_id_front:
+          type: string
+          format: binary
+        photo_id_back:
+          type: string
+          format: binary
+        notary_approval_of_photo_id:
+          type: string
+          format: binary
+        ip_address:
+          type: string
+        photo_proof_residence:
+          type: string
+          format: binary
+        sex:
+          type: string
+        photo_proof_of_income:
+          type: string
+          format: binary
+        proof_of_liveness:
+          type: string
+          format: binary
+        referral_id:
+          type: string
+        mobile_number_verification:
+          type: string
+        email_address_verification:
+          type: string
+  examples:
+    SuccessKYC:
+      summary: The case when a customer has been successfully KYC'd and approved
+      value:
+        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
+        status: ACCEPTED
+        provided_fields:
+          first_name:
+            description: The customer's first name
+            type: string
+            status: ACCEPTED
+          last_name:
+            description: The customer's last name
+            type: string
+            status: ACCEPTED
+          email_address:
+            description: The customer's email address
+            type: string
+            status: ACCEPTED

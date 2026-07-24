@@ -1,0 +1,328 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Authentication API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Authentication
+  description: Authentication controls the log in/log out process for all SDP users, as well as the token refresh process. Authentication uses a JWT approach signed with an ES256 private key.
+paths:
+  /login:
+    post:
+      tags:
+      - Authentication
+      summary: Log In
+      description: 'Allows credentialed SDP users to log in to the SDP dashboard with a password. Note: all passwords must be at least 8 characters long and a combination of uppercase letters, lowercase letters, numbers, and symbols.'
+      operationId: LogIn
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              required:
+              - email
+              - password
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                recaptcha_token:
+                  type: string
+                  description: Token for reCAPTCHA validation. ReCAPTCHA token is required unless the `DISABLE_RECAPTCHA` configuration is set to true.
+              example:
+                email: johndoe@mail.com
+                password: mysecret
+        required: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                example:
+                  token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA
+              example:
+                token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Invalid credentials
+                  extras:
+                    status: 400
+                    message: Invalid username or password
+              example:
+                error: Invalid credentials
+                extras:
+                  status: 400
+                  message: Invalid username or password
+      x-codegen-request-body-name: body
+  /refresh-token:
+    post:
+      tags:
+      - Authentication
+      summary: Refresh Token
+      description: A user’s token expires after 15 minutes. This endpoint handles refreshing the user’s token without disrupting their experience. It is triggered within the 30-second window before the token expires.
+      operationId: RefreshToken
+      responses:
+        '200':
+          description: Returns a new access token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                example:
+                  token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA
+              example:
+                token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BearerAuth: []
+  /mfa:
+    post:
+      tags:
+      - Authentication
+      summary: Provide Multi-Factor Authentication
+      description: Governs the multi-factor authentication process for SDP user login, including the ability to remember the device so MFA is not always required.
+      operationId: authenticateMFA
+      parameters:
+      - name: Device-ID
+        in: header
+        description: Identifier of the device
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: MFA request data
+        content:
+          '*/*':
+            schema:
+              required:
+              - mfa_code
+              type: object
+              properties:
+                mfa_code:
+                  type: string
+                  description: Multi-factor authentication code
+                remember_me:
+                  type: boolean
+                  description: Boolean flag to remember the user
+                recaptcha_token:
+                  type: string
+                  description: Token for reCAPTCHA validation. ReCAPTCHA token is required unless the `DISABLE_RECAPTCHA` configuration is set to true.
+        required: true
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Authentication token
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      x-codegen-request-body-name: body
+  /forgot-password:
+    post:
+      tags:
+      - Authentication
+      summary: Forgot Password
+      description: Sends an email with a token to an SDP user who has gone through the Forgot Password process.
+      operationId: forgotPassword
+      requestBody:
+        description: Forgot password request data
+        content:
+          '*/*':
+            schema:
+              required:
+              - email
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email of the user
+                  format: email
+                recaptcha_token:
+                  type: string
+                  description: Token for reCAPTCHA validation
+        required: true
+      responses:
+        '200':
+          description: Forgot password email sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+      x-codegen-request-body-name: body
+  /reset-password:
+    post:
+      tags:
+      - Authentication
+      summary: Reset Rassword
+      description: Allows an SDP user who has gone through the Forgot Password process to set their new password with a token sent via email.
+      operationId: resetPassword
+      requestBody:
+        description: Reset password request data
+        content:
+          '*/*':
+            schema:
+              required:
+              - password
+              - reset_token
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: New password for the user
+                reset_token:
+                  type: string
+                  description: Token used to identify a valid password reset request
+        required: true
+      responses:
+        '200':
+          description: Password reset successfully
+          content: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details about the error
+                  extras:
+                    type: object
+                    properties: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string

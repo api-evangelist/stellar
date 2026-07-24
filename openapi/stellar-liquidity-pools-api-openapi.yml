@@ -1,0 +1,1069 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Liquidity Pools API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Liquidity Pools
+  description: Liquidity Pools provide a simple, non-interactive way to trade large amounts of capital and enable high volumes of trading.
+paths:
+  /liquidity_pools:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: List Liquidity Pools
+      description: This endpoint lists all available liquidity pools.
+      operationId: ListLiquidityPools
+      parameters:
+      - $ref: '#/components/parameters/ReserveParam'
+      - $ref: '#/components/parameters/AccountParam'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/LiquidityPools'
+              examples:
+                ListLiquidityPools:
+                  $ref: '#/components/examples/ListLiquidityPools'
+  /liquidity_pools/{liquidity_pool_id}:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: Retrieve a Liquidity Pool
+      description: The single liquidity pool endpoint provides information on a liquidity pool.
+      operationId: RetrieveALiquidityPool
+      parameters:
+      - $ref: '#/components/parameters/LiquidityPoolParamId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiquidityPool'
+              examples:
+                RetrieveALiquidityPool:
+                  $ref: '#/components/examples/RetrieveALiquidityPool'
+  /liquidity_pools/{liquidity_pool_id}/effects:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: Retrieve Related Effects
+      description: This endpoint represents effects referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new effects referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known effect unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream effects created since your request time.
+      operationId: RetrieveRelatedEffects
+      parameters:
+      - $ref: '#/components/parameters/LiquidityPoolParamId'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      x-supports-streaming: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Effect'
+              examples:
+                RetrieveRelatedEffects:
+                  $ref: '#/components/examples/RetrieveRelatedEffects'
+  /liquidity_pools/{liquidity_pool_id}/trades:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: Retrieve Related Trades
+      description: 'This endpoint represents successful trades fulfilled by the given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new trades referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known trade unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream trade created since your request time. '
+      operationId: RetrieveRelatedTrades
+      parameters:
+      - $ref: '#/components/parameters/LiquidityPoolParamId'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      x-supports-streaming: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Trade'
+              examples:
+                RetrieveRelatedTrades:
+                  $ref: '#/components/examples/RetrieveRelatedTrades'
+  /liquidity_pools/{liquidity_pool_id}/transactions:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: Retrieve Related Transactions
+      description: This endpoint represents successful transactions referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new transactions referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known transaction unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream transactions created since your request time.
+      operationId: LPRetrieveRelatedTransactions
+      parameters:
+      - $ref: '#/components/parameters/LiquidityPoolParamId'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/IncludeFailedParam'
+      x-supports-streaming: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Transaction'
+              examples:
+                LPRetrieveRelatedTransactions:
+                  $ref: '#/components/examples/LPRetrieveRelatedTransactions'
+  /liquidity_pools/{liquidity_pool_id}/operations:
+    get:
+      tags:
+      - Liquidity Pools
+      summary: Retrieve Related Operations
+      description: This endpoint represents successful operations referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new operations referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known operation unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream operations created since your request time.
+      operationId: LPRetrieveRelatedOperations
+      parameters:
+      - $ref: '#/components/parameters/LiquidityPoolParamId'
+      - $ref: '#/components/parameters/CursorParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/IncludeFailedParam'
+      - $ref: '#/components/parameters/JoinParam'
+      x-supports-streaming: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Links'
+                - $ref: '#/components/schemas/Operation'
+              examples:
+                LPRetrieveRelatedOperations:
+                  $ref: '#/components/examples/LPRetrieveRelatedOperations'
+components:
+  schemas:
+    Trade:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      base:
+                        $ref: '#/components/schemas/link'
+                      counter:
+                        $ref: '#/components/schemas/link'
+                      operation:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - base
+                    - counter
+                    - operation
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  ledger_close_time:
+                    type: string
+                  offer_id:
+                    type: string
+                  trade_type:
+                    type: string
+                  liquidity_pool_fee_bp:
+                    type: number
+                    format: uint32
+                  base_liquidity_pool_id:
+                    type: string
+                  base_offer_id:
+                    type: string
+                  base_account:
+                    $ref: '#/components/schemas/address'
+                  base_amount:
+                    type: string
+                  base_asset_type:
+                    type: string
+                  base_asset_code:
+                    type: string
+                  base_asset_issuer:
+                    type: string
+                  counter_liquidity_pool_id:
+                    type: string
+                  counter_offer_id:
+                    type: string
+                  counter_account:
+                    $ref: '#/components/schemas/address'
+                  counter_amount:
+                    type: string
+                  counter_asset_type:
+                    type: string
+                  counter_asset_code:
+                    type: string
+                  counter_asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  base_is_seller:
+                    type: boolean
+                  price:
+                    $ref: '#/components/schemas/tradePrice'
+                    required:
+                    - id
+                    - paging_token
+                    - ledger_close_time
+                    - trade_type
+                    - base_amount
+                    - base_asset_type
+                    - counter_amount
+                    - counter_asset_type
+                    - base_is_seller
+    id:
+      type: string
+    paging_token:
+      type: string
+    LiquidityPools:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  fee_bp:
+                    type: integer
+                    format: uint32
+                  type:
+                    type: string
+                  total_trustlines:
+                    type: string
+                  total_shares:
+                    type: string
+                  reserves:
+                    type: object
+                    properties:
+                      asset:
+                        type: string
+                      amount:
+                        type: string
+                  last_modified_ledger:
+                    type: string
+                  last_modified_time:
+                    type: string
+                required:
+                - id
+                - paging_token
+                - fee_bp
+                - type
+                - total_trustlines
+                - total_shares
+                - reserves
+                - last_modified_ledger
+                - last_modified_time
+    Operation:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            effects:
+              $ref: '#/components/schemas/link'
+            precedes:
+              $ref: '#/components/schemas/link'
+            self:
+              $ref: '#/components/schemas/link'
+            succeds:
+              $ref: '#/components/schemas/link'
+            transaction:
+              $ref: '#/components/schemas/link'
+        id:
+          $ref: '#/components/schemas/id'
+        paging_token:
+          $ref: '#/components/schemas/paging_token'
+        type_i:
+          type: number
+          example: 0
+        type:
+          type: string
+          example: create_account
+    Links:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
+    InnerTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+        max_fee:
+          type: string
+    tradePrice:
+      type: object
+      properties:
+        n:
+          type: string
+        d:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  memo:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      account:
+                        $ref: '#/components/schemas/link'
+                      ledger:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - account
+                    - ledger
+                    - operations
+                    - effects
+                    - precedes
+                    - succeeds
+                    - transaction
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  successful:
+                    type: boolean
+                  hash:
+                    type: string
+                  ledger:
+                    type: integer
+                    format: int32
+                  created_at:
+                    type: string
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  account_muxed:
+                    type: string
+                  account_muxed_id:
+                    type: string
+                  source_account_sequence:
+                    type: string
+                  fee_account:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed_id:
+                    type: string
+                  fee_charged:
+                    type: string
+                  max_fee:
+                    type: string
+                  operation_count:
+                    type: integer
+                    format: int32
+                  envelope_xdr:
+                    type: string
+                  result_xdr:
+                    type: string
+                  result_meta_xdr:
+                    type: string
+                  fee_meta_xdr:
+                    type: string
+                  memo_type:
+                    type: string
+                  signatures:
+                    $ref: '#/components/schemas/signatures'
+                  preconditions:
+                    $ref: '#/components/schemas/TransactionPreconditions'
+                  fee_bump_transaction:
+                    $ref: '#/components/schemas/FeeBumpTransaction'
+                  inner_transaction:
+                    $ref: '#/components/schemas/InnerTransaction'
+                required:
+                - id
+                - paging_token
+                - successful
+                - hash
+                - ledger
+                - created_at
+                - source_account
+                - source_account_sequence
+                - fee_account
+                - fee_charged
+                - max_fee
+                - operation_count
+                - envelope_xdr
+                - result_xdr
+                - result_meta_xdr
+                - memo_type
+                - signatures
+    hash:
+      type: string
+    signatures:
+      type: array
+      items:
+        type: string
+        pattern: G[A-Z0-9]{55}
+    FeeBumpTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+    LiquidityPool:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            transactions:
+              $ref: '#/components/schemas/link'
+            operations:
+              $ref: '#/components/schemas/link'
+          required:
+          - self
+          - operations
+          - transactions
+        id:
+          $ref: '#/components/schemas/id'
+        paging_token:
+          $ref: '#/components/schemas/paging_token'
+        fee_bp:
+          type: integer
+          format: uint32
+        type:
+          type: string
+        total_trustlines:
+          type: string
+        total_shares:
+          type: string
+        reserves:
+          type: object
+          properties:
+            asset:
+              type: string
+            amount:
+              type: string
+        last_modified_ledger:
+          type: string
+        last_modified_time:
+          type: string
+      required:
+      - id
+      - paging_token
+      - fee_bp
+      - type
+      - total_trustlines
+      - total_shares
+      - reserves
+      - last_modified_ledger
+      - last_modified_time
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    TransactionPreconditions:
+      type: object
+      properties:
+        timebounds:
+          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
+        ledgerbounds:
+          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
+        min_account_sequence:
+          type: string
+        min_account_sequence_age:
+          type: string
+        min_account_sequence_ledger_gap:
+          type: integer
+          format: uint32
+        extra_signers:
+          type: array
+          items:
+            type: string
+    Effect:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      operation:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    enum:
+                    - Account Created
+                    - Account Removed
+                    - Account Credited
+                    - Account Debited
+                    - Account Thresholds Updated
+                    - Account Home Domain Updated
+                    - Account Flags Updated
+                    - Account Inflation Destination Updated
+                    - Signer Created
+                    - Signer Removed
+                    - Signer Updated
+                    - Trustline Created
+                    - Trustline Removed
+                    - Trustline Updated
+                    - Trustline Authorized
+                    - Trustline Deauthorized
+                    - Offer Created
+                    - Offer Removed
+                    - Offer Updated
+                    - Trade
+                    - Data Created
+                    - Data Removed
+                    - Data Updated
+                    - Claimable Balance Created
+                    - Claimable Balance Claimant Created
+                    - Claimable Balance Claimed
+                    - Account Sponsorship Created
+                    - Account Sponsorship Updated
+                    - Account Sponsorship Removed
+                    - Trustline Sponsorship Created
+                    - Trustline Sponsorship Updated
+                    - Trustline Sponsorship Removed
+                    - Account Data Sponsorship Created
+                    - Account Data Sponsorship Updated
+                    - Account Data Sponsorship Removed
+                    - Claimable Balance Sponsorship Created
+                    - Claimable Balance Sponsorship Updated
+                    - Claimable Balance Sponsorship Removed
+                    - Account Signer Sponsorship Created
+                    - Account Signer Sponsorship Updated
+                    - Account Signer Sponsorship Removed
+                    - Liquidity Pool Created
+                    - Liquidity Pool Removed
+                    - Liquidity Pool Revoked
+                    - Liquidity Pool Deposited
+                    - Liquidity Pool Withdraw
+                    - Liquidity Pool Trade
+                    - Sequence Bumped
+                  type_i:
+                    type: number
+                    example: 1
+                  created_at:
+                    type: string
+          required:
+          - id
+          - paging_token
+          - account
+          - type
+          - type_i
+          - created_at
+    TransactionPreconditionsLedgerbounds:
+      type: object
+      properties:
+        min_ledger:
+          type: string
+        max_ledger:
+          type: string
+    TransactionPreconditionsTimebounds:
+      type: object
+      properties:
+        min_time:
+          type: string
+        max_time:
+          type: string
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
+  examples:
+    LPRetrieveRelatedTransactions:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=&limit=2&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=120192370561220608&limit=2&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=120192344791343104&limit=2&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908
+              account:
+                href: https://horizon-testnet.stellar.org/accounts/GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7
+              ledger:
+                href: https://horizon-testnet.stellar.org/ledgers/895788
+              operations:
+                href: https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908/operations
+                templated: true
+              effects:
+                href: https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908/effects
+                templated: true
+              precedes:
+                href: https://horizon-testnet.stellar.org/transactions?order=asc&cursor=3847380164161536
+              succeeds:
+                href: https://horizon-testnet.stellar.org/transactions?order=desc&cursor=3847380164161536
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908
+            id: 2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908
+            paging_token: '3847380164161536'
+            successful: true
+            hash: 2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908
+            ledger: 895788
+            created_at: '2021-08-09T20:53:11Z'
+            source_account: GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7
+            source_account_sequence: '3847371574214658'
+            fee_account: GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7
+            fee_charged: '10000'
+            max_fee: '10001'
+            operation_count: 1
+            envelope_xdr: AAAAAgAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAJxEADasqAAAAAgAAAAAAAAAAAAAAAQAAAAEAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAGAAAAAVNFQwAAAAAAm6XFaVsf8OSuS9C9gMplyTjagE9jAnnqwxSDJ6fin6IAsaK8LsUAAAAAAAAAAAAB9uVOlAAAAECXmRsoXmRiJjUrtbkDZYRnzac5s1CVV4g2RlIgBIuQty21npz3A1VhUcSmAx+GmsyGxVFvIrcdstTawJlmy9kF
+            result_xdr: AAAAAAAAJxAAAAAAAAAAAQAAAAAAAAAGAAAAAAAAAAA=
+            result_meta_xdr: AAAAAgAAAAIAAAADAA2rLAAAAAAAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAAGtJNDAANqyoAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAA2rLAAAAAAAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAAGtJNDAANqyoAAAACAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAwAAAAMADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAIAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAIAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAADassAAAAAQAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAFTRUMAAAAAAJulxWlbH/DkrkvQvYDKZck42oBPYwJ56sMUgyen4p+iAAAAAAAAAAAAsaK8LsUAAAAAAAEAAAAAAAAAAAAAAAA=
+            fee_meta_xdr: AAAAAgAAAAMADasrAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0nQcAA2rKgAAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==
+            memo_type: none
+            signatures:
+            - l5kbKF5kYiY1K7W5A2WEZ82nObNQlVeINkZSIASLkLcttZ6c9wNVYVHEpgMfhprMhsVRbyK3HbLU2sCZZsvZBQ==
+    LPRetrieveRelatedOperations:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=&limit=3&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=120192452165550081&limit=3&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=120192344791343105&limit=3&order=desc
+        _embedded:
+          records:
+          - id: '3697472920621057'
+            paging_token: '3697472920621057'
+            transaction_successful: true
+            source_account: GBB4JST32UWKOLGYYSCEYBHBCOFL2TGBHDVOMZP462ET4ZRD4ULA7S2L
+            type: liquidity_pool_withdraw
+            type_i: 23
+            created_at: '2021-11-18T03:47:47Z'
+            transaction_hash: 43ed5ce19190822ec080b67c3ccbab36a56bc34102b1a21d3ee690ed3bc23378
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            reserves_min:
+            - asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              min: '1000.0000005'
+            - asset: PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              min: '3000.0000005'
+            shares: '200'
+            reserves_received:
+            - asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '993.0000005'
+            - asset: PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '2478.0000005'
+          - id: '157639717969326081'
+            paging_token: '157639717969326081'
+            transaction_successful: true
+            source_account: GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG
+            type: change_trust
+            type_i: 6
+            created_at: '2021-08-04T20:01:24Z'
+            transaction_hash: 941f2fa2101d1265696a3c7d35e7688cd210324114e96b64a386ab55f65e488f
+            asset_type: liquidity_pool_shares
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            limit: '1000'
+            trustor: GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG
+    RetrieveALiquidityPool:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+          effects:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects{?cursor,limit,order}
+            templated: true
+          operations:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations{?cursor,limit,order}
+            templated: true
+          transactions:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/transactions{?cursor,limit,order}
+            templated: true
+        id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+        paging_token: '113725249324879873'
+        fee_bp: 30
+        type: constant_product
+        total_trustlines: '300'
+        total_shares: '5000'
+        reserves:
+        - amount: '1000.0000005'
+          asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+        - amount: '2000.0000000'
+          asset: PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+    RetrieveRelatedEffects:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=120192370561220608&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=120192344791343104&order=desc
+        _embedded:
+          records:
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/3849085266190337
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=3849085266190337-1
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=3849085266190337-1
+            id: 0000000012884905986-0000000001
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_deposited
+            type_i: 81
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool:
+              id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+              fee_bp: 30
+              type: constant_product
+              total_trustlines: '300'
+              total_shares: '5000'
+              reserves:
+              - amount: '1000.0000005'
+                asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              - amount: '2000.0000000'
+                asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+            reserves_deposited:
+            - asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '2378.0000005'
+            - asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+              amount: '983.0000005'
+            shares_received: '1000'
+          - id: 0000000012884905986-0000000002
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_withdrew
+            type_i: 82
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool:
+              id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+              fee_bp: 30
+              type: constant_product
+              total_trustlines: '299'
+              total_shares: '4000'
+              reserves:
+              - amount: '7.0000005'
+                asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              - amount: '1.0000000'
+                asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+            reserves_received:
+            - asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '2478.0000005'
+            - asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+              amount: '993.0000005'
+            shares_redeemed: '1000'
+          - id: 0000000012884905986-0000000003
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_trade
+            type_i: 83
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool:
+              id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+              fee_bp: 30
+              type: constant_product
+              total_trustlines: '300'
+              total_shares: '5000'
+              reserves:
+              - amount: '1000.0000005'
+                asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              - amount: '2000.0000000'
+                asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+            sold:
+              asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+              amount: '983.0000005'
+            bought:
+              asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '2378.0000005'
+          - id: 0000000012884905986-0000000004
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_created
+            type_i: 84
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool:
+              id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+              fee_bp: 30
+              type: constant_product
+              total_trustlines: '1'
+              total_shares: '0'
+              reserves:
+              - amount: '0'
+                asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              - amount: '0'
+                asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+          - id: 0000000012884905986-0000000005
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_removed
+            type_i: 85
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+          - id: 0000000012884905986-0000000006
+            paging_token: 12884905986-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: liquidity_pool_revoked
+            type_i: 86
+            created_at: '2021-11-18T03:15:54Z'
+            liquidity_pool:
+              id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+              fee_bp: 30
+              type: constant_product
+              total_trustlines: '299'
+              total_shares: '4000'
+              reserves:
+              - amount: '7.0000005'
+                asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              - amount: '1.0000000'
+                asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+            reserves_revoked:
+            - asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+              amount: '2478.0000005'
+              claimable_balance_id: idcbd1234
+            - asset: PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP
+              amount: '993.0000005'
+              claimable_balance_id: cbid1235
+            shares_revoked: '1000'
+          - id: 0000000012884905986-0000000007
+            paging_token: 157639717969326081-1
+            account: GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG
+            type: trustline_created
+            type_i: 20
+            created_at: '2021-08-04T20:01:24Z'
+            asset_type: liquidity_pool_shares
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            limit: '1000'
+          - id: 0000000012884905986-0000000008
+            paging_token: 157639717969326081-1
+            account: GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG
+            type: trustline_updated
+            type_i: 22
+            created_at: '2021-08-04T20:01:24Z'
+            asset_type: liquidity_pool_shares
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            limit: '2000'
+          - id: 0000000012884905986-0000000009
+            paging_token: 157639717969326081-1
+            account: GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG
+            type: trustline_removed
+            type_i: 21
+            created_at: '2021-08-04T20:01:24Z'
+            asset_type: liquidity_pool_shares
+            liquidity_pool_id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            limit: '0.0000000'
+    RetrieveRelatedTrades:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=&limit=2&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=120192370561220608&limit=2&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=120192344791343104&limit=2&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: ''
+              base:
+                href: https://horizon-testnet.stellar.org/accounts/GAVH5JM5OKXGMQDS7YPRJ4MQCPXJUGH26LYQPQJ4SOMOJ4SXY472ZM7G
+              counter:
+                href: https://horizon-testnet.stellar.org/accounts/GBB4JST32UWKOLGYYSCEYBHBCOFL2TGBHDVOMZP462ET4ZRD4ULA7S2L
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/3697472920621057
+            id: 3697472920621057-0
+            paging_token: 3697472920621057-0
+            ledger_close_time: '2015-11-18T03:47:47Z'
+            offer_id: '9'
+            base_offer_id: '9'
+            base_account: GAVH5JM5OKXGMQDS7YPRJ4MQCPXJUGH26LYQPQJ4SOMOJ4SXY472ZM7G
+            base_amount: '10.0000000'
+            base_asset_type: native
+            counter_liquidity_pool: 3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4
+            liquidity_pool_fee_bp: '30'
+            counter_amount: '2.6700000'
+            counter_asset_type: credit_alphanum4
+            counter_asset_code: JPY
+            counter_asset_issuer: GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM
+            base_is_seller: true
+            price:
+              n: '267'
+              d: '1000'
+            trade_type: liquidity_pool
+    ListLiquidityPools:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/liquidity_pools?cursor=&limit=10&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/liquidity_pools?cursor=66835-00000000c582697b67cbec7f9ce64f4dc67bfb2bfd26318bb9f964f4d70e3f41f650b1e6&limit=10&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/liquidity_pools?cursor=38888-00000000929b20b72e5890ab51c24f1cc46fa01c4f318d8d33367d24dd614cfdf5491072&limit=10&order=desc
+        _embedded:
+          records:
+          - id: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9
+            paging_token: '113725249324879873'
+            fee_bp: 30
+            type: constant_product
+            total_trustlines: '300'
+            total_shares: '5000'
+            reserves:
+            - amount: '1000.0000005'
+              asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+            - amount: '2000.0000000'
+              asset: PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+          - id: 14be5a5b3d3f5e1e74380ab0a3bf9c172b7246fdf7753b172cbacd4d66143c08
+            paging_token: '113725249324879874'
+            fee_bp: 30
+            type: constant_product
+            total_trustlines: '200'
+            total_shares: '3500'
+            reserves:
+            - amount: '1000.0000005'
+              asset: EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S
+            - amount: '1200.0000000'
+              asset: USDC:GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC
+  parameters:
+    ReserveParam:
+      name: reserves
+      in: query
+      required: false
+      description: Comma-separated list of assets in canonical form (Code:IssuerAccountID), to only include liquidity pools which have reserves matching all listed assets.
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    JoinParam:
+      name: join
+      in: query
+      required: false
+      description: Set to transactions to include the transactions which created each of the operations in the response.
+    LiquidityPoolParamId:
+      name: liquidity_pool_id
+      in: path
+      required: true
+      description: A unique identifier for this liquidity pool.
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+    AccountParam:
+      name: account
+      in: query
+      required: false
+      description: A Stellar account ID, to only include liquidity pools in which this account is participating in (i.e. holds pool shares to).
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    IncludeFailedParam:
+      name: include_failed
+      in: query
+      required: false
+      description: Set to true to include failed operations in results. Options include true and false.
+      schema:
+        type: boolean
+        enum:
+        - true
+        - false

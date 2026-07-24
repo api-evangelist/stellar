@@ -1,0 +1,297 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Trade Aggregations API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Trade Aggregations
+  description: A trade aggregation represents aggregated statistics on an asset pair (base and counter) for a specific time period. Trade aggregations are useful to developers of trading clients and provide historical trade data.
+paths:
+  /trade_aggregations:
+    get:
+      tags:
+      - Trade Aggregations
+      summary: List Trade Aggregations
+      description: 'This endpoint displays trade data based on filters set in the arguments.
+
+
+        This is done by dividing a given time range into segments and aggregating statistics, for a given asset pair (base, counter) over each of these segments.
+
+
+        The duration of the segments is specified with the `resolution` parameter. The start and end of the time range are given by `startTime` and `endTime` respectively, which are both rounded to the nearest multiple of `resolution` since epoch.
+
+
+        The individual segments are also aligned with multiples of `resolution` since epoch. If you want to change this alignment, the segments can be `offset` by specifying the offset parameter.
+
+        '
+      operationId: ListTradeAggregations
+      parameters:
+      - $ref: '#/components/parameters/StartTimeParam'
+      - $ref: '#/components/parameters/EndTimeParam'
+      - $ref: '#/components/parameters/ResolutionParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/BaseAssetTypeRequiredParam'
+      - $ref: '#/components/parameters/BaseAssetIssuerParam'
+      - $ref: '#/components/parameters/BaseAssetCodeParam'
+      - $ref: '#/components/parameters/CounterAssetTypeRequiredParam'
+      - $ref: '#/components/parameters/CounterAssetIssuerParam'
+      - $ref: '#/components/parameters/CounterAssetCodeParam'
+      - $ref: '#/components/parameters/OrderParam'
+      - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeAggregation'
+              examples:
+                ListTradeAggregations:
+                  $ref: '#/components/examples/ListTradeAggregations'
+      x-codeSamples:
+      - lang: Shell
+        source: 'curl https://horizon.stellar.org/trade_aggregations?\
+
+          base_asset_type=native&\
+
+          counter_asset_code=EURT&\
+
+          counter_asset_issuer=GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S&\
+
+          counter_asset_type=credit_alphanum4&\
+
+          resolution=3600000&\
+
+          start_time=1582156800000&\
+
+          end_time=1582178400000
+
+          '
+      - lang: JavaScript
+        label: '@stellar/stellar-sdk'
+        source: "var StellarSdk = require(\"@stellar/stellar-sdk\");\nvar server = new StellarSdk.Horizon.Server(\n  \"https://horizon-testnet.stellar.org\",\n);\n\nvar base = new StellarSdk.Asset.native();\nvar counter = new StellarSdk.Asset(\n  \"EURT\",\n  \"GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n);\nvar startTime = 1582156800000;\nvar endTime = 1582178400000;\nvar resolution = 3600000;\nvar offset = 0;\n\nserver\n  .tradeAggregation(base, counter, startTime, endTime, resolution, offset)\n  .call()\n  .then(function (resp) {\n    console.log(resp);\n  })\n  .catch(function (err) {\n    console.error(err);\n  });\n"
+components:
+  examples:
+    ListTradeAggregations:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/trade_aggregations?base_asset_type=native&counter_asset_code=EURT&counter_asset_issuer=GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S&counter_asset_type=credit_alphanum4&resolution=3600000&start_time=1582156800000&end_time=1582178400001
+          next:
+            href: https://horizon-testnet.stellar.org/trade_aggregations?base_asset_type=native&counter_asset_code=EURT&counter_asset_issuer=GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S&counter_asset_type=credit_alphanum4&end_time=1582178400001&resolution=3600000&start_time=1582171200000
+          prev:
+            href: ''
+        _embedded:
+          records:
+          - timestamp: 1582164000000
+            trade_count: 3
+            base_volume: '399.3873200'
+            counter_volume: '25.5368082'
+            avg: '0.0639400'
+            high: '0.0652169'
+            high_r:
+              N: 652169
+              D: 10000000
+            low: '0.0638338'
+            low_r:
+              N: 8107550
+              D: 127010393
+            open: '0.0652169'
+            open_r:
+              N: 652169
+              D: 10000000
+            close: '0.0638338'
+            close_r:
+              N: 8107550
+              D: 127010393
+          - timestamp: 1582167600000
+            trade_count: 1
+            base_volume: '149.8415320'
+            counter_volume: '9.7149804'
+            avg: '0.0648350'
+            high: '0.0648350'
+            high_r:
+              N: 5000000
+              D: 77118803
+            low: '0.0648350'
+            low_r:
+              N: 5000000
+              D: 77118803
+            open: '0.0648350'
+            open_r:
+              N: 5000000
+              D: 77118803
+            close: '0.0648350'
+            close_r:
+              N: 5000000
+              D: 77118803
+  parameters:
+    CounterAssetCodeParam:
+      name: counter_asset_code
+      in: query
+      required: false
+      description: The code for the counter asset. Required if the `counter_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    ResolutionParam:
+      name: resolution
+      in: query
+      required: false
+      description: The segment duration represented as milliseconds. Supported values are 1 minute (60000), 5 minutes (300000), 15 minutes (900000), 1 hour (3600000), 1 day (86400000) and 1 week (604800000).
+      schema:
+        type: integer
+        format: long
+        oneOf:
+        - const: 60000
+          description: 1 minute
+        - const: 300000
+          description: 5 minutes
+        - const: 900000
+          description: 15 minutes
+        - const: 3600000
+          description: 1 hour
+        - const: 86400000
+          description: 1 day
+        - const: 604800000
+          description: 1 week
+    OffsetParam:
+      name: offset
+      in: query
+      required: false
+      description: Segments can be offset using this parameter. Expressed in milliseconds. Can only be used if the resolution is greater than 1 hour. Value must be in whole hours, less than the provided resolution, and less than 24 hours.
+      schema:
+        type: number
+        format: long
+    StartTimeParam:
+      name: start_time
+      in: query
+      required: false
+      description: The lower time boundary represented as milliseconds since epoch.
+      schema:
+        type: integer
+        format: long
+    CounterAssetIssuerParam:
+      name: counter_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    CounterAssetTypeRequiredParam:
+      name: counter_asset_type
+      in: query
+      required: true
+      description: The type for the counter asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    BaseAssetIssuerParam:
+      name: base_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    BaseAssetTypeRequiredParam:
+      name: base_asset_type
+      in: query
+      required: true
+      description: The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
+    BaseAssetCodeParam:
+      name: base_asset_code
+      in: query
+      required: false
+      description: The code for the base asset. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    EndTimeParam:
+      name: end_time
+      in: query
+      required: false
+      description: The upper time boundary represented as milliseconds since epoch.
+      schema:
+        type: integer
+        format: long
+  schemas:
+    tradePrice:
+      type: object
+      properties:
+        n:
+          type: string
+        d:
+          type: string
+    TradeAggregation:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                  trade_count:
+                    type: string
+                  base_volume:
+                    type: string
+                  counter_volume:
+                    type: string
+                  avg:
+                    type: string
+                  high:
+                    type: string
+                  high_r:
+                    $ref: '#/components/schemas/tradePrice'
+                  low:
+                    type: string
+                  low_r:
+                    $ref: '#/components/schemas/tradePrice'
+                  open:
+                    type: string
+                  open_r:
+                    $ref: '#/components/schemas/tradePrice'
+                  close:
+                    type: string
+                  close_r:
+                    $ref: '#/components/schemas/tradePrice'

@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  version: 3.0.0
+  title: Platform Server Accounts Balances API
+  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+
+    '
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: https://platform-server.exampleanchor.com
+tags:
+- name: Balances
+  description: Endpoints related to balances. A balance is an amount of a particular asset held by an organization, tenant, or account.
+paths:
+  /balances:
+    get:
+      tags:
+      - Balances
+      summary: Get Organization (Circle) Balances
+      description: ATTENTION, this endpoint is only enabled when the tenant distribution account type is `CIRCLE`.
+      operationId: GetOrganization(Circle)Balances
+      responses:
+        '200':
+          description: Returns the organization's Circle balances
+          content:
+            application/json:
+              schema:
+                required:
+                - account
+                - balances
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/DistributionAccount'
+                  balances:
+                    type: array
+                    description: The organization's Circle balances
+                    items:
+                      $ref: '#/components/schemas/Balance'
+        '400':
+          description: Bad request, not supported when the distribution account is not of the CIRCLE type.
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  extras:
+                    type: object
+                    properties:
+                      status:
+                        type: number
+                      message:
+                        type: string
+                example:
+                  error: Not authorized
+                  extras:
+                    status: 401
+                    message: Not authorized
+              example:
+                error: Not authorized
+                extras:
+                  status: 401
+                  message: Not authorized
+      security:
+      - BearerAuth: []
+components:
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+  schemas:
+    Balance:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          description: The asset code of the balance in the Stellar network.
+          example: USDC
+        asset_issuer:
+          type: string
+          description: The asset issuer of the balance in the Stellar network.
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        amount:
+          type: string
+          description: The amount of the balance.
+          example: '100.00'
+      description: The balances of the organization's distribution account. Currently, this is only used for the Circle distribution accounts.
+    DistributionAccount:
+      required:
+      - status
+      - type
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the distribution account, present when the account type is `STELLAR`.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        circle_wallet_id:
+          type: string
+          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
+          example: '1000646072'
+        type:
+          type: string
+          description: The type of the distribution account.
+          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          enum:
+          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+        status:
+          type: string
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - PENDING_USER_ACTIVATION
