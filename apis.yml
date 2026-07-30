@@ -11,7 +11,20 @@ tags:
   - Web3
 type: Index
 kind: company
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: open
+  trial: false
+  try_now: true
+  public: true
+  label: Freemium · Open access
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stellar.png
 access: 3rd-Party
 created: '2026-06-14'
 modified: '2026-06-14'
@@ -26,150 +39,1174 @@ description: >-
   Soroban smart contracts, and anchor integrations for fiat on/off-ramps. Authentication is not required
   for read queries; transaction submission requires signing with a Stellar keypair.
 apis:
-  - aid: stellar:horizon-api
-    name: Stellar Horizon API
-    tags:
-      - Accounts
-      - Assets
-      - Blockchain
-      - Claimable Balances
-      - DEX
-      - Effects
-      - Ledger
-      - Liquidity Pools
-      - Offers
-      - Operations
-      - Payments
-      - Trades
-      - Transactions
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://horizon.stellar.org
-    humanURL: https://developers.stellar.org/docs/data/apis/horizon
-    properties:
-      - url: https://developers.stellar.org/docs/data/apis/horizon
-        type: Documentation
-      - url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
-        type: APIReference
-      - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
-        type: SDKs
-      - url: https://github.com/stellar/go/tree/master/services/horizon
-        type: GitHubRepository
-      - url: openapi/stellar-horizon-api.yml
-        type: OpenAPI
-      - url: rate-limits/stellar-rate-limits.yml
-        type: RateLimits
-      - url: plans/stellar-plans-pricing.yml
-        type: Plans
-      - url: finops/stellar-finops.yml
-        type: FinOps
-    description: >-
-      The Stellar Horizon API is an HTTP REST interface to the Stellar network, providing developer-friendly
-      access to the full ledger data set. It exposes endpoints for querying accounts, transactions,
-      operations, effects, ledgers, offers, trades, claimable balances, liquidity pools, assets, and
-      order books. Horizon also supports submitting new transactions to the network and finding payment
-      paths between assets. The public SDF-hosted instance is available at https://horizon.stellar.org
-      for mainnet and https://horizon-testnet.stellar.org for testnet. No API key is required for
-      read-only queries; transaction submission requires a signed XDR envelope.
-    x-features:
-      - No authentication required for read-only queries
-      - Cursor-based pagination with configurable limit and order
-      - SSE (Server-Sent Events) streaming for real-time ledger data
-      - Transaction submission via POST /transactions
-      - Built-in DEX order book and trade history
-      - Path payment route discovery via /paths endpoints
-      - Testnet and mainnet instances hosted by SDF
-    x-use-cases:
-      - Query account balances, trustlines, and data entries
-      - Retrieve full transaction and operation history for an account
-      - Stream real-time effects and payment events via SSE
-      - Submit signed transactions to the Stellar network
-      - Access DEX order books, active offers, and trade history
-      - Discover optimal payment paths between Stellar assets
-      - Monitor claimable balances and liquidity pool reserves
-  - aid: stellar:stellar-rpc-api
-    name: Stellar RPC API
-    tags:
-      - Blockchain
-      - Smart Contracts
-      - Soroban
-      - RPC
-      - Web3
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://soroban-testnet.stellar.org
-    humanURL: https://developers.stellar.org/docs/data/rpc
-    properties:
-      - url: https://developers.stellar.org/docs/data/rpc
-        type: Documentation
-      - url: https://developers.stellar.org/docs/data/rpc/api-reference
-        type: APIReference
-      - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
-        type: SDKs
-    description: >-
-      The Stellar RPC API (formerly Soroban RPC) is a JSON-RPC interface for interacting with Soroban
-      smart contracts deployed on the Stellar network. It supports simulating and submitting contract
-      invocations, reading contract state and ledger entries, and streaming network events. The RPC
-      service is the primary interface for Soroban contract developers and complements Horizon by
-      exposing contract-specific data not available through the Horizon REST API.
-    x-features:
-      - JSON-RPC 2.0 interface for smart contract interaction
-      - Simulate contract invocations before submission
-      - Read arbitrary ledger entries including contract state
-      - Stream network events filtered by contract ID or topic
-      - Submit signed Soroban transactions to the network
-    x-use-cases:
-      - Deploy and invoke Soroban smart contracts
-      - Simulate contract calls to estimate fees before submission
-      - Read on-chain contract state for dApp frontends
-      - Subscribe to smart contract event streams
-  - aid: stellar:anchor-platform-api
-    name: Stellar Anchor Platform API
-    tags:
-      - Anchor
-      - Finance
-      - SEP
-      - Cross-Border Payments
-      - Interoperability
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://platform-server.exampleanchor.com
-    humanURL: https://developers.stellar.org/platforms/anchor-platform
-    properties:
-      - url: https://developers.stellar.org/platforms/anchor-platform
-        type: Documentation
-      - url: openapi/stellar-anchor-platform-api.yml
-        type: OpenAPI
-      - url: openapi/stellar-anchor-platform-callbacks-api.yml
-        type: OpenAPI
-      - url: https://github.com/stellar/anchor-platform
-        type: GitHubRepository
-    description: >-
-      The Stellar Anchor Platform is an open-source toolkit that simplifies building SEP-compliant
-      anchor services on the Stellar network. The Platform API is an internal interface used by anchor
-      backends to retrieve and update transaction state for SEP-6, SEP-24, and SEP-31 payment flows.
-      The Callbacks API defines synchronous callbacks that the platform makes to the anchor's backend
-      during transaction processing.
-  - aid: stellar:disbursement-platform-api
-    name: Stellar Disbursement Platform API
-    tags:
-      - Disbursements
-      - Bulk Payments
-      - Finance
-      - Organization
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://sdp.example.org
-    humanURL: https://developers.stellar.org/platforms/stellar-disbursement-platform
-    properties:
-      - url: https://developers.stellar.org/platforms/stellar-disbursement-platform
-        type: Documentation
-      - url: openapi/stellar-disbursement-platform-api.yml
-        type: OpenAPI
-      - url: https://github.com/stellar/stellar-disbursement-platform-backend
-        type: GitHubRepository
-    description: >-
-      The Stellar Disbursement Platform (SDP) is an open-source tool built for organizations to make
-      bulk payments to a group of recipients over the Stellar network. The REST API supports tenant
-      management, disbursement campaigns, recipient registration, wallet management, and payment
-      monitoring. The SDP supports multi-tenant deployments and integrates with SEP-24 for wallet
-      onboarding.
+- aid: stellar:stellar-rpc-api
+  name: Stellar RPC API
+  tags:
+  - Blockchain
+  - Smart Contracts
+  - Soroban
+  - RPC
+  - Web3
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  baseURL: https://soroban-testnet.stellar.org
+  humanURL: https://developers.stellar.org/docs/data/rpc
+  properties:
+  - url: https://developers.stellar.org/docs/data/rpc
+    type: Documentation
+  - url: https://developers.stellar.org/docs/data/rpc/api-reference
+    type: APIReference
+  - url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+    type: SDKs
+  description: >-
+    The Stellar RPC API (formerly Soroban RPC) is a JSON-RPC interface for interacting with Soroban smart
+    contracts deployed on the Stellar network. It supports simulating and submitting contract invocations,
+    reading contract state and ledger entries, and streaming network events. The RPC service is the primary
+    interface for Soroban contract developers and complements Horizon by exposing contract-specific data
+    not available through the Horizon REST API.
+  x-features:
+  - JSON-RPC 2.0 interface for smart contract interaction
+  - Simulate contract invocations before submission
+  - Read arbitrary ledger entries including contract state
+  - Stream network events filtered by contract ID or topic
+  - Submit signed Soroban transactions to the network
+  x-use-cases:
+  - Deploy and invoke Soroban smart contracts
+  - Simulate contract calls to estimate fees before submission
+  - Read on-chain contract state for dApp frontends
+  - Subscribe to smart contract event streams
+- aid: stellar:stellar-accounts-api
+  name: Stellar Accounts API
+  description: >-
+    Users interact with the Stellar network through accounts. Everything else in the ledger—assets, offers,
+    trustlines, etc. are owned by accounts, and accounts must authorize all changes to the ledger through
+    signed transactions.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-admin-api
+  name: Stellar Admin API
+  description: >-
+    The Admin API oversees the management of tenants within the system, facilitating tasks such as provisioning
+    new tenants, updating their information, and retrieving tenant data.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Admin
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-admin-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-api-keys-api
+  name: Stellar API Keys API
+  description: >-
+    API Keys functionality allows to create access key with granular permissions and resource management.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-assets-api
+  name: Stellar Assets API
+  description: >-
+    Assets are representations of value issued on the Stellar network. An asset consists of a type, code,
+    and issuer.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-assets-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-authentication-api
+  name: Stellar Authentication API
+  description: >-
+    Authentication controls the log in/log out process for all SDP users, as well as the token refresh
+    process. Authentication uses a JWT approach signed with an ES256 private key.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-balances-api
+  name: Stellar Balances API
+  description: >-
+    Endpoints related to balances. A balance is an amount of a particular asset held by an organization,
+    tenant, or account.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Balances
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-balances-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-bridge-integration-api
+  name: Stellar Bridge Integration API
+  description: >-
+    Bridge integration endpoints for connecting organizations with Bridge services.
+
+
+    **Integration Flow:**
+
+    1. Organization opts into Bridge (OPTED_IN status)
+
+    2. Complete KYC verification process via Bridge
+
+    3. Create virtual account for USD deposits (READY_FOR_DEPOSIT status)
+
+    4. Receive USD deposits that are automatically converted to USDC on Stellar
+
+
+    **Status Description:**
+
+    - NOT_ENABLED → Bridge service not configured
+
+    - NOT_OPTED_IN → Organization hasn't opted in
+
+    - OPTED_IN → Organization opted in, KYC link created
+
+    - READY_FOR_DEPOSIT → Virtual account created, ready for deposits
+
+    - ERROR → Integration error occurred
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Bridge Integration
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-bridge-integration-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-claimable-balances-api
+  name: Stellar Claimable Balances API
+  description: >-
+    A Claimable Balance represents the transfer of ownership of some amount of an asset. Claimable balances
+    provide a mechanism for setting up a payment which can be claimed in the future. This allows you to
+    make payments to accounts which are currently not able to accept them.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Claimable Balances
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-claimable-balances-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-customers-api
+  name: Stellar Customers API
+  description: >-
+    [SEP-12](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md) requests made
+    from client
+
+    applications.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Customers
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-customers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-disbursements-api
+  name: Stellar Disbursements API
+  description: >-
+    Endpoints related to disbursements. A disbursement is a group of payments sent to multiple individuals
+    at once. An SDP user with the appropriate role triggers a new disbursement through the SDP dashboard
+    by uploading a list of receivers and amounts. When the receiver has linked their wallet to the SDP,
+    the payment automatically begins. SDP users can track their disbursements in real-time through the
+    SDP dashboard. Each disbursement must have a unique name defined by the organization.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Disbursements
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-disbursements-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-effects-api
+  name: Stellar Effects API
+  description: >-
+    Effects represent specific changes that occur in the ledger as a result of successful operations,
+    but are not necessarily directly reflected in the ledger or history, as transactions and operations
+    are.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Effects
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-effects-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-events-api
+  name: Stellar Events API
+  description: The Events API from Stellar — 1 operation(s) for events.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-events-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-exports-api
+  name: Stellar Exports API
+  description: The Exports API from Stellar — 3 operation(s) for exports.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-exports-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-fee-stats-api
+  name: Stellar Fee Stats API
+  description: >-
+    Fee stats are used to predict what fee to set for a transaction before submitting it to the network.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Fee Stats
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-fee-stats-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-ledgers-api
+  name: Stellar Ledgers API
+  description: >-
+    Each ledger stores the state of the network at a point in time and contains all the changes - transactions,
+    operations, effects, etc. - to that state.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Ledgers
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-ledgers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-liquidity-pools-api
+  name: Stellar Liquidity Pools API
+  description: >-
+    Liquidity Pools provide a simple, non-interactive way to trade large amounts of capital and enable
+    high volumes of trading.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Liquidity Pools
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-liquidity-pools-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-offers-api
+  name: Stellar Offers API
+  description: Offers are statements about how much of an asset an account wants to buy or sell.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Offers
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-offers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-operations-api
+  name: Stellar Operations API
+  description: >-
+    Operations are objects that represent a desired change to the ledger: payments, offers to exchange
+    currency, changes made to account options, etc. Operations are submitted to the Stellar network grouped
+    in a Transaction.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-operations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-order-books-api
+  name: Stellar Order Books API
+  description: An order book is a collections of offers for a specific pair of assets.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Order Books
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-order-books-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-organization-api
+  name: Stellar Organization API
+  description: >-
+    Organization endpoints manage the process of getting and updating organizational profile information.
+    The organization's profile has basic information set at the time of SDP deployment. It can be modified
+    by the Owner. Organizations can also manage their preferences, like which assets to use, through these
+    endpoints.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-organization-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-paths-api
+  name: Stellar Paths API
+  description: >-
+    Paths provide information about potential path payments. A path can be used to populate the necessary
+    fields for a path payment operation.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Paths
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-paths-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-payments-api
+  name: Stellar Payments API
+  description: >-
+    Endpoints related to payments. An SDP payment is an individual payment from an organization to a receiver.
+    Each payment is part of a disbursement and occurs on the Stellar network. Granular payment status
+    is stored in the SDP database and can be viewed in real-time on the SDP dashboard.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-payments-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-profile-api
+  name: Stellar Profile API
+  description: >-
+    Profiles endpoints manage the process of getting and updating individual profile information. Profile
+    information is set when the account is created and can be updated by the user on the SDP dashboard
+    Profile page. Note: profiles never refer to receivers of funds.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-profile-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-rates-api
+  name: Stellar Rates API
+  description: >-
+    Requests containing data that can be used to provide exchange rates between on & off-chain assets.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Rates
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-rates-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-receivers-api
+  name: Stellar Receivers API
+  description: >-
+    Endpoints related to receivers. A receiver is an individual receiving a payment in a disbursement.
+    The receiver is tracked by phone number to reduce the need for personally identifiable information.
+    Each receiver must be unique within the disbursement.
+
+
+    Each receiver will have at least one wallet associated with them. The wallet public key will remain
+    null until the receiver registers with a wallet provider and links the wallet to the SDP through SEP-24.
+    Receivers must verify their identity through that process, which requires the SDP to store verification
+    information on receivers like date of birth, national ID number, or personal PIN. This information
+    can be updated by the organization through the receiver endpoints.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Receivers
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-receivers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-registration-api
+  name: Stellar Registration API
+  description: >-
+    The registration endpoints guide the process for a receiver to verify their identity and link their
+    wallet address to an SDP. The registration process only needs to happen once per receiver to link
+    their wallet. Only SDP-compatible wallet providers can facilitate the registration process. These
+    endpoints must be supported and hit by the wallet providers after the receiver gets the initial invite.
+    After the wallet address is successfully linked, the payment automatically begins.
+
+
+    There are two parts to the registration flow. First, the wallet must authenticate and initiate a registration
+    flow using the Anchor Platform Endpoints defined below. Note that these endpoints are hosted on a
+    different host than the Stellar Disursement Platform.
+
+
+    The second part of the registration flow is handled by the webview that is opened within the wallet
+    application. This webview uses the endpoints defined in the Stellar Disbursement Platfrom Endpoints
+    section to complete the registration process. The wallet application can chose not to use the webview
+    and intstead integrate directly with the API.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Registration
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-registration-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-statistics-api
+  name: Stellar Statistics API
+  description: >-
+    Statistics endpoints return general aggregated data per organization, as well as disbursement-specific
+    metrics. SDP users can use this data to monitor their disbursements over time.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-statistics-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-trade-aggregations-api
+  name: Stellar Trade Aggregations API
+  description: >-
+    A trade aggregation represents aggregated statistics on an asset pair (base and counter) for a specific
+    time period. Trade aggregations are useful to developers of trading clients and provide historical
+    trade data.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Trade Aggregations
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-trade-aggregations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-trades-api
+  name: Stellar Trades API
+  description: >-
+    When an offer is fully or partially fulfilled, a trade happens. Trades can also be caused by successful
+    path payments, because path payments involve fulfilling offers. A trade occurs between two parties—base
+    and counter. Which is which is either arbitrary or determined by the calling query.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Trades
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-trades-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-transactions-api
+  name: Stellar Transactions API
+  description: Transactions initiated by client applications via SEP APIs
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-users-api
+  name: Stellar Users API
+  description: >-
+    The users endpoints facilitate the creation of new SDP users - including setting the appropriate role,
+    sending an email invitation, and activating a user - and managing roles.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-users-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
+- aid: stellar:stellar-wallets-api
+  name: Stellar Wallets API
+  description: The Wallets API from Stellar — 2 operation(s) for wallets.
+  humanURL: https://developers.stellar.org/docs/data/apis/horizon
+  baseURL: https://horizon.stellar.org
+  tags:
+  - Wallets
+  properties:
+  - type: OpenAPI
+    url: openapi/stellar-wallets-api-openapi.yml
+  - type: Documentation
+    url: https://developers.stellar.org/docs/data/apis/horizon
+  - type: APIReference
+    url: https://developers.stellar.org/docs/data/apis/horizon/api-reference
+  - type: SDKs
+    url: https://developers.stellar.org/docs/tools/sdks/client-sdks
+  - type: GitHubRepository
+    url: https://github.com/stellar/go/tree/master/services/horizon
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/anchor-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/anchor-platform
+  - type: Documentation
+    url: https://developers.stellar.org/platforms/stellar-disbursement-platform
+  - type: GitHubRepository
+    url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
   - type: AgenticAccess
     url: agentic-access/stellar-agentic-access.yml
