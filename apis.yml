@@ -1208,6 +1208,9 @@ apis:
   - type: GitHubRepository
     url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/stellar/go/blob/master/LICENSE
   - type: AgenticAccess
     url: agentic-access/stellar-agentic-access.yml
   - type: DomainSecurity
