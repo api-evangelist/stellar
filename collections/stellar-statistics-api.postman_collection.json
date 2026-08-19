@@ -1,0 +1,311 @@
+{
+  "item": [
+    {
+      "id": "ae89fc42-9506-422a-bfbf-0ba46111075d",
+      "name": "Statistics",
+      "description": {
+        "content": "Statistics endpoints return general aggregated data per organization, as well as disbursement-specific metrics. SDP users can use this data to monitor their disbursements over time.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8f5d77f8-2f24-40fe-8ed9-deb3bdd82778",
+          "name": "Retrieve All Statistics",
+          "request": {
+            "name": "Retrieve All Statistics",
+            "description": {
+              "content": "Fetches all metrics on all disbursements the organization has created. The response includes basic aggregations on payments, receivers, receiver wallets, and assets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "statistics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "4c994777-4260-4730-902c-4233a4b613df",
+              "name": "General Statistics response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_disbursements\": 20,\n  \"payment_counters\": {\n    \"draft\": 1,\n    \"ready\": 2,\n    \"pending\": 3,\n    \"paused\": 1,\n    \"success\": 5,\n    \"failed\": 1,\n    \"total\": 14\n  },\n  \"payment_amounts_by_asset\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"payment_amounts\": {\n        \"draft\": \"100.00\",\n        \"ready\": \"200.00\",\n        \"pending\": \"300.00\",\n        \"paused\": \"100.00\",\n        \"success\": \"500.00\",\n        \"failed\": \"100.00\",\n        \"average\": \"100.00\",\n        \"total\": \"1400.00\"\n      }\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"payment_amounts\": {\n        \"draft\": \"100.00\",\n        \"ready\": \"200.00\",\n        \"pending\": \"300.00\",\n        \"paused\": \"100.00\",\n        \"success\": \"500.00\",\n        \"failed\": \"100.00\",\n        \"average\": \"100.00\",\n        \"total\": \"1400.00\"\n      }\n    }\n  ],\n  \"receiver_wallets_counters\": {\n    \"draft\": 1,\n    \"ready\": 1,\n    \"registered\": 1,\n    \"flagged\": 1,\n    \"total\": 4\n  },\n  \"total_receivers\": 1000\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2bfc04fa-caa9-4437-a9e7-276be2f51678",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2cc6fa79-fb3b-4ca0-801c-13292834aa44",
+          "name": "Retrieve Disbursement Statistics",
+          "request": {
+            "name": "Retrieve Disbursement Statistics",
+            "description": {
+              "content": "Fetches metrics on a specific disbursement by  `id `.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "statistics",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Disbursement`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "d530feaf-ad65-4476-9c8c-53b14eae25c8",
+              "name": "Returns statistics for disbursement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"payment_counters\": {\n    \"draft\": 1,\n    \"ready\": 2,\n    \"pending\": 3,\n    \"paused\": 1,\n    \"success\": 5,\n    \"failed\": 1,\n    \"total\": 14\n  },\n  \"payment_amounts_by_asset\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"payment_amounts\": {\n        \"draft\": \"100.00\",\n        \"ready\": \"200.00\",\n        \"pending\": \"300.00\",\n        \"paused\": \"100.00\",\n        \"success\": \"500.00\",\n        \"failed\": \"100.00\",\n        \"average\": \"100.00\",\n        \"total\": \"1400.00\"\n      }\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"payment_amounts\": {\n        \"draft\": \"100.00\",\n        \"ready\": \"200.00\",\n        \"pending\": \"300.00\",\n        \"paused\": \"100.00\",\n        \"success\": \"500.00\",\n        \"failed\": \"100.00\",\n        \"average\": \"100.00\",\n        \"total\": \"1400.00\"\n      }\n    }\n  ],\n  \"receiver_wallets_counters\": {\n    \"draft\": 1,\n    \"ready\": 1,\n    \"registered\": 1,\n    \"flagged\": 1,\n    \"total\": 4\n  },\n  \"total_receivers\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8fb2544-a4ff-49f2-ae88-e2dbda333964",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60f45c51-295f-46c7-83ff-596269a348e8",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f9b6d92f-3bbd-41f5-86ea-5499385ab0d1",
+    "name": "Platform Server Accounts Statistics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

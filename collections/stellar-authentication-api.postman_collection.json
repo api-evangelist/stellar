@@ -1,0 +1,703 @@
+{
+  "item": [
+    {
+      "id": "b8ce9615-75bb-465f-9359-d8062d26e367",
+      "name": "Authentication",
+      "description": {
+        "content": "Authentication controls the log in/log out process for all SDP users, as well as the token refresh process. Authentication uses a JWT approach signed with an ES256 private key.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "22112647-da6f-40a0-9d51-382bff09522e",
+          "name": "Log In",
+          "request": {
+            "name": "Log In",
+            "description": {
+              "content": "Allows credentialed SDP users to log in to the SDP dashboard with a password. Note: all passwords must be at least 8 characters long and a combination of uppercase letters, lowercase letters, numbers, and symbols.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "b242fb49-fecb-4315-9ba9-22a39c2b9927",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"johndoe@mail.com\",\n  \"password\": \"mysecret\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb3f90fe-a6f6-4030-8096-223258dc82c7",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"johndoe@mail.com\",\n  \"password\": \"mysecret\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid credentials\",\n  \"extras\": {\n    \"status\": 400,\n    \"message\": \"Invalid username or password\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "26dcbe34-9122-4851-b261-3d338c31bd28",
+          "name": "Refresh Token",
+          "request": {
+            "name": "Refresh Token",
+            "description": {
+              "content": "A user’s token expires after 15 minutes. This endpoint handles refreshing the user’s token without disrupting their experience. It is triggered within the 30-second window before the token expires.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "refresh-token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "1395f2d1-eab1-4012-b3c2-2699618921fb",
+              "name": "Returns a new access token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh-token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoidXNlci1pZCIsImVtYWlsIjoiZW1haWxAZW1haWwuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJTdXBlcnZpc29yIn1dfSwiZXhwIjoxNjc1OTYyOTQ3fQ.4Zj9yBXch-iuFYF-kc_EhHPxjpwp_egMOLbOv4bZKO1MFvcmEgZ5MlXH1_1fZfgUxaNBcMCdRM6MGSqKocwGnA\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c636367a-8ecf-4e35-af91-7e2a5267354d",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh-token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "309dd065-c2fa-4ac6-885b-08704c23080d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refresh-token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82ec6073-3f8f-4882-b21b-8976bc09f82b",
+          "name": "Provide Multi-Factor Authentication",
+          "request": {
+            "name": "Provide Multi-Factor Authentication",
+            "description": {
+              "content": "Governs the multi-factor authentication process for SDP user login, including the ability to remember the device so MFA is not always required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "mfa"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Identifier of the device",
+                "key": "Device-ID",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mfa_code\": \"<string>\",\n  \"remember_me\": \"<boolean>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "b8a4e1b2-6ba8-457a-b685-d8736a9e56b1",
+              "name": "Successful authentication",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "mfa"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Identifier of the device",
+                    "key": "Device-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mfa_code\": \"<string>\",\n  \"remember_me\": \"<boolean>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3308985-7f2f-498d-9816-6d684bf7dbe2",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "mfa"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Identifier of the device",
+                    "key": "Device-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mfa_code\": \"<string>\",\n  \"remember_me\": \"<boolean>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ccca9f9-eb5c-4813-a466-762b54306397",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "mfa"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Identifier of the device",
+                    "key": "Device-ID",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mfa_code\": \"<string>\",\n  \"remember_me\": \"<boolean>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "48561521-7240-4fb8-aef9-063aded1afce",
+          "name": "Forgot Password",
+          "request": {
+            "name": "Forgot Password",
+            "description": {
+              "content": "Sends an email with a token to an SDP user who has gone through the Forgot Password process.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "forgot-password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<email>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "8a119f6e-bab8-415d-a749-445d9a237e91",
+              "name": "Forgot password email sent successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forgot-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"<email>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14e300ef-966a-46cf-b123-148c02d24392",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "forgot-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"<email>\",\n  \"recaptcha_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f286a315-f405-4116-9142-a022c9f8cce0",
+          "name": "Reset Rassword",
+          "request": {
+            "name": "Reset Rassword",
+            "description": {
+              "content": "Allows an SDP user who has gone through the Forgot Password process to set their new password with a token sent via email.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reset-password"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"<string>\",\n  \"reset_token\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "5ff4f3d4-99c4-4984-8935-011148360bfe",
+              "name": "Password reset successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reset-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"<string>\",\n  \"reset_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4fd20f19-254f-49a4-a121-779eca98cab8",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reset-password"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"password\": \"<string>\",\n  \"reset_token\": \"<string>\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "43819ebb-252b-4289-a139-27bccbf67113",
+    "name": "Platform Server Accounts Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,766 @@
+{
+  "item": [
+    {
+      "id": "82913954-a573-4e04-aa95-5b42dc9c906a",
+      "name": "Liquidity Pools",
+      "description": {
+        "content": "Liquidity Pools provide a simple, non-interactive way to trade large amounts of capital and enable high volumes of trading.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3bf04261-5deb-46e1-a9c0-04c44080c028",
+          "name": "List Liquidity Pools",
+          "request": {
+            "name": "List Liquidity Pools",
+            "description": {
+              "content": "This endpoint lists all available liquidity pools.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "Comma-separated list of assets in canonical form (Code:IssuerAccountID), to only include liquidity pools which have reserves matching all listed assets.",
+                    "type": "text/plain"
+                  },
+                  "key": "reserves",
+                  "value": ""
+                },
+                {
+                  "description": {
+                    "content": "A Stellar account ID, to only include liquidity pools in which this account is participating in (i.e. holds pool shares to).",
+                    "type": "text/plain"
+                  },
+                  "key": "account",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b6f30cb-0220-49ea-a381-cdc5ce4862ec",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reserves",
+                      "value": ""
+                    },
+                    {
+                      "key": "account",
+                      "value": ""
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools?cursor=66835-00000000c582697b67cbec7f9ce64f4dc67bfb2bfd26318bb9f964f4d70e3f41f650b1e6&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools?cursor=38888-00000000929b20b72e5890ab51c24f1cc46fa01c4f318d8d33367d24dd614cfdf5491072&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"paging_token\": \"113725249324879873\",\n        \"fee_bp\": 30,\n        \"type\": \"constant_product\",\n        \"total_trustlines\": \"300\",\n        \"total_shares\": \"5000\",\n        \"reserves\": [\n          {\n            \"amount\": \"1000.0000005\",\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n          },\n          {\n            \"amount\": \"2000.0000000\",\n            \"asset\": \"PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n          }\n        ]\n      },\n      {\n        \"id\": \"14be5a5b3d3f5e1e74380ab0a3bf9c172b7246fdf7753b172cbacd4d66143c08\",\n        \"paging_token\": \"113725249324879874\",\n        \"fee_bp\": 30,\n        \"type\": \"constant_product\",\n        \"total_trustlines\": \"200\",\n        \"total_shares\": \"3500\",\n        \"reserves\": [\n          {\n            \"amount\": \"1000.0000005\",\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n          },\n          {\n            \"amount\": \"1200.0000000\",\n            \"asset\": \"USDC:GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "962b769f-d31c-4607-be68-d0ddc69a1b5d",
+          "name": "Retrieve a Liquidity Pool",
+          "request": {
+            "name": "Retrieve a Liquidity Pool",
+            "description": {
+              "content": "The single liquidity pool endpoint provides information on a liquidity pool.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools",
+                ":liquidity_pool_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "liquidity_pool_id",
+                  "description": "(Required) A unique identifier for this liquidity pool."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4138e4ca-e3da-466c-94ef-9d1429cd22d0",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools",
+                    ":liquidity_pool_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "liquidity_pool_id",
+                      "description": "(Required) A unique identifier for this liquidity pool."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\"\n    },\n    \"effects\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"operations\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"transactions\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/transactions{?cursor,limit,order}\",\n      \"templated\": true\n    }\n  },\n  \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n  \"paging_token\": \"113725249324879873\",\n  \"fee_bp\": 30,\n  \"type\": \"constant_product\",\n  \"total_trustlines\": \"300\",\n  \"total_shares\": \"5000\",\n  \"reserves\": [\n    {\n      \"amount\": \"1000.0000005\",\n      \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n    },\n    {\n      \"amount\": \"2000.0000000\",\n      \"asset\": \"PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdc0c9ea-e506-4060-8064-67294fd5b784",
+          "name": "Retrieve Related Effects",
+          "request": {
+            "name": "Retrieve Related Effects",
+            "description": {
+              "content": "This endpoint represents effects referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new effects referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known effect unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream effects created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools",
+                ":liquidity_pool_id",
+                "effects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "liquidity_pool_id",
+                  "description": "(Required) A unique identifier for this liquidity pool."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "475fb317-5008-4c25-a4c4-9f007cec8038",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools",
+                    ":liquidity_pool_id",
+                    "effects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "liquidity_pool_id",
+                      "description": "(Required) A unique identifier for this liquidity pool."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=120192370561220608&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/effects?cursor=120192344791343104&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/3849085266190337\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=3849085266190337-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=3849085266190337-1\"\n          }\n        },\n        \"id\": \"0000000012884905986-0000000001\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_deposited\",\n        \"type_i\": 81,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool\": {\n          \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n          \"fee_bp\": 30,\n          \"type\": \"constant_product\",\n          \"total_trustlines\": \"300\",\n          \"total_shares\": \"5000\",\n          \"reserves\": [\n            {\n              \"amount\": \"1000.0000005\",\n              \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n            },\n            {\n              \"amount\": \"2000.0000000\",\n              \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\"\n            }\n          ]\n        },\n        \"reserves_deposited\": [\n          {\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"amount\": \"2378.0000005\"\n          },\n          {\n            \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\",\n            \"amount\": \"983.0000005\"\n          }\n        ],\n        \"shares_received\": \"1000\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000002\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_withdrew\",\n        \"type_i\": 82,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool\": {\n          \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n          \"fee_bp\": 30,\n          \"type\": \"constant_product\",\n          \"total_trustlines\": \"299\",\n          \"total_shares\": \"4000\",\n          \"reserves\": [\n            {\n              \"amount\": \"7.0000005\",\n              \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n            },\n            {\n              \"amount\": \"1.0000000\",\n              \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\"\n            }\n          ]\n        },\n        \"reserves_received\": [\n          {\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"amount\": \"2478.0000005\"\n          },\n          {\n            \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\",\n            \"amount\": \"993.0000005\"\n          }\n        ],\n        \"shares_redeemed\": \"1000\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000003\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_trade\",\n        \"type_i\": 83,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool\": {\n          \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n          \"fee_bp\": 30,\n          \"type\": \"constant_product\",\n          \"total_trustlines\": \"300\",\n          \"total_shares\": \"5000\",\n          \"reserves\": [\n            {\n              \"amount\": \"1000.0000005\",\n              \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n            },\n            {\n              \"amount\": \"2000.0000000\",\n              \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\"\n            }\n          ]\n        },\n        \"sold\": {\n          \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\",\n          \"amount\": \"983.0000005\"\n        },\n        \"bought\": {\n          \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n          \"amount\": \"2378.0000005\"\n        }\n      },\n      {\n        \"id\": \"0000000012884905986-0000000004\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_created\",\n        \"type_i\": 84,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool\": {\n          \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n          \"fee_bp\": 30,\n          \"type\": \"constant_product\",\n          \"total_trustlines\": \"1\",\n          \"total_shares\": \"0\",\n          \"reserves\": [\n            {\n              \"amount\": \"0\",\n              \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n            },\n            {\n              \"amount\": \"0\",\n              \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\"\n            }\n          ]\n        }\n      },\n      {\n        \"id\": \"0000000012884905986-0000000005\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_removed\",\n        \"type_i\": 85,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000006\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"liquidity_pool_revoked\",\n        \"type_i\": 86,\n        \"created_at\": \"2021-11-18T03:15:54Z\",\n        \"liquidity_pool\": {\n          \"id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n          \"fee_bp\": 30,\n          \"type\": \"constant_product\",\n          \"total_trustlines\": \"299\",\n          \"total_shares\": \"4000\",\n          \"reserves\": [\n            {\n              \"amount\": \"7.0000005\",\n              \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\"\n            },\n            {\n              \"amount\": \"1.0000000\",\n              \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\"\n            }\n          ]\n        },\n        \"reserves_revoked\": [\n          {\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"amount\": \"2478.0000005\",\n            \"claimable_balance_id\": \"idcbd1234\"\n          },\n          {\n            \"asset\": \"PHP:GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP\",\n            \"amount\": \"993.0000005\",\n            \"claimable_balance_id\": \"cbid1235\"\n          }\n        ],\n        \"shares_revoked\": \"1000\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000007\",\n        \"paging_token\": \"157639717969326081-1\",\n        \"account\": \"GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG\",\n        \"type\": \"trustline_created\",\n        \"type_i\": 20,\n        \"created_at\": \"2021-08-04T20:01:24Z\",\n        \"asset_type\": \"liquidity_pool_shares\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"limit\": \"1000\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000008\",\n        \"paging_token\": \"157639717969326081-1\",\n        \"account\": \"GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG\",\n        \"type\": \"trustline_updated\",\n        \"type_i\": 22,\n        \"created_at\": \"2021-08-04T20:01:24Z\",\n        \"asset_type\": \"liquidity_pool_shares\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"limit\": \"2000\"\n      },\n      {\n        \"id\": \"0000000012884905986-0000000009\",\n        \"paging_token\": \"157639717969326081-1\",\n        \"account\": \"GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG\",\n        \"type\": \"trustline_removed\",\n        \"type_i\": 21,\n        \"created_at\": \"2021-08-04T20:01:24Z\",\n        \"asset_type\": \"liquidity_pool_shares\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"limit\": \"0.0000000\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "992d961b-2e55-4c52-83ae-6ebba3219dc8",
+          "name": "Retrieve Related Trades",
+          "request": {
+            "name": "Retrieve Related Trades",
+            "description": {
+              "content": "This endpoint represents successful trades fulfilled by the given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new trades referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known trade unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream trade created since your request time. ",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools",
+                ":liquidity_pool_id",
+                "trades"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "liquidity_pool_id",
+                  "description": "(Required) A unique identifier for this liquidity pool."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "80e059a0-8a71-4e9a-a8fd-f46c46f30cd8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools",
+                    ":liquidity_pool_id",
+                    "trades"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "liquidity_pool_id",
+                      "description": "(Required) A unique identifier for this liquidity pool."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=&limit=2&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=120192370561220608&limit=2&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/trades?cursor=120192344791343104&limit=2&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"\"\n          },\n          \"base\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GAVH5JM5OKXGMQDS7YPRJ4MQCPXJUGH26LYQPQJ4SOMOJ4SXY472ZM7G\"\n          },\n          \"counter\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GBB4JST32UWKOLGYYSCEYBHBCOFL2TGBHDVOMZP462ET4ZRD4ULA7S2L\"\n          },\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/3697472920621057\"\n          }\n        },\n        \"id\": \"3697472920621057-0\",\n        \"paging_token\": \"3697472920621057-0\",\n        \"ledger_close_time\": \"2015-11-18T03:47:47Z\",\n        \"offer_id\": \"9\",\n        \"base_offer_id\": \"9\",\n        \"base_account\": \"GAVH5JM5OKXGMQDS7YPRJ4MQCPXJUGH26LYQPQJ4SOMOJ4SXY472ZM7G\",\n        \"base_amount\": \"10.0000000\",\n        \"base_asset_type\": \"native\",\n        \"counter_liquidity_pool\": \"3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4\",\n        \"liquidity_pool_fee_bp\": \"30\",\n        \"counter_amount\": \"2.6700000\",\n        \"counter_asset_type\": \"credit_alphanum4\",\n        \"counter_asset_code\": \"JPY\",\n        \"counter_asset_issuer\": \"GBVAOIACNSB7OVUXJYC5UE2D4YK2F7A24T7EE5YOMN4CE6GCHUTOUQXM\",\n        \"base_is_seller\": true,\n        \"price\": {\n          \"n\": \"267\",\n          \"d\": \"1000\"\n        },\n        \"trade_type\": \"liquidity_pool\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d280dac1-1876-4a76-bd69-59bfd9e387b1",
+          "name": "Retrieve Related Transactions",
+          "request": {
+            "name": "Retrieve Related Transactions",
+            "description": {
+              "content": "This endpoint represents successful transactions referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new transactions referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known transaction unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream transactions created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools",
+                ":liquidity_pool_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "liquidity_pool_id",
+                  "description": "(Required) A unique identifier for this liquidity pool."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "caf6cd8f-376e-4748-bd69-83e62772c540",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools",
+                    ":liquidity_pool_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "liquidity_pool_id",
+                      "description": "(Required) A unique identifier for this liquidity pool."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=&limit=2&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=120192370561220608&limit=2&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/3b476aff8a406a6ec3b61d5c038009cef85f2ddfaf616822dc4fec92845149b4/transactions?cursor=120192344791343104&limit=2&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908\"\n          },\n          \"account\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7\"\n          },\n          \"ledger\": {\n            \"href\": \"https://horizon-testnet.stellar.org/ledgers/895788\"\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908/operations\",\n            \"templated\": true\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908/effects\",\n            \"templated\": true\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=3847380164161536\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=3847380164161536\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908\"\n          }\n        },\n        \"id\": \"2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908\",\n        \"paging_token\": \"3847380164161536\",\n        \"successful\": true,\n        \"hash\": \"2ff47e1bafe68639276b2a8df0a73597ee0c062fbcc72d121af314fe7851c908\",\n        \"ledger\": 895788,\n        \"created_at\": \"2021-08-09T20:53:11Z\",\n        \"source_account\": \"GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7\",\n        \"source_account_sequence\": \"3847371574214658\",\n        \"fee_account\": \"GAHQN6YNYD6ZT7TLAVE4R36MSZWQJZ22XB3WD4RLSHURMXHW4VHJIDF7\",\n        \"fee_charged\": \"10000\",\n        \"max_fee\": \"10001\",\n        \"operation_count\": 1,\n        \"envelope_xdr\": \"AAAAAgAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAJxEADasqAAAAAgAAAAAAAAAAAAAAAQAAAAEAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAGAAAAAVNFQwAAAAAAm6XFaVsf8OSuS9C9gMplyTjagE9jAnnqwxSDJ6fin6IAsaK8LsUAAAAAAAAAAAAB9uVOlAAAAECXmRsoXmRiJjUrtbkDZYRnzac5s1CVV4g2RlIgBIuQty21npz3A1VhUcSmAx+GmsyGxVFvIrcdstTawJlmy9kF\",\n        \"result_xdr\": \"AAAAAAAAJxAAAAAAAAAAAQAAAAAAAAAGAAAAAAAAAAA=\",\n        \"result_meta_xdr\": \"AAAAAgAAAAIAAAADAA2rLAAAAAAAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAAGtJNDAANqyoAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAA2rLAAAAAAAAAAADwb7DcD9mf5rBUnI78yWbQTnWrh3YfIrkekWXPblTpQAAAAAGtJNDAANqyoAAAACAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAwAAAAMADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAIAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAIAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAADassAAAAAQAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAFTRUMAAAAAAJulxWlbH/DkrkvQvYDKZck42oBPYwJ56sMUgyen4p+iAAAAAAAAAAAAsaK8LsUAAAAAAAEAAAAAAAAAAAAAAAA=\",\n        \"fee_meta_xdr\": \"AAAAAgAAAAMADasrAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0nQcAA2rKgAAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEADassAAAAAAAAAAAPBvsNwP2Z/msFScjvzJZtBOdauHdh8iuR6RZc9uVOlAAAAAAa0k0MAA2rKgAAAAEAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==\",\n        \"memo_type\": \"none\",\n        \"signatures\": [\n          \"l5kbKF5kYiY1K7W5A2WEZ82nObNQlVeINkZSIASLkLcttZ6c9wNVYVHEpgMfhprMhsVRbyK3HbLU2sCZZsvZBQ==\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1300d29-9927-4024-9158-535c5fa16755",
+          "name": "Retrieve Related Operations",
+          "request": {
+            "name": "Retrieve Related Operations",
+            "description": {
+              "content": "This endpoint represents successful operations referencing a given liquidity pool and can be used in streaming mode. Streaming mode allows you to listen for new operations referencing this liquidity pool as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known operation unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream operations created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "liquidity_pools",
+                ":liquidity_pool_id",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                },
+                {
+                  "description": {
+                    "content": "Set to transactions to include the transactions which created each of the operations in the response.",
+                    "type": "text/plain"
+                  },
+                  "key": "join",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "",
+                  "key": "liquidity_pool_id",
+                  "description": "(Required) A unique identifier for this liquidity pool."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "299ef0f2-21d6-462f-9a6c-4d38391fcb4a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "liquidity_pools",
+                    ":liquidity_pool_id",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "join",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "",
+                      "key": "liquidity_pool_id",
+                      "description": "(Required) A unique identifier for this liquidity pool."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=&limit=3&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=120192452165550081&limit=3&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/liquidity_pools/67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9/operations?cursor=120192344791343105&limit=3&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"id\": \"3697472920621057\",\n        \"paging_token\": \"3697472920621057\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GBB4JST32UWKOLGYYSCEYBHBCOFL2TGBHDVOMZP462ET4ZRD4ULA7S2L\",\n        \"type\": \"liquidity_pool_withdraw\",\n        \"type_i\": 23,\n        \"created_at\": \"2021-11-18T03:47:47Z\",\n        \"transaction_hash\": \"43ed5ce19190822ec080b67c3ccbab36a56bc34102b1a21d3ee690ed3bc23378\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"reserves_min\": [\n          {\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"min\": \"1000.0000005\"\n          },\n          {\n            \"asset\": \"PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"min\": \"3000.0000005\"\n          }\n        ],\n        \"shares\": \"200\",\n        \"reserves_received\": [\n          {\n            \"asset\": \"EURT:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"amount\": \"993.0000005\"\n          },\n          {\n            \"asset\": \"PHP:GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n            \"amount\": \"2478.0000005\"\n          }\n        ]\n      },\n      {\n        \"id\": \"157639717969326081\",\n        \"paging_token\": \"157639717969326081\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG\",\n        \"type\": \"change_trust\",\n        \"type_i\": 6,\n        \"created_at\": \"2021-08-04T20:01:24Z\",\n        \"transaction_hash\": \"941f2fa2101d1265696a3c7d35e7688cd210324114e96b64a386ab55f65e488f\",\n        \"asset_type\": \"liquidity_pool_shares\",\n        \"liquidity_pool_id\": \"67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9\",\n        \"limit\": \"1000\",\n        \"trustor\": \"GBBWI7TEVQBPEUXKYNGI3GBAH7EHFEREONKK3UK56ZSLJIDIYHQJCVSG\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b59feec5-7707-4f90-b921-9b6ad371ee74",
+    "name": "Platform Server Accounts Liquidity Pools API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Bridge Integration API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bridge Integration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Bridge Integration Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/bridge-integration"
+          },
+          "docs": "Retrieves the current Bridge integration status and information for the organization.\nReturns live data from the Bridge API including KYC status and virtual account details.\n"
+        },
+        {
+          "info": {
+            "name": "Update Bridge Integration Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/bridge-integration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the Bridge integration status. Supports two main operations:\n1. Opt-in to Bridge (status: \"OPTED_IN\") - Creates KYC link for organization onboarding\n2. Create Virtual Account (status: \"READY_FOR_DEPOSIT\") - Creates virtual account after KYC approval\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

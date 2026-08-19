@@ -1,0 +1,226 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Transactions API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a List of Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions",
+            "params": [
+              {
+                "name": "sep",
+                "value": "",
+                "type": "query",
+                "description": "Lookup transactions belonging to this SEP."
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "Specifies field that transactions will be ordered by. Note, that secondary sort is transaction id in ascending value.\nI.e. when timestamps for 2 or more transactions is identical, they will be sorted by id."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Specifies order. Note, that when the field is null, all transactions with null value will be last, regardless of soring order (NULLS LAST).\nFor example, transfer time may not be specified for some transactions, resulting into `transfer_received_at` being null. If so, transactions with non-null values will be sorted and returned first, followed by all transactions with null timestamps."
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filters transactions for specified array of statuses. If not provided, filtering is disabled (default behavior)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Size of a single search page. Must be positive."
+              },
+              {
+                "name": "page_number",
+                "value": "",
+                "type": "query",
+                "description": "Page number to use for continuous search. Page count beings at 0."
+              }
+            ]
+          },
+          "docs": "Allows to query list of transactions for desired SEP. This api supports pagination, and it's possible (and recommended) to make multiple requests to query transactions. The last page is reached when the number of elements returned by the endpoint is smaller than provided `page_size`."
+        },
+        {
+          "info": {
+            "name": "Submit a Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/transactions",
+            "params": [
+              {
+                "name": "tx",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint actually submits a transaction to the Stellar network. It only takes a single, required parameter: the signed transaction. Refer to the Transactions page for details on how to craft a proper one. If you submit a transaction that has already been included in a ledger, this endpoint will return the same response as would’ve been returned for the original transaction submission. This allows for safe resubmission of transactions in error scenarios, as highlighted in the error-handling "
+        },
+        {
+          "info": {
+            "name": "Retrieve a Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Provides the information necessary for the business to determine the state of the transaction identified by `id`, decide if any action must be taken to continue processing the transaction, and act on the decision."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions/:transaction_hash",
+            "params": [
+              {
+                "name": "transaction_hash",
+                "value": "",
+                "type": "path",
+                "description": "Transactions are commands that modify the ledger state and consist of one or more operations."
+              }
+            ]
+          },
+          "docs": "The single transaction endpoint provides information on a specific transaction."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Transaction's Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions/:transaction_hash/operations",
+            "params": [
+              {
+                "name": "transaction_hash",
+                "value": "",
+                "type": "path",
+                "description": "Transactions are commands that modify the ledger state and consist of one or more operations."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              },
+              {
+                "name": "include_failed",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include failed operations in results. Options include true and false."
+              },
+              {
+                "name": "join",
+                "value": "",
+                "type": "query",
+                "description": "Set to transactions to include the transactions which created each of the operations in the response."
+              }
+            ]
+          },
+          "docs": "This endpoint returns Successful operations for a specific transaction."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Transaction's Effects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions/:transaction_hash/effects",
+            "params": [
+              {
+                "name": "transaction_hash",
+                "value": "",
+                "type": "path",
+                "description": "Transactions are commands that modify the ledger state and consist of one or more operations."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint returns the effects of a specific transaction."
+        },
+        {
+          "info": {
+            "name": "Submit a Transaction Asynchronously",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/transactions_async",
+            "params": [
+              {
+                "name": "tx",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "This endpoint submits transactions to the Stellar network asynchronously. It is designed to allow users to submit transactions without blocking them while waiting for a response from Horizon. At the same time, it also provides clear response status codes from stellar-core to help understand the status of the submitted transaction. You can then use Horizon's [GET transaction endpoint](https://developers.stellar.org/docs/data/apis/horizon/api-reference/resources/retrieve-a-transaction) to wait for"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

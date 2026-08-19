@@ -1,0 +1,532 @@
+{
+  "item": [
+    {
+      "id": "18f837a9-914a-4259-854a-5707d8370497",
+      "name": "Claimable Balances",
+      "description": {
+        "content": "A Claimable Balance represents the transfer of ownership of some amount of an asset. Claimable balances provide a mechanism for setting up a payment which can be claimed in the future. This allows you to make payments to accounts which are currently not able to accept them.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a64a6d18-91ea-4aa3-9c02-3c8547965fb0",
+          "name": "List All Claimable Balances",
+          "request": {
+            "name": "List All Claimable Balances",
+            "description": {
+              "content": "This endpoint lists all available claimable balances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "claimable_balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sponser",
+                  "value": "<string>",
+                  "description": "Account ID of the sponsor. Every account in the response will either be sponsored by the given account ID or have a subentry (trustline, offer, or data entry) which is sponsored by the given account ID."
+                },
+                {
+                  "description": {
+                    "content": "An issued asset represented as “Code:IssuerAccountID”. Every account in the response will have a trustline for the given asset.",
+                    "type": "text/plain"
+                  },
+                  "key": "asset",
+                  "value": ""
+                },
+                {
+                  "description": {
+                    "content": "Account ID of the destination address. Only include claimable balances which can be claimed by the given account ID.",
+                    "type": "text/plain"
+                  },
+                  "key": "claimant",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "24c75644-cb5a-47f0-90d0-9b262bb78dd2",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claimable_balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sponser",
+                      "value": "GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ"
+                    },
+                    {
+                      "key": "asset",
+                      "value": ""
+                    },
+                    {
+                      "key": "claimant",
+                      "value": ""
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances?asset=native&cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances?asset=native&cursor=35938300-0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances?asset=native&cursor=33324106-00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f\",\n        \"asset\": \"native\",\n        \"amount\": \"0.1000000\",\n        \"sponsor\": \"GDOZMXWISPB57FITUQIGTFH2KNNW7QTFESXF5DZEAMZK6QHE3KVO5TRT\",\n        \"last_modified_ledger\": 33324106,\n        \"last_modified_time\": \"2020-12-30T23:02:56Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GCD3T6UIQLYZPGRCYVSE7LKQB5HYYNVT7ENY6RCSFRFQYR5JTBDCECO3\",\n            \"predicate\": {\n              \"and\": [\n                {\n                  \"abs_before\": \"2020-12-30T23:03:56Z\",\n                  \"abs_before_epoch\": \"1609369436\"\n                },\n                {\n                  \"not\": {\n                    \"abs_before\": \"2020-12-30T23:05:56Z\",\n                    \"abs_before_epoch\": \"1609369556\"\n                  }\n                }\n              ]\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"33324106-00000000691787983bc3ea12361092fe49ae83cbbe37804ee1590fe2b9b3e3860fc8261f\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000003a9a08342ca45d96abc011278644d83d1718ab16e44209fa1952829b66017c28\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000003a9a08342ca45d96abc011278644d83d1718ab16e44209fa1952829b66017c28/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000003a9a08342ca45d96abc011278644d83d1718ab16e44209fa1952829b66017c28/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"000000003a9a08342ca45d96abc011278644d83d1718ab16e44209fa1952829b66017c28\",\n        \"asset\": \"native\",\n        \"amount\": \"1.0000000\",\n        \"sponsor\": \"GA5ACYSBFH5AFWMZ5T34FLT5W3X6Z4FT4PMN3NUDT3G2JCYJXYGD72EF\",\n        \"last_modified_ledger\": 33505955,\n        \"last_modified_time\": \"2021-01-12T21:02:00Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GCXAULI3NAFEUKIXUQTD3HXGCTTLM6KVGKTUBZIHVUDP6WXEF7RWJV67\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"33505955-000000003a9a08342ca45d96abc011278644d83d1718ab16e44209fa1952829b66017c28\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000063036dcfa438cb51180bea16e36850e3699efc934577b07322c818157e4d5411\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000063036dcfa438cb51180bea16e36850e3699efc934577b07322c818157e4d5411/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000063036dcfa438cb51180bea16e36850e3699efc934577b07322c818157e4d5411/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"0000000063036dcfa438cb51180bea16e36850e3699efc934577b07322c818157e4d5411\",\n        \"asset\": \"native\",\n        \"amount\": \"0.0010000\",\n        \"sponsor\": \"GBIIQM26JJS774T7CSP3WBFVUXHUCTZCV5ZPGMKL57POWMFPMLYOKOZQ\",\n        \"last_modified_ledger\": 34254613,\n        \"last_modified_time\": \"2021-03-03T10:36:28Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GBIIQM26JJS774T7CSP3WBFVUXHUCTZCV5ZPGMKL57POWMFPMLYOKOZQ\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"34254613-0000000063036dcfa438cb51180bea16e36850e3699efc934577b07322c818157e4d5411\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d076fe2df3e6cc5e5c28e7bf257c11eb209d703a681c58bb867b78b67235c694\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d076fe2df3e6cc5e5c28e7bf257c11eb209d703a681c58bb867b78b67235c694/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d076fe2df3e6cc5e5c28e7bf257c11eb209d703a681c58bb867b78b67235c694/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000d076fe2df3e6cc5e5c28e7bf257c11eb209d703a681c58bb867b78b67235c694\",\n        \"asset\": \"native\",\n        \"amount\": \"0.0010000\",\n        \"sponsor\": \"GANVXZ2DQ2FFLVCBSVMBBNVWSXS6YVEDP247EN4C3CM3I32XR4U3OU2I\",\n        \"last_modified_ledger\": 34255259,\n        \"last_modified_time\": \"2021-03-03T11:35:31Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GANVXZ2DQ2FFLVCBSVMBBNVWSXS6YVEDP247EN4C3CM3I32XR4U3OU2I\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"34255259-00000000d076fe2df3e6cc5e5c28e7bf257c11eb209d703a681c58bb867b78b67235c694\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000da8ed8d0dccacce237c5395eb07bb845d2bb96425d18d168d535063316d99e7f\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000da8ed8d0dccacce237c5395eb07bb845d2bb96425d18d168d535063316d99e7f/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000da8ed8d0dccacce237c5395eb07bb845d2bb96425d18d168d535063316d99e7f/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000da8ed8d0dccacce237c5395eb07bb845d2bb96425d18d168d535063316d99e7f\",\n        \"asset\": \"native\",\n        \"amount\": \"1.0000000\",\n        \"sponsor\": \"GB7OYQFQI7GH622CKCFWPH4WSZUGOXXNY2XWV5K27S3SW2JHOWCCWEJ4\",\n        \"last_modified_ledger\": 35023766,\n        \"last_modified_time\": \"2021-04-20T19:00:04Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GAV2USD4ELGLRWBT67V7N37QAJKOPLHUJL3AVFW5NHWDHVXL4EQPSWZ5\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35023766-00000000da8ed8d0dccacce237c5395eb07bb845d2bb96425d18d168d535063316d99e7f\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000c551a949d0fb5199b05cb8220b4ba7dad4cd7968c849ab0fb51f744daab864fe\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000c551a949d0fb5199b05cb8220b4ba7dad4cd7968c849ab0fb51f744daab864fe/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000c551a949d0fb5199b05cb8220b4ba7dad4cd7968c849ab0fb51f744daab864fe/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000c551a949d0fb5199b05cb8220b4ba7dad4cd7968c849ab0fb51f744daab864fe\",\n        \"asset\": \"native\",\n        \"amount\": \"0.2091529\",\n        \"sponsor\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n        \"last_modified_ledger\": 35530330,\n        \"last_modified_time\": \"2021-05-22T17:04:31Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GCSZDAUKEX3IZXXUEEMERIYTVKHDTVTWK7LHXHELZE5B472QMGGXQLHD\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          },\n          {\n            \"destination\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35530330-00000000c551a949d0fb5199b05cb8220b4ba7dad4cd7968c849ab0fb51f744daab864fe\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d1f2ad9c1ff9124de62f9721ed5811f1f0d7705660c5a7daaa174ad5100c6b4d\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d1f2ad9c1ff9124de62f9721ed5811f1f0d7705660c5a7daaa174ad5100c6b4d/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000d1f2ad9c1ff9124de62f9721ed5811f1f0d7705660c5a7daaa174ad5100c6b4d/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000d1f2ad9c1ff9124de62f9721ed5811f1f0d7705660c5a7daaa174ad5100c6b4d\",\n        \"asset\": \"native\",\n        \"amount\": \"0.2091529\",\n        \"sponsor\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n        \"last_modified_ledger\": 35530330,\n        \"last_modified_time\": \"2021-05-22T17:04:31Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GBO4FL74OZTOCTABWFS2PH4LGI2CHFABDZ2LBPRH6UECXBAIU5LUIOF2\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          },\n          {\n            \"destination\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35530330-00000000d1f2ad9c1ff9124de62f9721ed5811f1f0d7705660c5a7daaa174ad5100c6b4d\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000001b53636a29ca25d28d1c5bb165f55280167d53cfefb0ce297d98032b32f772d0\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000001b53636a29ca25d28d1c5bb165f55280167d53cfefb0ce297d98032b32f772d0/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000001b53636a29ca25d28d1c5bb165f55280167d53cfefb0ce297d98032b32f772d0/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"000000001b53636a29ca25d28d1c5bb165f55280167d53cfefb0ce297d98032b32f772d0\",\n        \"asset\": \"native\",\n        \"amount\": \"4.2696061\",\n        \"sponsor\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n        \"last_modified_ledger\": 35686528,\n        \"last_modified_time\": \"2021-06-01T13:29:59Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GD54EZPKQCBZKPI6F4KKYYLGLDWBOVKPXBL3BLFGYNCLTBFGFZZGVMRT\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          },\n          {\n            \"destination\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35686528-000000001b53636a29ca25d28d1c5bb165f55280167d53cfefb0ce297d98032b32f772d0\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000ff1bb4a01b1d4e62ba23bcfd4e2c2289c63fe5ae0368f85b79d74a2224f8ab6c\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000ff1bb4a01b1d4e62ba23bcfd4e2c2289c63fe5ae0368f85b79d74a2224f8ab6c/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000ff1bb4a01b1d4e62ba23bcfd4e2c2289c63fe5ae0368f85b79d74a2224f8ab6c/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"00000000ff1bb4a01b1d4e62ba23bcfd4e2c2289c63fe5ae0368f85b79d74a2224f8ab6c\",\n        \"asset\": \"native\",\n        \"amount\": \"29.8872425\",\n        \"sponsor\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n        \"last_modified_ledger\": 35686528,\n        \"last_modified_time\": \"2021-06-01T13:29:59Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GB2QQWOA32GRILAOZ57H5Z5MO52KNUO3WHJWVZZHWSN66LLDPXQMSILD\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          },\n          {\n            \"destination\": \"GA5WWLUYCR4XJKS4ZYKWATKC7E3AVM3FZLWXWSKOBZWAGDROF5MUQXAT\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35686528-00000000ff1bb4a01b1d4e62ba23bcfd4e2c2289c63fe5ae0368f85b79d74a2224f8ab6c\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba\"\n          },\n          \"transactions\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba/transactions{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba/operations{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba\",\n        \"asset\": \"native\",\n        \"amount\": \"0.0000400\",\n        \"sponsor\": \"GB6DNEWWSSPQAX7SR5MCWUTRVQPJBAERJTUQAZOVXXJDU2E6PIMKGMO2\",\n        \"last_modified_ledger\": 35938300,\n        \"last_modified_time\": \"2021-06-17T10:37:03Z\",\n        \"claimants\": [\n          {\n            \"destination\": \"GC2CMMOQ2BUFI33PPOLNJKMQYJGAXUP2KMZXEXE6TGE37JSXQPHI4UAE\",\n            \"predicate\": {\n              \"and\": [\n                {\n                  \"abs_before\": \"2021-07-16T21:00:00Z\",\n                  \"abs_before_epoch\": \"1626469200\"\n                },\n                {\n                  \"abs_before\": \"2021-08-16T21:00:00Z\",\n                  \"abs_before_epoch\": \"1629147600\"\n                }\n              ]\n            }\n          }\n        ],\n        \"flags\": {\n          \"clawback_enabled\": false\n        },\n        \"paging_token\": \"35938300-0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "613a3d3e-f6df-4de7-8fad-f08b6e9131e0",
+          "name": "Retrieve a Claimable Balance",
+          "request": {
+            "name": "Retrieve a Claimable Balance",
+            "description": {
+              "content": "The single claimable balance endpoint provides information on a claimable balance.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "claimable_balances",
+                ":claimable_balance_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claimable_balance_id",
+                  "description": "(Required) A unique identifier for this claimable balance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db79be67-7636-4514-82b3-8e5fc9300d04",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claimable_balances",
+                    ":claimable_balance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claimable_balance_id",
+                      "description": "(Required) A unique identifier for this claimable balance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000\"\n    },\n    \"operations\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/operations{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"transactions\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/transactions{?cursor,limit,order}\",\n      \"templated\": true\n    }\n  },\n  \"id\": \"000000000102030000000000000000000000000000000000000000000000000000000000\",\n  \"paging_token\": \"000000000102030000000000000000000000000000000000000000000000000000000000\",\n  \"asset\": \"native\",\n  \"amount\": \"10.0000000\",\n  \"claimants\": [\n    {\n      \"destination\": \"GC3C4AKRBQLHOJ45U4XG35ESVWRDECWO5XLDGYADO6DPR3L7KIDVUMML\",\n      \"predicate\": {\n        \"and\": [\n          {\n            \"or\": [\n              {\n                \"relBefore\": \"12\"\n              },\n              {\n                \"absBefore\": \"2020-08-26T11:15:39Z\",\n                \"absBeforeEpoch\": \"1598440539\"\n              }\n            ]\n          },\n          {\n            \"not\": {\n              \"unconditional\": true\n            }\n          }\n        ]\n      }\n    }\n  ],\n  \"last_modified_ledger\": 28411995,\n  \"last_modified_time\": \"2020-02-26T19:29:16Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "165b79dd-f151-438b-a60f-5a9932b04e2f",
+          "name": "Retrieve Related Transactions",
+          "request": {
+            "name": "Retrieve Related Transactions",
+            "description": {
+              "content": "This endpoint represents successful transactions referencing a given claimable balance and can be used in streaming mode. Streaming mode allows you to listen for new transactions referencing this claimable balance as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known transaction unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream transactions created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "claimable_balances",
+                ":claimable_balance_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claimable_balance_id",
+                  "description": "(Required) A unique identifier for this claimable balance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8cd9860a-6e46-4a5a-bbb3-b524ebf04ec5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claimable_balances",
+                    ":claimable_balance_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claimable_balance_id",
+                      "description": "(Required) A unique identifier for this claimable balance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=&limit=2&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\"\n          },\n          \"account\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\"\n          },\n          \"ledger\": {\n            \"href\": \"https://horizon-testnet.stellar.org/ledgers/32747318\"\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/operations{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/effects{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=140648659841806336\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=140648659841806336\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\"\n          }\n        },\n        \"id\": \"fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\",\n        \"paging_token\": \"140648659841806336\",\n        \"successful\": true,\n        \"hash\": \"fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\",\n        \"ledger\": 32747318,\n        \"created_at\": \"2020-11-23T16:02:38Z\",\n        \"source_account\": \"GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\",\n        \"source_account_sequence\": \"140646847365513218\",\n        \"fee_account\": \"GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\",\n        \"fee_charged\": \"100\",\n        \"max_fee\": \"100\",\n        \"operation_count\": 1,\n        \"envelope_xdr\": \"AAAAAgAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAGQB862QAAAAAgAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAADgAAAAJCT0RISQAAAAAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAA9CQAAAAAEAAAAAAAAAAElBqA1BXzKd9k9nuPoodv0YBKY+Hgh6Uz/UxozgnvyzAAAAAAAAAAAAAAABYYRX4AAAAEDf41ykW+eq8IVpJNOc4iDaht5Beil8NpQB8WMHkOxW3rocUBF3EHKqUXDIsD9CzzY7Xr1PbzVk5FZ4iBKNF4MM\",\n        \"result_xdr\": \"AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAAOAAAAAAAAAAAXiCb7/jOeH1xTQXxv7f4sBei+wUMDFD7EaziYGwnD+QAAAAA=\",\n        \"result_meta_xdr\": \"AAAAAgAAAAIAAAADAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAAAAAAAQHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAADAAAAAwHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEB8682AAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycJUAfOtkAAAAAIAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAfOvNgAAAAQAAAAAF4gm+/4znh9cU0F8b+3+LAXovsFDAxQ+xGs4mBsJw/kAAAABAAAAAAAAAABJQagNQV8ynfZPZ7j6KHb9GASmPh4IelM/1MaM4J78swAAAAAAAAACQk9ESEkAAAAAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAAPQkAAAAAAAAAAAQAAAAEAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAAAAAA==\",\n        \"fee_meta_xdr\": \"AAAAAgAAAAMB866UAAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycK4AfOtkAAAAAEAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAAAAAAAAAAABAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAA\",\n        \"memo_type\": \"none\",\n        \"signatures\": [\n          \"3+NcpFvnqvCFaSTTnOIg2obeQXopfDaUAfFjB5DsVt66HFARdxByqlFwyLA/Qs82O169T281ZORWeIgSjReDDA==\"\n        ],\n        \"preconditions\": {\n          \"timebounds\": {\n            \"min_time\": \"0\"\n          }\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de6f35f4-c90e-4f91-a26e-5a4de0ceac4c",
+          "name": "Retrieve Related Operations",
+          "request": {
+            "name": "Retrieve Related Operations",
+            "description": {
+              "content": "This endpoint represents successful operations referencing a given claimable balance and can be used in streaming mode. Streaming mode allows you to listen for new operations referencing this claimable balance as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known operation unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream operations created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "claimable_balances",
+                ":claimable_balance_id",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                },
+                {
+                  "description": {
+                    "content": "Set to transactions to include the transactions which created each of the operations in the response.",
+                    "type": "text/plain"
+                  },
+                  "key": "join",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claimable_balance_id",
+                  "description": "(Required) A unique identifier for this claimable balance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff78a0ac-ac83-4ee9-a0e8-20c0cbd36bf1",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claimable_balances",
+                    ":claimable_balance_id",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "join",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claimable_balance_id",
+                      "description": "(Required) A unique identifier for this claimable balance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=&limit=3&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/140648659841806337\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/140648659841806337/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=140648659841806337\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=140648659841806337\"\n          }\n        },\n        \"id\": \"140648659841806337\",\n        \"paging_token\": \"140648659841806337\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\",\n        \"type\": \"create_claimable_balance\",\n        \"type_i\": 14,\n        \"created_at\": \"2020-11-23T16:02:38Z\",\n        \"transaction_hash\": \"fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8\",\n        \"sponsor\": \"GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\",\n        \"asset\": \"BODHI:GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF\",\n        \"amount\": \"0.1000000\",\n        \"claimants\": [\n          {\n            \"destination\": \"GBEUDKANIFPTFHPWJ5T3R6RIO36RQBFGHYPAQ6STH7KMNDHAT36LHOLD\",\n            \"predicate\": {\n              \"unconditional\": true\n            }\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "268a9010-c301-4350-b814-3a55ca9bcee4",
+    "name": "Platform Server Accounts Claimable Balances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

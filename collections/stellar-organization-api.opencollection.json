@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Organization API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Organization Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/organization"
+          },
+          "docs": "This endpoint returns the organization's info. It is used in many places across the UI. It returns the name in the navbar and the public key of the organization’s distribution account."
+        },
+        {
+          "info": {
+            "name": "Update Organization Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/organization",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "logo",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "data",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Updates the organization profile details. Only account owners have permission to do this. Note: both fields are optional but at least one should be sent in the request. It is not necessary to set the header Content-Type for this request. It is set automatically by the HTTP client."
+        },
+        {
+          "info": {
+            "name": "Retrieve Organization Logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/organization/logo"
+          },
+          "docs": "Retrieves the logo of the organization for display in the UI navbar."
+        },
+        {
+          "info": {
+            "name": "Circle Account Setup",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/organization/circle-config",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the Circle configuration for the organization. Only account owners have permission to do this. Note: in the first time configuration, all fields are mandatory, but after it is been configured at least once, you can replace a single field at a time."
+        },
+        {
+          "info": {
+            "name": "Get All Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/assets"
+          },
+          "docs": "Fetches the list of available assets to populate the dropdown box in the New Disbursement flow. Note: the organization must hold a balance in a particular asset to use it in a disbursement."
+        },
+        {
+          "info": {
+            "name": "Create Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint is used to create a new asset that can be used in a Disbursement. Note: the organization must hold a balance in a particular asset to use it in a disbursement."
+        },
+        {
+          "info": {
+            "name": "Delete Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform-server.exampleanchor.com/assets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the asset to delete"
+              }
+            ]
+          },
+          "docs": "This endpoint is used to soft delete an asset."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

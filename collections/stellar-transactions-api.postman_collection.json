@@ -1,0 +1,1196 @@
+{
+  "item": [
+    {
+      "id": "077841c2-ffff-42ef-95e7-425c8fb5acb7",
+      "name": "Transactions",
+      "description": {
+        "content": "Transactions initiated by client applications via SEP APIs",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2cd5b8a1-ecd6-4e42-a191-3d2731406d36",
+          "name": "Retrieve a List of Transactions",
+          "request": {
+            "name": "Retrieve a List of Transactions",
+            "description": {
+              "content": "Allows to query list of transactions for desired SEP. This api supports pagination, and it's possible (and recommended) to make multiple requests to query transactions. The last page is reached when the number of elements returned by the endpoint is smaller than provided `page_size`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sep",
+                  "value": "<string>",
+                  "description": "(Required) Lookup transactions belonging to this SEP."
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "created_at",
+                  "description": "Specifies field that transactions will be ordered by. Note, that secondary sort is transaction id in ascending value.\nI.e. when timestamps for 2 or more transactions is identical, they will be sorted by id."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "asc",
+                  "description": "Specifies order. Note, that when the field is null, all transactions with null value will be last, regardless of soring order (NULLS LAST).\nFor example, transfer time may not be specified for some transactions, resulting into `transfer_received_at` being null. If so, transactions with non-null values will be sorted and returned first, followed by all transactions with null timestamps."
+                },
+                {
+                  "disabled": false,
+                  "key": "statuses",
+                  "value": "<string>",
+                  "description": "Filters transactions for specified array of statuses. If not provided, filtering is disabled (default behavior)"
+                },
+                {
+                  "disabled": false,
+                  "key": "statuses",
+                  "value": "<string>",
+                  "description": "Filters transactions for specified array of statuses. If not provided, filtering is disabled (default behavior)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "20",
+                  "description": "Size of a single search page. Must be positive."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Page number to use for continuous search. Page count beings at 0."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "91a3ed05-48a8-4c8c-a440-b7d8156b49dc",
+              "name": "Transaction found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sep",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_customer_info_update"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_user_transfer_complete"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"records\": [\n    {\n      \"id\": \"string\",\n      \"sep\": \"6\",\n      \"kind\": \"withdrawal-exchange\",\n      \"status\": \"pending_stellar\",\n      \"started_at\": \"1991-12-26T15:27:00.974Z\",\n      \"type\": \"string\",\n      \"amount_expected\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_in\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_out\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"fee_details\": {\n        \"total\": \"string\",\n        \"asset\": \"string\",\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"quote_id\": \"string\",\n      \"updated_at\": \"2018-06-24T08:45:53.956Z\",\n      \"completed_at\": \"1975-10-15T21:55:55.731Z\",\n      \"transfer_received_at\": \"1968-04-02T13:01:44.658Z\",\n      \"user_action_required_by\": \"2016-08-09T08:17:10.743Z\",\n      \"message\": \"string\",\n      \"refunds\": {\n        \"amount_refunded\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"asset\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"amount_fee\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"asset\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"payments\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"refunded_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"refunded_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      \"stellar_transactions\": [\n        {\n          \"id\": \"string\",\n          \"created_at\": \"1964-01-28T05:51:53.573Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"hash\"\n        },\n        {\n          \"id\": \"string\",\n          \"created_at\": \"1981-08-18T12:42:05.402Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"text\"\n        }\n      ],\n      \"source_account\": \"string\",\n      \"destination_account\": \"string\",\n      \"external_transaction_id\": \"string\",\n      \"memo\": \"string\",\n      \"memo_type\": \"text id hash\",\n      \"refund_memo\": \"string\",\n      \"refund_memo_type\": \"text id hash\",\n      \"client_domain\": \"string\",\n      \"client_name\": \"string\",\n      \"customers\": {\n        \"sender\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        },\n        \"receiver\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        }\n      },\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"sep\": \"6\",\n      \"kind\": \"deposit-exchange\",\n      \"status\": \"pending_user\",\n      \"started_at\": \"1985-02-02T08:27:09.613Z\",\n      \"type\": \"string\",\n      \"amount_expected\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_in\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_out\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"fee_details\": {\n        \"total\": \"string\",\n        \"asset\": \"string\",\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"quote_id\": \"string\",\n      \"updated_at\": \"2025-04-09T04:00:07.503Z\",\n      \"completed_at\": \"1980-02-13T10:15:33.918Z\",\n      \"transfer_received_at\": \"2002-02-03T04:07:48.233Z\",\n      \"user_action_required_by\": \"1964-07-31T16:28:15.670Z\",\n      \"message\": \"string\",\n      \"refunds\": {\n        \"amount_refunded\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"asset\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"amount_fee\": {\n          \"amount\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"asset\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"payments\": [\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"refunded_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id_type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"refunded_at\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      \"stellar_transactions\": [\n        {\n          \"id\": \"string\",\n          \"created_at\": \"2009-02-22T12:35:39.934Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"hash\"\n        },\n        {\n          \"id\": \"string\",\n          \"created_at\": \"1978-09-05T05:50:05.304Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"id\"\n        }\n      ],\n      \"source_account\": \"string\",\n      \"destination_account\": \"string\",\n      \"external_transaction_id\": \"string\",\n      \"memo\": \"string\",\n      \"memo_type\": \"text id hash\",\n      \"refund_memo\": \"string\",\n      \"refund_memo_type\": \"text id hash\",\n      \"client_domain\": \"string\",\n      \"client_name\": \"string\",\n      \"customers\": {\n        \"sender\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        },\n        \"receiver\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        }\n      },\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f86e7b7-2aa4-4f98-88ce-19c12b7ea595",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sep",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_customer_info_update"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_user_transfer_complete"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d0072f4-fdd1-4983-a68c-bd6814c967f4",
+              "name": "Transaction not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sep",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_customer_info_update"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "pending_user_transfer_complete"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "043b10e4-036a-4fe1-9122-9bbdb19e6344",
+          "name": "Submit a Transaction",
+          "request": {
+            "name": "Submit a Transaction",
+            "description": {
+              "content": "This endpoint actually submits a transaction to the Stellar network. It only takes a single, required parameter: the signed transaction. Refer to the Transactions page for details on how to craft a proper one. If you submit a transaction that has already been included in a ledger, this endpoint will return the same response as would’ve been returned for the original transaction submission. This allows for safe resubmission of transactions in error scenarios, as highlighted in the error-handling guide.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tx",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8a93d7d9-05bc-40b5-9d4f-fd9a3c8fb2fd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"memo\": \"Test Transaction\",\n  \"memo_bytes\": \"VGVzdCBUcmFuc2FjdGlvbg==\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124\"\n    },\n    \"account\": {\n      \"href\": \"https://horizon-testnet.stellar.org/accounts/GCIHAQVWZH2AB5BB5NP63FBSIREG77LQZZNUVKD2LN2IOCLOT6N72MJN\"\n    },\n    \"ledger\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/139575\"\n    },\n    \"operations\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124/operations{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"effects\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124/effects{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"precedes\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=599470060347392\"\n    },\n    \"succeeds\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=599470060347392\"\n    },\n    \"transaction\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124\"\n    }\n  },\n  \"id\": \"8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124\",\n  \"paging_token\": \"599470060347392\",\n  \"successful\": true,\n  \"hash\": \"8ef0c6d60357bf91b0b0d7800b747ff02bf73117d3e017690cbff641ca67f124\",\n  \"ledger\": 139575,\n  \"created_at\": \"2021-03-25T21:14:11Z\",\n  \"source_account\": \"GCIHAQVWZH2AB5BB5NP63FBSIREG77LQZZNUVKD2LN2IOCLOT6N72MJN\",\n  \"source_account_sequence\": \"599336916353025\",\n  \"fee_account\": \"GCIHAQVWZH2AB5BB5NP63FBSIREG77LQZZNUVKD2LN2IOCLOT6N72MJN\",\n  \"fee_charged\": \"100\",\n  \"max_fee\": \"100\",\n  \"operation_count\": 1,\n  \"envelope_xdr\": \"AAAAAgAAAACQcEK2yfQA9CHrX+2UMkRIb/1wzltKqHpbdIcJbp+b/QAAAGQAAiEYAAAAAQAAAAEAAAAAAAAAAAAAAABgXP3QAAAAAQAAABBUZXN0IFRyYW5zYWN0aW9uAAAAAQAAAAAAAAABAAAAAJBwQrbJ9AD0Ietf7ZQyREhv/XDOW0qoelt0hwlun5v9AAAAAAAAAAAF9eEAAAAAAAAAAAFun5v9AAAAQKdJnG8QRiv9xGp1Oq7ACv/xR2BnNqjfUHrGNua7m4tWbrun3+GmAj6ca3xz+4ZppWRTbvTUcCxvpbHERZ85QgY=\",\n  \"result_xdr\": \"AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAA=\",\n  \"result_meta_xdr\": \"AAAAAgAAAAIAAAADAAIhNwAAAAAAAAAAkHBCtsn0APQh61/tlDJESG/9cM5bSqh6W3SHCW6fm/0AAAAXSHbnnAACIRgAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAIhNwAAAAAAAAAAkHBCtsn0APQh61/tlDJESG/9cM5bSqh6W3SHCW6fm/0AAAAXSHbnnAACIRgAAAABAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=\",\n  \"fee_meta_xdr\": \"AAAAAgAAAAMAAiEYAAAAAAAAAACQcEK2yfQA9CHrX+2UMkRIb/1wzltKqHpbdIcJbp+b/QAAABdIdugAAAIhGAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAiE3AAAAAAAAAACQcEK2yfQA9CHrX+2UMkRIb/1wzltKqHpbdIcJbp+b/QAAABdIduecAAIhGAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==\",\n  \"memo_type\": \"text\",\n  \"signatures\": [\n    \"p0mcbxBGK/3EanU6rsAK//FHYGc2qN9QesY25rubi1Zuu6ff4aYCPpxrfHP7hmmlZFNu9NRwLG+lscRFnzlCBg==\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3d8aae4-5454-4afd-af89-608bc4afe768",
+          "name": "Retrieve a Transaction",
+          "request": {
+            "name": "Retrieve a Transaction",
+            "description": {
+              "content": "Provides the information necessary for the business to determine the state of the transaction identified by `id`, decide if any action must be taken to continue processing the transaction, and act on the decision.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e911a480-f5c7-4c61-a190-3fa94a231340",
+              "name": "Transaction found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"sep\": \"6\",\n  \"kind\": \"withdrawal-exchange\",\n  \"status\": \"pending_trust\",\n  \"started_at\": \"1988-06-28T18:54:06.917Z\",\n  \"type\": \"string\",\n  \"amount_expected\": {\n    \"amount\": \"string\",\n    \"asset\": \"string\"\n  },\n  \"amount_in\": {\n    \"amount\": \"string\",\n    \"asset\": \"string\"\n  },\n  \"amount_out\": {\n    \"amount\": \"string\",\n    \"asset\": \"string\"\n  },\n  \"fee_details\": {\n    \"total\": \"string\",\n    \"asset\": \"string\",\n    \"details\": [\n      {\n        \"name\": \"string\",\n        \"amount\": \"string\",\n        \"description\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"amount\": \"string\",\n        \"description\": \"string\"\n      }\n    ]\n  },\n  \"quote_id\": \"string\",\n  \"updated_at\": \"1960-09-05T09:51:11.850Z\",\n  \"completed_at\": \"1979-11-02T01:59:12.659Z\",\n  \"transfer_received_at\": \"1985-03-12T03:24:51.927Z\",\n  \"user_action_required_by\": \"1977-09-08T22:00:11.895Z\",\n  \"message\": \"string\",\n  \"refunds\": {\n    \"amount_refunded\": {\n      \"amount\": \"string\",\n      \"asset\": \"string\"\n    },\n    \"amount_fee\": {\n      \"amount\": \"string\",\n      \"asset\": \"string\"\n    },\n    \"payments\": [\n      {\n        \"id\": \"string\",\n        \"id_type\": \"stellar\",\n        \"amount\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"fee\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"requested_at\": \"1959-05-05T07:26:18.130Z\",\n        \"refunded_at\": \"1997-04-18T02:03:47.391Z\"\n      },\n      {\n        \"id\": \"string\",\n        \"id_type\": \"stellar\",\n        \"amount\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"fee\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"requested_at\": \"1951-02-17T15:37:20.685Z\",\n        \"refunded_at\": \"1992-07-25T14:44:39.878Z\"\n      }\n    ]\n  },\n  \"stellar_transactions\": [\n    {\n      \"id\": \"string\",\n      \"created_at\": \"1963-07-23T05:06:32.671Z\",\n      \"envelope\": \"string\",\n      \"payments\": [\n        {\n          \"id\": \"string\",\n          \"payment_type\": \"payment\",\n          \"source_account\": \"string\",\n          \"destination_account\": \"string\",\n          \"amount\": {\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"asset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"payment_type\": \"payment\",\n          \"source_account\": \"string\",\n          \"destination_account\": \"string\",\n          \"amount\": {\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"asset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"memo\": \"string\",\n      \"memo_type\": \"hash\"\n    },\n    {\n      \"id\": \"string\",\n      \"created_at\": \"1952-02-28T19:13:08.437Z\",\n      \"envelope\": \"string\",\n      \"payments\": [\n        {\n          \"id\": \"string\",\n          \"payment_type\": \"payment\",\n          \"source_account\": \"string\",\n          \"destination_account\": \"string\",\n          \"amount\": {\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"asset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"payment_type\": \"payment\",\n          \"source_account\": \"string\",\n          \"destination_account\": \"string\",\n          \"amount\": {\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"asset\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"memo\": \"string\",\n      \"memo_type\": \"id\"\n    }\n  ],\n  \"source_account\": \"string\",\n  \"destination_account\": \"string\",\n  \"external_transaction_id\": \"string\",\n  \"memo\": \"string\",\n  \"memo_type\": \"text id hash\",\n  \"refund_memo\": \"string\",\n  \"refund_memo_type\": \"text id hash\",\n  \"client_domain\": \"string\",\n  \"client_name\": \"string\",\n  \"customers\": {\n    \"sender\": {\n      \"id\": \"string\",\n      \"account\": \"string\",\n      \"memo\": \"string\"\n    },\n    \"receiver\": {\n      \"id\": \"string\",\n      \"account\": \"string\",\n      \"memo\": \"string\"\n    }\n  },\n  \"creator\": {\n    \"id\": \"string\",\n    \"account\": \"string\",\n    \"memo\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24c1cfb1-7474-4194-8aba-5b26388af10c",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c36e80d5-8631-463c-8f90-b2620eb2779f",
+              "name": "Transaction not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c969293-c171-4d7c-8e78-ccbf740ce902",
+          "name": "Retrieve a Transaction",
+          "request": {
+            "name": "Retrieve a Transaction",
+            "description": {
+              "content": "The single transaction endpoint provides information on a specific transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_hash"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_hash",
+                  "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb157d07-5f53-466f-8f5d-c501522b01c2",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_hash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_hash",
+                      "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/5ebd5c0af4385500b53dd63b0ef5f6e8feef1a7e1c86989be3cdcce825f3c0cc\"\n    },\n    \"account\": {\n      \"href\": \"https://horizon-testnet.stellar.org/accounts/GDI5EK4HNMBHJJQGP3GUXQJIIOHU2CJO3LABPWD6WYSPJZP5NP67TMNN\"\n    },\n    \"ledger\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27963785\"\n    },\n    \"operations\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/5ebd5c0af4385500b53dd63b0ef5f6e8feef1a7e1c86989be3cdcce825f3c0cc/operations{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"effects\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/5ebd5c0af4385500b53dd63b0ef5f6e8feef1a7e1c86989be3cdcce825f3c0cc/effects{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"precedes\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=120103542047408128\"\n    },\n    \"succeeds\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=120103542047408128\"\n    }\n  },\n  \"id\": \"5ebd5c0af4385500b53dd63b0ef5f6e8feef1a7e1c86989be3cdcce825f3c0cc\",\n  \"paging_token\": \"120103542047408128\",\n  \"successful\": true,\n  \"hash\": \"5ebd5c0af4385500b53dd63b0ef5f6e8feef1a7e1c86989be3cdcce825f3c0cc\",\n  \"ledger\": 27963785,\n  \"created_at\": \"2020-01-28T10:03:33Z\",\n  \"source_account\": \"GDI5EK4HNMBHJJQGP3GUXQJIIOHU2CJO3LABPWD6WYSPJZP5NP67TMNN\",\n  \"source_account_sequence\": \"65046128646685383\",\n  \"fee_charged\": 100,\n  \"max_fee\": 100,\n  \"operation_count\": 1,\n  \"envelope_xdr\": \"AAAAANHSK4drAnSmBn7NS8EoQ49NCS7awBfYfrYk9OX9a/35AAAAZADnFxwAAALHAAAAAAAAAAAAAAABAAAAAQAAAADR0iuHawJ0pgZ+zUvBKEOPTQku2sAX2H62JPTl/Wv9+QAAAAEAAAAA+qpaPAsU/CGcSeS4KnvqE9y+Bcjhyr1l6jiwixRsvu8AAAABTkdOVAAAAAAs4YIuYne69wMuNtfiZ64gb7E3qnTR7A4yD4jZDSS8AQAAAdGpSiAAAAAAAAAAAAH9a/35AAAAQM5LSBiFRQKtFYRPpNabwVuvIhZSVRDaajf0KzYaqJmgaXAlFaTOYyYc11YuxUM1Fzl1VT4UEbI22BvO/8HzUgQ=\",\n  \"result_xdr\": \"AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAA=\",\n  \"result_meta_xdr\": \"AAAAAQAAAAIAAAADAaqxiQAAAAAAAAAA0dIrh2sCdKYGfs1LwShDj00JLtrAF9h+tiT05f1r/fkAAAAAAhWQlADnFxwAAALGAAAAAQAAAAEAAAAAhD8BLsZFQEF33rKS6YopQUT3b6iLBG4nspe68/DBNBYAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBqrGJAAAAAAAAAADR0iuHawJ0pgZ+zUvBKEOPTQku2sAX2H62JPTl/Wv9+QAAAAACFZCUAOcXHAAAAscAAAABAAAAAQAAAACEPwEuxkVAQXfespLpiilBRPdvqIsEbieyl7rz8ME0FgAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAADAan62gAAAAEAAAAA+qpaPAsU/CGcSeS4KnvqE9y+Bcjhyr1l6jiwixRsvu8AAAABTkdOVAAAAAAs4YIuYne69wMuNtfiZ64gb7E3qnTR7A4yD4jZDSS8AQAAAAAAAAALf/////////8AAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBqrGJAAAAAQAAAAD6qlo8CxT8IZxJ5Lgqe+oT3L4FyOHKvWXqOLCLFGy+7wAAAAFOR05UAAAAACzhgi5id7r3Ay421+JnriBvsTeqdNHsDjIPiNkNJLwBAAAB0alKIAt//////////wAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwGp+6EAAAABAAAAANHSK4drAnSmBn7NS8EoQ49NCS7awBfYfrYk9OX9a/35AAAAAU5HTlQAAAAALOGCLmJ3uvcDLjbX4meuIG+xN6p00ewOMg+I2Q0kvAEAAAkQQwRXzX//////////AAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAaqxiQAAAAEAAAAA0dIrh2sCdKYGfs1LwShDj00JLtrAF9h+tiT05f1r/fkAAAABTkdOVAAAAAAs4YIuYne69wMuNtfiZ64gb7E3qnTR7A4yD4jZDSS8AQAABz6ZujfNf/////////8AAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\",\n  \"fee_meta_xdr\": \"AAAAAgAAAAMBqfuhAAAAAAAAAADR0iuHawJ0pgZ+zUvBKEOPTQku2sAX2H62JPTl/Wv9+QAAAAACFZD4AOcXHAAAAsYAAAABAAAAAQAAAACEPwEuxkVAQXfespLpiilBRPdvqIsEbieyl7rz8ME0FgAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQGqsYkAAAAAAAAAANHSK4drAnSmBn7NS8EoQ49NCS7awBfYfrYk9OX9a/35AAAAAAIVkJQA5xccAAACxgAAAAEAAAABAAAAAIQ/AS7GRUBBd96ykumKKUFE92+oiwRuJ7KXuvPwwTQWAAAAAAAAAAABAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\n  \"memo_type\": \"none\",\n  \"signatures\": [\n    \"zktIGIVFAq0VhE+k1pvBW68iFlJVENpqN/QrNhqomaBpcCUVpM5jJhzXVi7FQzUXOXVVPhQRsjbYG87/wfNSBA==\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "699cb194-c5ba-484b-8639-c027250aaa56",
+          "name": "Retrieve a Transaction's Operations",
+          "request": {
+            "name": "Retrieve a Transaction's Operations",
+            "description": {
+              "content": "This endpoint returns Successful operations for a specific transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_hash",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                },
+                {
+                  "description": {
+                    "content": "Set to transactions to include the transactions which created each of the operations in the response.",
+                    "type": "text/plain"
+                  },
+                  "key": "join",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_hash",
+                  "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "994b0d6b-4c4c-4ab5-8ded-244492a7900c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_hash",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "join",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_hash",
+                      "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a/operations?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a/operations?cursor=120133379185221636&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a/operations?cursor=120133379185221633&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221633\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221633/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=120133379185221633\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=120133379185221633\"\n          }\n        },\n        \"id\": \"120133379185221633\",\n        \"paging_token\": \"120133379185221633\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDJX67SFY2N73H72TWMKKBQP5UPBNKBNUMNE2IGFKNES43S4327X6DHG\",\n        \"type\": \"manage_buy_offer\",\n        \"type_i\": 12,\n        \"created_at\": \"2020-01-28T21:14:59Z\",\n        \"transaction_hash\": \"6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\",\n        \"amount\": \"0.0000000\",\n        \"price\": \"0.0001000\",\n        \"price_r\": {\n          \"n\": 1,\n          \"d\": 10000\n        },\n        \"buying_asset_type\": \"native\",\n        \"selling_asset_type\": \"credit_alphanum4\",\n        \"selling_asset_code\": \"ETH\",\n        \"selling_asset_issuer\": \"GBDEVU63Y6NTHJQQZIKVTC23NWLQVP3WJ2RI2OTSJTNYOIGICST6DUXR\",\n        \"offer_id\": 149983118\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221634\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221634/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=120133379185221634\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=120133379185221634\"\n          }\n        },\n        \"id\": \"120133379185221634\",\n        \"paging_token\": \"120133379185221634\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDJX67SFY2N73H72TWMKKBQP5UPBNKBNUMNE2IGFKNES43S4327X6DHG\",\n        \"type\": \"manage_buy_offer\",\n        \"type_i\": 12,\n        \"created_at\": \"2020-01-28T21:14:59Z\",\n        \"transaction_hash\": \"6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\",\n        \"amount\": \"0.0000000\",\n        \"price\": \"0.0001000\",\n        \"price_r\": {\n          \"n\": 1,\n          \"d\": 10000\n        },\n        \"buying_asset_type\": \"native\",\n        \"selling_asset_type\": \"credit_alphanum4\",\n        \"selling_asset_code\": \"ETH\",\n        \"selling_asset_issuer\": \"GBDEVU63Y6NTHJQQZIKVTC23NWLQVP3WJ2RI2OTSJTNYOIGICST6DUXR\",\n        \"offer_id\": 149983119\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221635\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221635/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=120133379185221635\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=120133379185221635\"\n          }\n        },\n        \"id\": \"120133379185221635\",\n        \"paging_token\": \"120133379185221635\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDJX67SFY2N73H72TWMKKBQP5UPBNKBNUMNE2IGFKNES43S4327X6DHG\",\n        \"type\": \"manage_offer\",\n        \"type_i\": 3,\n        \"created_at\": \"2020-01-28T21:14:59Z\",\n        \"transaction_hash\": \"6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\",\n        \"amount\": \"98.5005752\",\n        \"price\": \"0.0003494\",\n        \"price_r\": {\n          \"n\": 17471,\n          \"d\": 50000000\n        },\n        \"buying_asset_type\": \"credit_alphanum4\",\n        \"buying_asset_code\": \"ETH\",\n        \"buying_asset_issuer\": \"GBDEVU63Y6NTHJQQZIKVTC23NWLQVP3WJ2RI2OTSJTNYOIGICST6DUXR\",\n        \"selling_asset_type\": \"native\",\n        \"offer_id\": 0\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221636\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/120133379185221636/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=120133379185221636\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=120133379185221636\"\n          }\n        },\n        \"id\": \"120133379185221636\",\n        \"paging_token\": \"120133379185221636\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDJX67SFY2N73H72TWMKKBQP5UPBNKBNUMNE2IGFKNES43S4327X6DHG\",\n        \"type\": \"manage_buy_offer\",\n        \"type_i\": 12,\n        \"created_at\": \"2020-01-28T21:14:59Z\",\n        \"transaction_hash\": \"6b983a4e0dc3c04f4bd6b9037c55f70a09c434dfd01492be1077cf7ea68c2e4a\",\n        \"amount\": \"291.8057980\",\n        \"price\": \"0.0002565\",\n        \"price_r\": {\n          \"n\": 250039,\n          \"d\": 975000000\n        },\n        \"buying_asset_type\": \"native\",\n        \"selling_asset_type\": \"credit_alphanum4\",\n        \"selling_asset_code\": \"ETH\",\n        \"selling_asset_issuer\": \"GBDEVU63Y6NTHJQQZIKVTC23NWLQVP3WJ2RI2OTSJTNYOIGICST6DUXR\",\n        \"offer_id\": 0\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "222ad7b8-8175-4f6b-a6b3-2bbd6e3f51cd",
+          "name": "Retrieve a Transaction's Effects",
+          "request": {
+            "name": "Retrieve a Transaction's Effects",
+            "description": {
+              "content": "This endpoint returns the effects of a specific transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_hash",
+                "effects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_hash",
+                  "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b76d2a3-e43d-4643-8619-a48d69565aec",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_hash",
+                    "effects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_hash",
+                      "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/512a9946bc7ff4a363299f14f79e0beb9b9cdbd0103e3a69a44446a0aa6471a8/effects?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/512a9946bc7ff4a363299f14f79e0beb9b9cdbd0103e3a69a44446a0aa6471a8/effects?cursor=121628667754319873-2&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/512a9946bc7ff4a363299f14f79e0beb9b9cdbd0103e3a69a44446a0aa6471a8/effects?cursor=121628667754319873-1&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/121628667754319873\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=121628667754319873-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=121628667754319873-1\"\n          }\n        },\n        \"id\": \"0121628667754319873-0000000001\",\n        \"paging_token\": \"121628667754319873-1\",\n        \"account\": \"GAHK7EEG2WWHVKDNT4CEQFZGKF2LGDSW2IVM4S5DP42RBW3K6BTODB4A\",\n        \"type\": \"account_credited\",\n        \"type_i\": 2,\n        \"created_at\": \"2020-02-20T21:18:33Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"1573.5112616\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/121628667754319873\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=121628667754319873-2\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=121628667754319873-2\"\n          }\n        },\n        \"id\": \"0121628667754319873-0000000002\",\n        \"paging_token\": \"121628667754319873-2\",\n        \"account\": \"GA2XP4KMY4KWNPW4KUCUKYUF2J7Y6HO5HLPUEA3VPVSMYCM3TGNEZP5S\",\n        \"type\": \"account_debited\",\n        \"type_i\": 3,\n        \"created_at\": \"2020-02-20T21:18:33Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"1573.5112616\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d3803e95-b4c2-4bfd-9a80-ba8c58f824d4",
+          "name": "Submit a Transaction Asynchronously",
+          "request": {
+            "name": "Submit a Transaction Asynchronously",
+            "description": {
+              "content": "This endpoint submits transactions to the Stellar network asynchronously. It is designed to allow users to submit transactions without blocking them while waiting for a response from Horizon. At the same time, it also provides clear response status codes from stellar-core to help understand the status of the submitted transaction. You can then use Horizon's [GET transaction endpoint](https://developers.stellar.org/docs/data/apis/horizon/api-reference/resources/retrieve-a-transaction) to wait for the transaction to be included in a ledger and ingested by Horizon.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions_async"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tx",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1e59e4ec-4500-4fe6-a13b-ed1d66f65dda",
+              "name": "Transaction has been received by core and is in pending status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tx_status\": \"PENDING\",\n  \"hash\": \"6cbb7f714bd08cea7c30cab7818a35c510cbbfc0a6aa06172a1e94146ecf0165\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f94e3b2a-b03c-4ff7-8820-c6e0e169f271",
+              "name": "Transaction is malformed; ERROR status from core.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"transaction_malformed\",\n  \"title\": \"Transaction Malformed\",\n  \"status\": 400,\n  \"detail\": \"Horizon could not decode the transaction envelope in this request. A transaction should be an XDR TransactionEnvelope struct encoded using base64. The envelope read from this request is echoed in the `extras.envelope_xdr` field of this response for your convenience.\",\n  \"extras\": {\n    \"envelope_xdr\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "093ff612-4a1d-4c25-9c5a-a286825f0170",
+              "name": "Transaction submission has been disabled for Horizon.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"transaction_submission_disabled\",\n  \"title\": \"Transaction Submission Disabled\",\n  \"status\": 403,\n  \"detail\": \"Transaction submission has been disabled for Horizon. To enable it again, remove env variable DISABLE_TX_SUB.\",\n  \"extras\": {\n    \"envelope_xdr\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48eccd43-3db5-4f6f-8bf8-d6c75de7d385",
+              "name": "Transaction is a duplicate of a previously submitted transaction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tx_status\": \"DUPLICATE\",\n  \"hash\": \"6cbb7f714bd08cea7c30cab7818a35c510cbbfc0a6aa06172a1e94146ecf0165\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3455c0a5-ac12-4553-a662-806f91e97ac4",
+              "name": "Transaction submission failure, exception or invalid status from core.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"transaction_submission_failed\",\n  \"title\": \"Transaction Submission Failed\",\n  \"status\": 500,\n  \"detail\": \"Could not submit transaction to stellar-core. The `extras.error` field on this response contains further details. Descriptions of each code can be found at: https://developers.stellar.org/api/errors/http-status-codes/horizon-specific/transaction-submission-async/transaction_submission_failed\",\n  \"extras\": {\n    \"envelope_xdr\": \"\",\n    \"error\": \"Error details here\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "161cce1e-0c19-45da-82b4-5ea4c9a8ecfb",
+              "name": "History DB is stale; core is unavailable for transaction submission.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions_async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tx",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"stale_history\",\n  \"title\": \"Historical DB Is Too Stale\",\n  \"status\": 503,\n  \"detail\": \"This horizon instance is configured to reject client requests when it can determine that the history database is lagging too far behind the connected instance of Stellar-Core or read replica. It's also possible that Stellar-Core is out of sync. Please try again later.\",\n  \"extras\": {\n    \"envelope_xdr\": \"\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b0abb9fb-44cb-499a-a7d9-f1703d8638eb",
+    "name": "Platform Server Accounts Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

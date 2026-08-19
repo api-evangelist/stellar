@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "991e4893-2e57-45ff-9d3c-399bbb35d1cb",
+      "name": "Fee Stats",
+      "description": {
+        "content": "Fee stats are used to predict what fee to set for a transaction before submitting it to the network.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "019aed31-eee6-4b96-a350-8168f572b01b",
+          "name": "Retrieve Fee Stats",
+          "request": {
+            "name": "Retrieve Fee Stats",
+            "description": {
+              "content": "The fee stats endpoint provides information about per-operation fee stats over the last 5 ledgers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fee_stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4143e635-1319-441e-b518-347edc7ebf74",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fee_stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"last_ledger\": \"43277313\",\n  \"last_ledger_base_fee\": \"100\",\n  \"ledger_capacity_usage\": \"1\",\n  \"fee_charged\": {\n    \"max\": \"5500\",\n    \"min\": \"5000\",\n    \"mode\": \"5000\",\n    \"p10\": \"5000\",\n    \"p20\": \"5000\",\n    \"p30\": \"5000\",\n    \"p40\": \"5000\",\n    \"p50\": \"5001\",\n    \"p60\": \"5001\",\n    \"p70\": \"5066\",\n    \"p80\": \"5066\",\n    \"p90\": \"5500\",\n    \"p95\": \"5500\",\n    \"p99\": \"5500\"\n  },\n  \"max_fee\": {\n    \"max\": \"616065406\",\n    \"min\": \"5000\",\n    \"mode\": \"10003\",\n    \"p10\": \"10000\",\n    \"p20\": \"10003\",\n    \"p30\": \"10003\",\n    \"p40\": \"20005\",\n    \"p50\": \"20005\",\n    \"p60\": \"50020\",\n    \"p70\": \"50020\",\n    \"p80\": \"150000\",\n    \"p90\": \"500000\",\n    \"p95\": \"500000\",\n    \"p99\": \"1490000\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1f787d4c-f77a-4d2f-87b7-d6d3fb24255e",
+    "name": "Platform Server Accounts Fee Stats API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

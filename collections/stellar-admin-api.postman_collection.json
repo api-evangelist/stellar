@@ -1,0 +1,1035 @@
+{
+  "item": [
+    {
+      "id": "8b4254a5-e4cc-45e8-884d-c159cf64dc85",
+      "name": "Admin",
+      "description": {
+        "content": "The Admin API oversees the management of tenants within the system, facilitating tasks such as provisioning new tenants, updating their information, and retrieving tenant data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d637170c-6c4f-48e2-a025-934bb9d191f0",
+          "name": "Get All Tenants",
+          "request": {
+            "name": "Get All Tenants",
+            "description": {},
+            "url": {
+              "path": [
+                "tenants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "ae067d98-f528-44d9-897e-933c7026f7be",
+              "name": "A list of provisioned tenants with their configurations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"base_url\": \"https://bluecorp-backend.sdp.org\",\n    \"created_at\": \"2024-03-27T17:21:51Z\",\n    \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n    \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n    \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n    \"is_default\": false,\n    \"name\": \"bluecorp\",\n    \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n    \"status\": \"TENANT_DEACTIVATED\",\n    \"updated_at\": \"2024-03-27T17:21:51Z\",\n    \"deleted_at\": \"2024-03-27T17:21:51Z\"\n  },\n  {\n    \"base_url\": \"https://bluecorp-backend.sdp.org\",\n    \"created_at\": \"2024-03-27T17:21:51Z\",\n    \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"distribution_account_status\": \"ACTIVE\",\n    \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT\",\n    \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n    \"is_default\": false,\n    \"name\": \"bluecorp\",\n    \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n    \"status\": \"TENANT_DEACTIVATED\",\n    \"updated_at\": \"2024-03-27T17:21:51Z\",\n    \"deleted_at\": \"2024-03-27T17:21:51Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "210b38e6-2f66-4059-b0b5-214da648b36a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d41a6071-4aaa-44ec-aac2-db7982499048",
+          "name": "Create Tenant",
+          "request": {
+            "name": "Create Tenant",
+            "description": {},
+            "url": {
+              "path": [
+                "tenants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"distribution_account_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"organization_name\": \"<string>\",\n  \"owner_email\": \"<string>\",\n  \"owner_first_name\": \"<string>\",\n  \"owner_last_name\": \"<string>\",\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "aee685d7-fe5c-4654-a2be-77a4f4c04334",
+              "name": "Provision a new tenant",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"redcorp\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT\",\n  \"owner_email\": \"owner@redcorp.org\",\n  \"owner_first_name\": \"Owner\",\n  \"owner_last_name\": \"Last\",\n  \"organization_name\": \"Red Corp\",\n  \"base_url\": \"https://redcorp-backend.sdp.org\",\n  \"sdp_ui_base_url\": \"https://redcorp.sdp.org\"\n}"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "230362b5-1573-4d1f-8c85-c13d800fa1fc",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"redcorp\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT\",\n  \"owner_email\": \"owner@redcorp.org\",\n  \"owner_first_name\": \"Owner\",\n  \"owner_last_name\": \"Last\",\n  \"organization_name\": \"Red Corp\",\n  \"base_url\": \"https://redcorp-backend.sdp.org\",\n  \"sdp_ui_base_url\": \"https://redcorp.sdp.org\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "29daa69c-f77b-4319-8ccb-3a86c20eae5e",
+          "name": "Retrieve a Tenant",
+          "request": {
+            "name": "Retrieve a Tenant",
+            "description": {},
+            "url": {
+              "path": [
+                "tenants",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID or Name of the `Tenant`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "c0952164-9aa5-4194-b4d0-dbbc4a6e27e7",
+              "name": "Tenant details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID or Name of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e941b76-5f3d-40bb-b979-9a7862869e04",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID or Name of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2fc22d36-896e-48c5-be9e-ab9503dc3d19",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID or Name of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5f61e2a6-f001-4b32-817d-bc508025c9ae",
+          "name": "Soft delete a Tenant",
+          "request": {
+            "name": "Soft delete a Tenant",
+            "description": {},
+            "url": {
+              "path": [
+                "tenants",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Tenant`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "98a4ff61-10bb-4803-b29e-f2b23f4f03c8",
+              "name": "Deleted Tenant details, with a non-empty `deleted_at` field",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "022e9057-535e-46d2-936f-5f27111899d4",
+              "name": "The tenant was already deleted before this request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Modified",
+              "code": 304,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f754888-5f65-4e23-a45c-4564977d4faf",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44036a17-3ac3-4425-be19-033bab8f361d",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5b7cea19-62b0-4e1e-ad67-e4d1e2efccee",
+          "name": "Update a Tenant",
+          "request": {
+            "name": "Update a Tenant",
+            "description": {
+              "content": "This endpoint updates the Tenant data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tenants",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Tenant`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\",\n  \"status\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "030ca781-9ce0-432b-9cc8-efa8a75bb5ea",
+              "name": "Updated Tenant details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\",\n  \"status\": \"<string>\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "623eb68c-986e-4c87-82b6-400feef7ac28",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\",\n  \"status\": \"<string>\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a627c22c-7187-4b4e-92cf-9deee478d22d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\",\n  \"status\": \"<string>\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e43125d1-eaf3-4aa6-9049-1c50a78d52d3",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Tenant`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_url\": \"<string>\",\n  \"sdp_ui_base_url\": \"<string>\",\n  \"status\": \"<string>\"\n}"
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0d5c59d-8987-4ccb-bcfc-ca9856c5da41",
+          "name": "Default Tenant",
+          "request": {
+            "name": "Default Tenant",
+            "description": {
+              "content": "Sets the tenant specified in the request body as the default one, resolving all the incoming API request to that tenant when the env `SINGLE_TENANT_MODE` is set to true. Once set, the default tenant can be overwritten but never unset, although it is only effective when `SINGLE_TENANT_MODE` is set to true.\n\nDefault tenant is useful for development purposes or when the SDP is used by a single organization. This allows the organization to skip specifying the tenant in every request and simplifies the SDP setup operationally by removing the need of providing wildcard TLS certificates for multi-tenant configurations.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tenants",
+                "default-tenant"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "1950de30-4bb0-4a0f-ac50-38258b22d4a9",
+              "name": "Default tenant details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    "default-tenant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"base_url\": \"https://bluecorp-backend.sdp.org\",\n  \"created_at\": \"2024-03-27T17:21:51Z\",\n  \"distribution_account_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"distribution_account_status\": \"PENDING_USER_ACTIVATION\",\n  \"distribution_account_type\": \"DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT\",\n  \"id\": \"1736bed3-7b92-4760-8ff2-51fb08ee079f\",\n  \"is_default\": false,\n  \"name\": \"bluecorp\",\n  \"sdp_ui_base_url\": \"https://bluecorp.sdp.org\",\n  \"status\": \"TENANT_ACTIVATED\",\n  \"updated_at\": \"2024-03-27T17:21:51Z\",\n  \"deleted_at\": \"2024-03-27T17:21:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d96b2965-c9d9-4118-b420-590512c191a3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    "default-tenant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05005b50-619c-4e41-999e-1beb43bb7e4c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tenants",
+                    "default-tenant"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\"\n}"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "17b7a537-5811-444f-aecf-f3146f0743eb",
+    "name": "Platform Server Accounts Admin API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

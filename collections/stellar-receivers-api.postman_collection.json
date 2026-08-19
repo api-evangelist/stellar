@@ -1,0 +1,1974 @@
+{
+  "item": [
+    {
+      "id": "7fcaff46-e456-4fd9-b6a3-b6594f96b8b1",
+      "name": "Receivers",
+      "description": {
+        "content": "Endpoints related to receivers. A receiver is an individual receiving a payment in a disbursement. The receiver is tracked by phone number to reduce the need for personally identifiable information. Each receiver must be unique within the disbursement.\n\nEach receiver will have at least one wallet associated with them. The wallet public key will remain null until the receiver registers with a wallet provider and links the wallet to the SDP through SEP-24. Receivers must verify their identity through that process, which requires the SDP to store verification information on receivers like date of birth, national ID number, or personal PIN. This information can be updated by the organization through the receiver endpoints.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9ac6fbe6-ad90-4d13-9e4d-42700623aa50",
+          "name": "List Verification Types",
+          "request": {
+            "name": "List Verification Types",
+            "description": {
+              "content": "Returns the supported receiver verification types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers",
+                "verification-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "070fe757-2e09-4be0-8294-28265504c097",
+              "name": "A list of verification types",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "verification-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"PIN\",\n  \"DATE_OF_BIRTH\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ae30987-e970-40f9-bd29-df818be26755",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "verification-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61f461e4-5d84-4453-afa3-fe227da7c48e",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "verification-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a0d003bf-0791-49e3-abd0-655a42d1a98a",
+          "name": "List All Receivers",
+          "request": {
+            "name": "List All Receivers",
+            "description": {
+              "content": "Returns all receivers matching the request criteria. This endpoint supports pagination and filtering on receiver status, receiver attributes, and timestamp. Each payment has details on the receiver, high-level payments metrics, and wallets associated with the receiver.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page requested."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_limit",
+                  "value": "20",
+                  "description": "Define how many results will be returned in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "A search term used to query through the receiver phone_number, email, and ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Exact match on the status of the receiver wallet."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_after",
+                  "value": "<string>",
+                  "description": "Only return receivers that are created after this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_before",
+                  "value": "<string>",
+                  "description": "Only return receivers that are created before this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "updated_at",
+                  "description": "Field used to sort receivers"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "desc",
+                  "description": "Direction for sorting receivers."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "bafa4f33-3ef7-40de-b360-bbb67066f0b7",
+              "name": "A paginated list of Receiver details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"?page=3&page_limit=2\",\n    \"prev\": \"?page=1&page_limit=2\",\n    \"pages\": 8,\n    \"total\": 16\n  },\n  \"data\": [\n    {\n      \"id\": \"f83bb638-dda4-41e6-80c9-d03e6eec2aef\",\n      \"phone_number\": \"+15552368475\",\n      \"external_id\": \"usr12334\",\n      \"email\": \"jdoe@mail.org\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"successful_payments\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"registered_wallets\": \"1\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"wallets\": [\n        {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n          },\n          \"wallet\": {\n            \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n            \"name\": \"Vibrant Assist\",\n            \"homepage\": \"https://vibrantapp.com\",\n            \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n            \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n            \"enabled\": true,\n            \"user_managed\": false\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n          \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n          \"total_payments\": \"2\",\n          \"payments_received\": \"2\",\n          \"failed_payments\": \"0\",\n          \"remaining_payments\": \"0\",\n          \"received_amounts\": [\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"status\": \"FLAGGED\",\n          \"status_history\": [\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n          },\n          \"wallet\": {\n            \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n            \"name\": \"Vibrant Assist\",\n            \"homepage\": \"https://vibrantapp.com\",\n            \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n            \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n            \"enabled\": true,\n            \"user_managed\": false\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n          \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n          \"total_payments\": \"2\",\n          \"payments_received\": \"2\",\n          \"failed_payments\": \"0\",\n          \"remaining_payments\": \"0\",\n          \"received_amounts\": [\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"status\": \"REGISTERED\",\n          \"status_history\": [\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"f83bb638-dda4-41e6-80c9-d03e6eec2aef\",\n      \"phone_number\": \"+15552368475\",\n      \"external_id\": \"usr12334\",\n      \"email\": \"jdoe@mail.org\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"successful_payments\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"registered_wallets\": \"1\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"wallets\": [\n        {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n          },\n          \"wallet\": {\n            \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n            \"name\": \"Vibrant Assist\",\n            \"homepage\": \"https://vibrantapp.com\",\n            \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n            \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n            \"enabled\": true,\n            \"user_managed\": false\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n          \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n          \"total_payments\": \"2\",\n          \"payments_received\": \"2\",\n          \"failed_payments\": \"0\",\n          \"remaining_payments\": \"0\",\n          \"received_amounts\": [\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"status\": \"READY\",\n          \"status_history\": [\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n          },\n          \"wallet\": {\n            \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n            \"name\": \"Vibrant Assist\",\n            \"homepage\": \"https://vibrantapp.com\",\n            \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n            \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n            \"enabled\": true,\n            \"user_managed\": false\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n          \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n          \"total_payments\": \"2\",\n          \"payments_received\": \"2\",\n          \"failed_payments\": \"0\",\n          \"remaining_payments\": \"0\",\n          \"received_amounts\": [\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"asset_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"asset_issuer\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"received_amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"status\": \"REGISTERED\",\n          \"status_history\": [\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"status\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"timestamp\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bc761a9-2b91-480b-8ca6-306241436015",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29bc0242-843a-4bf5-8a4a-596a27cfe858",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "39995687-c6eb-4896-a92a-28cdf2ada337",
+          "name": "Create Receiver",
+          "request": {
+            "name": "Create Receiver",
+            "description": {
+              "content": "Creates a new Receiver. Allows clients to create a single receiver record, which can later be referenced in payments or disbursements.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a6cd853-5955-4fb5-9cdd-101b2a279c26",
+              "name": "Receiver created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"f83bb638-dda4-41e6-80c9-d03e6eec2aef\",\n  \"phone_number\": \"+15552368475\",\n  \"external_id\": \"usr12334\",\n  \"email\": \"jdoe@mail.org\",\n  \"created_at\": \"2023-02-03T10:45:51.000Z\",\n  \"total_payments\": \"2\",\n  \"successful_payments\": \"2\",\n  \"failed_payments\": \"0\",\n  \"remaining_payments\": \"0\",\n  \"registered_wallets\": \"1\",\n  \"received_amounts\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    }\n  ],\n  \"wallets\": [\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"DRAFT\",\n      \"status_history\": [\n        {\n          \"status\": \"REGISTERED\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"REGISTERED\",\n      \"status_history\": [\n        {\n          \"status\": \"READY\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89549543-dc22-43c8-8644-51062b05c955",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aba3df25-78a2-42b8-893b-3089aa502ed2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a8ad766-d3d6-48ad-a03f-8f7c04c4e939",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06146cc7-7bd4-47e4-a7b2-b32e7b0e3f6a",
+              "name": "Conflict - receiver already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"external_id\": \"<string>\",\n  \"verifications\": [\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"email\": \"<email>\",\n  \"phone_number\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "edede333-c241-4c58-a425-7950e5aa6a98",
+          "name": "Retrieve a Receiver",
+          "request": {
+            "name": "Retrieve a Receiver",
+            "description": {
+              "content": "Fetches detailed information on a specific receiver by  `id `, including all associated wallets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Receiver`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "150469dc-dad9-46ca-9c51-0f31cbbffd35",
+              "name": "Receiver Details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"f83bb638-dda4-41e6-80c9-d03e6eec2aef\",\n  \"phone_number\": \"+15552368475\",\n  \"external_id\": \"usr12334\",\n  \"email\": \"jdoe@mail.org\",\n  \"created_at\": \"2023-02-03T10:45:51.000Z\",\n  \"total_payments\": \"2\",\n  \"successful_payments\": \"2\",\n  \"failed_payments\": \"0\",\n  \"remaining_payments\": \"0\",\n  \"registered_wallets\": \"1\",\n  \"received_amounts\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    }\n  ],\n  \"wallets\": [\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"DRAFT\",\n      \"status_history\": [\n        {\n          \"status\": \"REGISTERED\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"REGISTERED\",\n      \"status_history\": [\n        {\n          \"status\": \"READY\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c7202dc-f627-4e66-8a4f-c0e11ba25a32",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e174e33-f704-4d30-9564-94fcb29a3e91",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9dde4af8-8e4d-485c-8133-d99784f13971",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d596480-ce2d-424f-96ba-53b7a7aeda5a",
+          "name": "Update a Receiver",
+          "request": {
+            "name": "Update a Receiver",
+            "description": {
+              "content": "This endpoint allows an organization to add and update information on the receiver, including email address, external ID, date of birth, personal PIN, and national ID number. The response includes all information on the receiver.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Receiver`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date_of_birth\": \"<string>\",\n  \"pin\": \"<string>\",\n  \"national_id\": \"<string>\",\n  \"email\": \"<string>\",\n  \"phone_number\": \"<string>\",\n  \"external_id\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "cbb27494-5fdb-40a4-8685-58c55b4142e7",
+              "name": "Updated Receiver Details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"f83bb638-dda4-41e6-80c9-d03e6eec2aef\",\n  \"phone_number\": \"+15552368475\",\n  \"external_id\": \"usr12334\",\n  \"email\": \"jdoe@mail.org\",\n  \"created_at\": \"2023-02-03T10:45:51.000Z\",\n  \"total_payments\": \"2\",\n  \"successful_payments\": \"2\",\n  \"failed_payments\": \"0\",\n  \"remaining_payments\": \"0\",\n  \"registered_wallets\": \"1\",\n  \"received_amounts\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    }\n  ],\n  \"wallets\": [\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"DRAFT\",\n      \"status_history\": [\n        {\n          \"status\": \"REGISTERED\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    },\n    {\n      \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n      \"receiver\": {\n        \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n      },\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"enabled\": true,\n        \"user_managed\": false\n      },\n      \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n      \"stellar_memo\": \"string\",\n      \"stellar_memo_type\": \"string\",\n      \"created_at\": \"2023-02-03T10:45:51.000Z\",\n      \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n      \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n      \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n      \"total_payments\": \"2\",\n      \"payments_received\": \"2\",\n      \"failed_payments\": \"0\",\n      \"remaining_payments\": \"0\",\n      \"received_amounts\": [\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        },\n        {\n          \"asset_code\": \"USDC\",\n          \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"received_amount\": \"100.00\"\n        }\n      ],\n      \"status\": \"REGISTERED\",\n      \"status_history\": [\n        {\n          \"status\": \"READY\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        },\n        {\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-10T10:45:51Z\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbeef3b6-d577-4dbe-8952-16afaeae20bb",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ebe9a46-a43d-4a27-827b-f4fc8ad663ac",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8def5b47-99ee-433e-9064-921f9341e5f6",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "485f6516-3bc1-437e-86de-4ac1c02f29a6",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1683ef4-7461-479c-bc3e-7e67bcbb852c",
+              "name": "Conflicting phone number or email",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Receiver`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"date_of_birth\": \"1980-01-01\",\n  \"pin\": \"1234\",\n  \"national_id\": \"123456789\",\n  \"email\": \"john@example.com\",\n  \"external_id\": \"external123\"\n}"
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"The provided email is already associated with another user.\",\n  \"extras\": {\n    \"email\": \"email must be unique\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff8ccb2d-5815-4bce-929c-18f435b4e53c",
+          "name": "Update Receiver Wallet",
+          "request": {
+            "name": "Update Receiver Wallet",
+            "description": {
+              "content": "Updates a receiver wallet's Stellar address and memo for user-managed wallets.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers",
+                ":receiver_id",
+                "wallets",
+                ":receiver_wallet_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "receiver_id",
+                  "description": "(Required) ID of the `Receiver`."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "receiver_wallet_id",
+                  "description": "(Required) ID of the receiver wallet."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stellar_address\": \"<string>\",\n  \"stellar_memo\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8b681499-581c-4160-acaa-f050e8544534",
+              "name": "Receiver wallet updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":receiver_id",
+                    "wallets",
+                    ":receiver_wallet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_id",
+                      "description": "(Required) ID of the `Receiver`."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"12345\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n  \"receiver\": {\n    \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n  },\n  \"wallet\": {\n    \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n    \"name\": \"Vibrant Assist\",\n    \"homepage\": \"https://vibrantapp.com\",\n    \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n    \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n    \"enabled\": true,\n    \"user_managed\": false\n  },\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"string\",\n  \"stellar_memo_type\": \"string\",\n  \"created_at\": \"2023-02-03T10:45:51.000Z\",\n  \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n  \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n  \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n  \"total_payments\": \"2\",\n  \"payments_received\": \"2\",\n  \"failed_payments\": \"0\",\n  \"remaining_payments\": \"0\",\n  \"received_amounts\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"received_amount\": \"100.00\"\n    }\n  ],\n  \"status\": \"DRAFT\",\n  \"status_history\": [\n    {\n      \"status\": \"REGISTERED\",\n      \"timestamp\": \"2023-02-10T10:45:51Z\"\n    },\n    {\n      \"status\": \"DRAFT\",\n      \"timestamp\": \"2023-02-10T10:45:51Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5ce1e04-5722-4fde-a8c5-05d560398978",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":receiver_id",
+                    "wallets",
+                    ":receiver_wallet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_id",
+                      "description": "(Required) ID of the `Receiver`."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"12345\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc43d558-0ee5-48d4-888d-59dc4c942b24",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":receiver_id",
+                    "wallets",
+                    ":receiver_wallet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_id",
+                      "description": "(Required) ID of the `Receiver`."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"12345\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "410f9e72-9b8b-4bd3-ba15-7e41f6de2163",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":receiver_id",
+                    "wallets",
+                    ":receiver_wallet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_id",
+                      "description": "(Required) ID of the `Receiver`."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"12345\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "18357ced-07ce-43a2-bb19-2fec6f94cba0",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    ":receiver_id",
+                    "wallets",
+                    ":receiver_wallet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_id",
+                      "description": "(Required) ID of the `Receiver`."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"stellar_memo\": \"12345\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1002d9ff-c7da-417b-815c-2ded51973497",
+          "name": "Update Receiver Wallet Status",
+          "request": {
+            "name": "Update Receiver Wallet Status",
+            "description": {
+              "content": "Updates a receiver wallet's status. Only `READY` is supported.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receivers",
+                "wallets",
+                ":receiver_wallet_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "receiver_wallet_id",
+                  "description": "(Required) ID of the receiver wallet."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "adda0012-0009-4a85-a3ac-685dec04ffca",
+              "name": "Receiver wallet status updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "wallets",
+                    ":receiver_wallet_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"READY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd720991-a492-4b67-ab7c-b292d8fb1ca9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "wallets",
+                    ":receiver_wallet_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"READY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b92723b-02e1-41af-b247-64e697247850",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "wallets",
+                    ":receiver_wallet_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"READY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4db6f205-5e2a-4e9f-9947-aa9846ee8709",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "wallets",
+                    ":receiver_wallet_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"READY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4e20be5-6d64-48d3-be5c-8f978d716d23",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receivers",
+                    "wallets",
+                    ":receiver_wallet_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "receiver_wallet_id",
+                      "description": "(Required) ID of the receiver wallet."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"READY\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0864f751-bea6-42c4-98af-06f7e503863d",
+    "name": "Platform Server Accounts Receivers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

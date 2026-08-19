@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Assets API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/assets",
+            "params": [
+              {
+                "name": "asset_code",
+                "value": "",
+                "type": "query",
+                "description": "The code of the asset you would like to filter by."
+              },
+              {
+                "name": "asset_issuer",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the issuer for the asset you would like to filter by."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint lists all assets."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

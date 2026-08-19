@@ -1,0 +1,1504 @@
+{
+  "item": [
+    {
+      "id": "31b4decc-faea-4198-a1a5-cae5500f62a6",
+      "name": "Payments",
+      "description": {
+        "content": "Endpoints related to payments. An SDP payment is an individual payment from an organization to a receiver. Each payment is part of a disbursement and occurs on the Stellar network. Granular payment status is stored in the SDP database and can be viewed in real-time on the SDP dashboard.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "164324d2-e99c-4a54-81ac-8284acfb2a8b",
+          "name": "List All Payments",
+          "request": {
+            "name": "List All Payments",
+            "description": {
+              "content": "Returns all individual payments matching the request criteria. This endpoint supports pagination, and filtering on payment status, type, receiver ID, and timestamp. Each payment has details on the transaction itself, receiver, disbursement, asset, status history, and blockchain information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page requested."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "Search payments by ID, external_payment_id, receiver wallet address, or disbursement name."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Type of payments"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_limit",
+                  "value": "20",
+                  "description": "Define how many results will be returned in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Exact match on the status of the payment."
+                },
+                {
+                  "disabled": false,
+                  "key": "receiver_id",
+                  "value": "<string>",
+                  "description": "UUID that represents a receiver in the database"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_after",
+                  "value": "<string>",
+                  "description": "Only return payments that are created after this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_before",
+                  "value": "<string>",
+                  "description": "Only return payments that are created before this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "updated_at",
+                  "description": "Field used to sort payments"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "desc",
+                  "description": "Direction for sorting payments."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "13510285-dc7b-4e25-b693-313879399313",
+              "name": "A paginated list of payments",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "receiver_id",
+                      "value": "b6b667ad-6cc2-46cf-9be7-561daace7d48"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"?page=3&page_limit=2\",\n    \"prev\": \"?page=1&page_limit=2\",\n    \"pages\": 8,\n    \"total\": 16\n  },\n  \"data\": [\n    {\n      \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n      \"amount\": \"100.00\",\n      \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n      \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n      \"stellar_operation_id\": \"string\",\n      \"status\": \"READY\",\n      \"status_history\": [\n        {\n          \"status\": \"CANCELED\",\n          \"status_message\": \"string\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        },\n        {\n          \"status\": \"READY\",\n          \"status_message\": \"string\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        }\n      ],\n      \"type\": \"DISBURSEMENT\",\n      \"disbursement\": {\n        \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n        \"name\": \"disbursement-june-29\",\n        \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n        \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n        \"status\": \"COMPLETED\",\n        \"verification_field\": \"PIN\",\n        \"status_history\": [\n          {\n            \"user_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"user_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"file_name\": \"disbursement-feb-03-2023.csv\",\n        \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n        \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n      },\n      \"asset\": {\n        \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n        \"code\": \"USDC\",\n        \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\",\n        \"deleted_at\": \"2023-06-03T10:55:51Z\"\n      },\n      \"receiver_wallet\": {\n        \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n        \"receiver\": {\n          \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n        },\n        \"wallet\": {\n          \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n          \"name\": \"Vibrant Assist\",\n          \"homepage\": \"https://vibrantapp.com\",\n          \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n          \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n          \"enabled\": true,\n          \"user_managed\": false\n        },\n        \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n        \"stellar_memo\": \"string\",\n        \"stellar_memo_type\": \"string\",\n        \"sep24_transaction_id\": \"string\",\n        \"created_at\": \"2023-02-03T10:45:51.000Z\",\n        \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n        \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n        \"status\": \"DRAFT\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          }\n        ],\n        \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n        \"otp_confirmed_with\": \"string\"\n      },\n      \"external_payment_id\": \"payment-001\",\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n      \"amount\": \"100.00\",\n      \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n      \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n      \"stellar_operation_id\": \"string\",\n      \"status\": \"PAUSED\",\n      \"status_history\": [\n        {\n          \"status\": \"SUCCESS\",\n          \"status_message\": \"string\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        },\n        {\n          \"status\": \"FAILED\",\n          \"status_message\": \"string\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        }\n      ],\n      \"type\": \"DIRECT\",\n      \"disbursement\": {\n        \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n        \"name\": \"disbursement-june-29\",\n        \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n        \"registration_contact_type\": \"PHONE_NUMBER_AND_WALLET_ADDRESS\",\n        \"status\": \"DRAFT\",\n        \"verification_field\": \"DATE_OF_BIRTH\",\n        \"status_history\": [\n          {\n            \"user_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"user_id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"file_name\": \"disbursement-feb-03-2023.csv\",\n        \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n        \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n      },\n      \"asset\": {\n        \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n        \"code\": \"USDC\",\n        \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\",\n        \"deleted_at\": \"2023-06-03T10:55:51Z\"\n      },\n      \"receiver_wallet\": {\n        \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n        \"receiver\": {\n          \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n        },\n        \"wallet\": {\n          \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n          \"name\": \"Vibrant Assist\",\n          \"homepage\": \"https://vibrantapp.com\",\n          \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n          \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n          \"enabled\": true,\n          \"user_managed\": false\n        },\n        \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n        \"stellar_memo\": \"string\",\n        \"stellar_memo_type\": \"string\",\n        \"sep24_transaction_id\": \"string\",\n        \"created_at\": \"2023-02-03T10:45:51.000Z\",\n        \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n        \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n        \"status\": \"DRAFT\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          }\n        ],\n        \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n        \"otp_confirmed_with\": \"string\"\n      },\n      \"external_payment_id\": \"payment-001\",\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b87e8c3c-3cab-4c12-ab83-92c955b6ead7",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "receiver_id",
+                      "value": "b6b667ad-6cc2-46cf-9be7-561daace7d48"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14544f34-b549-4ecd-a70a-621f3c7feb24",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "receiver_id",
+                      "value": "b6b667ad-6cc2-46cf-9be7-561daace7d48"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a6b9a4c-6a51-4f2f-a6ee-f7990af6e576",
+          "name": "Create Direct Payment",
+          "request": {
+            "name": "Create Direct Payment",
+            "description": {
+              "content": "Creates a new direct payment that is immediately sent to the specified receiver if they have a valid registered wallet. Direct payments bypass the disbursement workflow and are processed instantly.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7001f108-00e1-4117-8873-10839f6c3533",
+              "name": "Direct payment created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n  \"amount\": \"100.00\",\n  \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n  \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n  \"stellar_operation_id\": \"string\",\n  \"status\": \"READY\",\n  \"status_history\": [\n    {\n      \"status\": \"DRAFT\",\n      \"status_message\": \"string\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"status\": \"DRAFT\",\n      \"status_message\": \"string\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    }\n  ],\n  \"type\": \"DIRECT\",\n  \"disbursement\": {\n    \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n    \"name\": \"disbursement-june-29\",\n    \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n    \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n    \"status\": \"DRAFT\",\n    \"verification_field\": \"DATE_OF_BIRTH\",\n    \"status_history\": [\n      {\n        \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-03T10:45:51Z\"\n      },\n      {\n        \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-03T10:45:51Z\"\n      }\n    ],\n    \"file_name\": \"disbursement-feb-03-2023.csv\",\n    \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n    \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n  },\n  \"asset\": {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  \"receiver_wallet\": {\n    \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n    \"receiver\": {\n      \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n    },\n    \"wallet\": {\n      \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n      \"name\": \"Vibrant Assist\",\n      \"homepage\": \"https://vibrantapp.com\",\n      \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n      \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n      \"enabled\": true,\n      \"user_managed\": false\n    },\n    \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"stellar_memo\": \"string\",\n    \"stellar_memo_type\": \"string\",\n    \"sep24_transaction_id\": \"string\",\n    \"created_at\": \"2023-02-03T10:45:51.000Z\",\n    \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n    \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n    \"status\": \"FLAGGED\",\n    \"status_history\": [\n      {\n        \"status\": \"READY\",\n        \"timestamp\": \"2023-02-10T10:45:51Z\"\n      },\n      {\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-10T10:45:51Z\"\n      }\n    ],\n    \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n    \"otp_confirmed_with\": \"string\"\n  },\n  \"external_payment_id\": \"payment-001\",\n  \"created_at\": \"2023-02-03T10:45:51Z\",\n  \"updated_at\": \"2023-02-03T10:45:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5dfb1979-49db-4d11-9c75-854c7ff7c553",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3166812b-0d82-4df1-88ba-61dfca7a77dd",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca9fd0f3-a5bd-41b3-9052-bc3712c10cc5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24e09d8c-df8f-4f56-8df9-af68c3315910",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"<string>\",\n  \"asset\": {\n    \"id\": \"<string>\",\n    \"type\": \"<string>\",\n    \"code\": \"<string>\",\n    \"issuer\": \"<string>\",\n    \"contract_id\": \"<string>\"\n  },\n  \"receiver\": {\n    \"id\": \"<string>\",\n    \"email\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"wallet_address\": \"<string>\"\n  },\n  \"wallet\": {\n    \"id\": \"<string>\",\n    \"address\": \"<string>\"\n  },\n  \"external_payment_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8676de45-5625-4b85-8b30-2872c779d4e7",
+          "name": "Retrieve a Payment",
+          "request": {
+            "name": "Retrieve a Payment",
+            "description": {
+              "content": "Fetches detailed information on a specific payment by  `id `.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Payment`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "6ad50e0a-444e-4361-8c3e-073fa5046847",
+              "name": "Payment details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n  \"amount\": \"100.00\",\n  \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n  \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n  \"stellar_operation_id\": \"string\",\n  \"status\": \"READY\",\n  \"status_history\": [\n    {\n      \"status\": \"DRAFT\",\n      \"status_message\": \"string\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"status\": \"DRAFT\",\n      \"status_message\": \"string\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    }\n  ],\n  \"type\": \"DIRECT\",\n  \"disbursement\": {\n    \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n    \"name\": \"disbursement-june-29\",\n    \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n    \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n    \"status\": \"DRAFT\",\n    \"verification_field\": \"DATE_OF_BIRTH\",\n    \"status_history\": [\n      {\n        \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-03T10:45:51Z\"\n      },\n      {\n        \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-03T10:45:51Z\"\n      }\n    ],\n    \"file_name\": \"disbursement-feb-03-2023.csv\",\n    \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n    \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n  },\n  \"asset\": {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  \"receiver_wallet\": {\n    \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n    \"receiver\": {\n      \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n    },\n    \"wallet\": {\n      \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n      \"name\": \"Vibrant Assist\",\n      \"homepage\": \"https://vibrantapp.com\",\n      \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n      \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n      \"enabled\": true,\n      \"user_managed\": false\n    },\n    \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"stellar_memo\": \"string\",\n    \"stellar_memo_type\": \"string\",\n    \"sep24_transaction_id\": \"string\",\n    \"created_at\": \"2023-02-03T10:45:51.000Z\",\n    \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n    \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n    \"status\": \"FLAGGED\",\n    \"status_history\": [\n      {\n        \"status\": \"READY\",\n        \"timestamp\": \"2023-02-10T10:45:51Z\"\n      },\n      {\n        \"status\": \"DRAFT\",\n        \"timestamp\": \"2023-02-10T10:45:51Z\"\n      }\n    ],\n    \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n    \"otp_confirmed_with\": \"string\"\n  },\n  \"external_payment_id\": \"payment-001\",\n  \"created_at\": \"2023-02-03T10:45:51Z\",\n  \"updated_at\": \"2023-02-03T10:45:51Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da014721-240f-401a-a2fc-931bc45744e9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "225180e3-b5f4-4ebb-a323-9d6424723a78",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "caf853f0-fc91-4211-bc3f-01c1417144eb",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Payment not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3675c8c4-b42a-4ac0-a757-8e926807559b",
+          "name": "Retry Payments",
+          "request": {
+            "name": "Retry Payments",
+            "description": {
+              "content": "Retries failed payments by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                "retry"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6a8a24fb-150b-42ca-87a2-f4e784bc621a",
+              "name": "Payments retried successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "retry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_ids\": [\n    \"9f687f8f-1f8f-4c8a-8e0f-1e67ed7c1330\",\n    \"6c2b9f20-53fd-4f1b-b7e2-9a2b1eb1d7c0\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Payments retried successfully\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41654678-8e26-4cae-902b-b0408db92bed",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "retry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_ids\": [\n    \"9f687f8f-1f8f-4c8a-8e0f-1e67ed7c1330\",\n    \"6c2b9f20-53fd-4f1b-b7e2-9a2b1eb1d7c0\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cfabb85-0195-408a-b587-130745e8be00",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "retry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_ids\": [\n    \"9f687f8f-1f8f-4c8a-8e0f-1e67ed7c1330\",\n    \"6c2b9f20-53fd-4f1b-b7e2-9a2b1eb1d7c0\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26e7d6f9-da87-48da-b194-c00b9ed5f9d7",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    "retry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"payment_ids\": [\n    \"9f687f8f-1f8f-4c8a-8e0f-1e67ed7c1330\",\n    \"6c2b9f20-53fd-4f1b-b7e2-9a2b1eb1d7c0\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11f21c9b-9c2b-40a4-8487-4530b6320e3b",
+          "name": "Update Payment Status",
+          "request": {
+            "name": "Update Payment Status",
+            "description": {
+              "content": "Cancels a payment by setting its status to `CANCELED`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "payments",
+                ":id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Payment`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c211755c-0f93-4cd4-b482-a58766dbd265",
+              "name": "Payment updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Payment canceled\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03ed2513-a7d4-420f-8316-406adf568a65",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "100c0df6-24e2-4410-a1aa-5450259eb513",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6076b577-8aff-4e10-b2b2-1b20e188155d",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f3abd33-cca8-44d5-94d5-316d383dc815",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payments",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Payment`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"CANCELED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bec61bd1-2e74-4b12-9401-34625fb1be61",
+          "name": "Retrieve a Transaction's Payments",
+          "request": {
+            "name": "Retrieve a Transaction's Payments",
+            "description": {
+              "content": "This endpoint returns the payments of a specific transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                ":transaction_hash",
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_hash",
+                  "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c32c7d5-e39d-4355-bf5d-d147c031d619",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    ":transaction_hash",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_hash",
+                      "description": "(Required) Transactions are commands that modify the ledger state and consist of one or more operations."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/f8929884dfc56ff9d8bc220c7bfba9e58208943eba96f33e8a0787a5bb8a4629/payments?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/f8929884dfc56ff9d8bc220c7bfba9e58208943eba96f33e8a0787a5bb8a4629/payments?cursor=3382840796385281&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/transactions/f8929884dfc56ff9d8bc220c7bfba9e58208943eba96f33e8a0787a5bb8a4629/payments?cursor=3382840796385281&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": {\n      \"_links\": {\n        \"self\": {\n          \"href\": \"https://horizon-testnet.stellar.org/operations/3382840796385281\"\n        },\n        \"transaction\": {\n          \"href\": \"https://horizon-testnet.stellar.org/transactions/f8929884dfc56ff9d8bc220c7bfba9e58208943eba96f33e8a0787a5bb8a4629\"\n        },\n        \"effects\": {\n          \"href\": \"https://horizon-testnet.stellar.org/operations/3382840796385281/effects\"\n        },\n        \"succeeds\": {\n          \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=3382840796385281\"\n        },\n        \"precedes\": {\n          \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=3382840796385281\"\n        }\n      },\n      \"id\": \"3382840796385281\",\n      \"paging_token\": \"3382840796385281\",\n      \"transaction_successful\": true,\n      \"source_account\": \"GCNEGL4IYJ4XH2GV62QK4PQ5D4YWSYZPBC3NVF6VMNSFUMBFW3V3DKKY\",\n      \"type\": \"account_merge\",\n      \"type_i\": 8,\n      \"created_at\": \"2024-07-29T19:33:23Z\",\n      \"transaction_hash\": \"f8929884dfc56ff9d8bc220c7bfba9e58208943eba96f33e8a0787a5bb8a4629\",\n      \"account\": \"GCNEGL4IYJ4XH2GV62QK4PQ5D4YWSYZPBC3NVF6VMNSFUMBFW3V3DKKY\",\n      \"into\": \"GBFAIH5WKAJQ77NG6BZG7TGVGXHPX4SQLIJ7BENJMCVCZSUZPSISCLU5\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "08fd6b6a-7e5b-43ef-b38f-e9246b7a85a9",
+    "name": "Platform Server Accounts Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

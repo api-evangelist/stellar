@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Customers API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Customer's Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/customer",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the customer as returned in the response of a previous PUT request."
+              },
+              {
+                "name": "account",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar or Muxed Account authenticated with the Platform via SEP-10."
+              },
+              {
+                "name": "memo",
+                "value": "",
+                "type": "query",
+                "description": "The memo value identifying a customer with a shared account, where the shared account is `account`."
+              },
+              {
+                "name": "memo_type",
+                "value": "",
+                "type": "query",
+                "description": "The type of memo used to identify a customer with a shared account."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The type of action the customer is being KYCd for. See the\n[Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification)\ndocumented in SEP-12.\n"
+              },
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "query",
+                "description": "The transaction id with which the customer's info is associated. When information from the customer depends on the\ntransaction (e.g., more information is required for larger amounts)\n"
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Defaults to `en`. Language code specified using ISO 639-1. Human readable descriptions, choices, and\nmessages should be in this language.\n"
+              }
+            ]
+          },
+          "docs": "The request and response for this endpoint is identical to the\n[`GET /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-get)\nrequest and response defined in SEP-12.\n\nThis endpoint allows clients to:\n\n  1. Fetch the fields the server requires in order to register a new customer via a SEP-12\n[`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put) request\n\nIf the server does not have a customer reg"
+        },
+        {
+          "info": {
+            "name": "Create or Update Customer Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://platform-server.exampleanchor.com/customer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**The Anchor Platform does not persist any customer KYC data.**\n\nThe request and response for this endpoint are identical to the\n[`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put)\nrequest and response defined in SEP-12.\n\nClient applications make requests with the following request body, which is forwarded to the anchor. Anchors\nmust validate and persist the data passed, and return the customer's `id`. Requests containing only string fiel"
+        },
+        {
+          "info": {
+            "name": "Delete Customer Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform-server.exampleanchor.com/customer/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "The request for this endpoint is identical to the\n[`DELETE /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-delete)\nrequest defined in SEP-12.\n\nDelete the customer's data or queue the customers data for deletion.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

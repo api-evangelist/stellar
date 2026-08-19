@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Users API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/users"
+          },
+          "docs": "Fetches all SDP users within the organization, whether they are active yet or not."
+        },
+        {
+          "info": {
+            "name": "Create User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/users"
+          },
+          "docs": "This endpoint creates a new SDP user as the result of an SDP owner adding their information in the UI. It also handles sending the invite email."
+        },
+        {
+          "info": {
+            "name": "Update User Activation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/users/activation"
+          },
+          "docs": "Updates the SDP user’s activation status. This endpoint is primarily used to move a user into active status when they accept the invite to join an SDP organization account and create a password."
+        },
+        {
+          "info": {
+            "name": "Get All Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/users/roles"
+          },
+          "docs": "Fetches available SDP roles, such as owner, financial controller, business user, and developer."
+        },
+        {
+          "info": {
+            "name": "Update User Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/users/roles"
+          },
+          "docs": "Updates an SDP user’s role by  `user_ID `."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

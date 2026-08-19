@@ -1,0 +1,179 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Registration API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Receiver Registration Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/sep24-interactive-deposit/info"
+          },
+          "docs": "Returns the registration context for the receiver, including organization details and reCAPTCHA configuration."
+        },
+        {
+          "info": {
+            "name": "Send One-Time Passcode",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/sep24-interactive-deposit/otp",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint generates a 6-digit OTP and sends it to the user contact (email or phone number SMS) provided in the request body, as long as it matches the receiver contact info stored in the SDP. A valid SEP-24 token should be included in this request's Authorization header."
+        },
+        {
+          "info": {
+            "name": "Verify Receiver Registration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/sep24-interactive-deposit/verification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint verifies the receiver's registration by validating the OTP and other verification values provided in the request body. A valid SEP-24 token should be included in the Authorization header of the request."
+        },
+        {
+          "info": {
+            "name": "Start Wallet Registration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/wallet-registration/start",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "SEP-24 token for authorization."
+              },
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "query",
+                "description": "SEP-24 transaction ID."
+              },
+              {
+                "name": "lang",
+                "value": "",
+                "type": "query",
+                "description": "Optional language override for the webview."
+              }
+            ]
+          },
+          "docs": "Serves the SEP-24 interactive registration UI."
+        },
+        {
+          "info": {
+            "name": "Retrieve Stellar Info File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/.well-known/stellar.toml"
+          },
+          "docs": "Allows the wallet to fetch the SEP-10 server url, SEP-10 signing public key and SEP-24 server url."
+        },
+        {
+          "info": {
+            "name": "Request Challenge Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/sep10/auth",
+            "params": [
+              {
+                "name": "account",
+                "value": "",
+                "type": "query",
+                "description": "The client account (G...) that the client wishes to authenticate with the server."
+              },
+              {
+                "name": "memo",
+                "value": "",
+                "type": "query",
+                "description": "The memo to attach to the challenge transaction. Only permitted if a Stellar account (G...) is used. The memo must be of type id. Other memo types are not supported."
+              },
+              {
+                "name": "home_domain",
+                "value": "",
+                "type": "query",
+                "description": "Home domain for SEP-10. Defaults to the server base domain if omitted."
+              },
+              {
+                "name": "client_domain",
+                "value": "",
+                "type": "query",
+                "description": "Client domain for wallet attribution. Required when SEP-10 client attribution is enabled (default)."
+              }
+            ]
+          },
+          "docs": "Allows the wallet to get the SEP-10 challenge transaction to be signed. More information [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md#challenge). The endpoint url can change but is provided in the Get Stellar toml endpoint response under the `WEB_AUTH_ENDPOINT` variable."
+        },
+        {
+          "info": {
+            "name": "Provide Signed Challenge Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/sep10/auth",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows the wallet to post the signed SEP-10 challenge transaction. More information     [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md#challenge). The endpoint url can change but is provided in the toml file under the  `WEB_AUTH_ENDPOINT ` variable."
+        },
+        {
+          "info": {
+            "name": "SEP-24 Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/sep24/info"
+          },
+          "docs": "Returns supported assets and feature flags for SEP-24 registration deposits."
+        },
+        {
+          "info": {
+            "name": "Request Registration URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/sep24/transactions/deposit/interactive",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "The deposit endpoint allows a wallet to get deposit information from an anchor,  so a user has all the information needed to initiate a deposit.\n\nIt also lets the anchor specify additional information that the user must submit interactively via a popup or embedded browser window to be able to deposit. Please check the detailed documentation [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0024.md#deposit-2).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

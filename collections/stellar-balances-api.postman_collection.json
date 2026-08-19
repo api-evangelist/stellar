@@ -1,0 +1,171 @@
+{
+  "item": [
+    {
+      "id": "b4787c1e-9a5e-442c-89f5-675f42ab8b01",
+      "name": "Balances",
+      "description": {
+        "content": "Endpoints related to balances. A balance is an amount of a particular asset held by an organization, tenant, or account.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "352403be-5901-41fe-a6ee-877ddaa239ca",
+          "name": "Get Organization (Circle) Balances",
+          "request": {
+            "name": "Get Organization (Circle) Balances",
+            "description": {
+              "content": "ATTENTION, this endpoint is only enabled when the tenant distribution account type is `CIRCLE`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "e22a8d48-fe25-4859-8c38-7ecc5f1c7631",
+              "name": "Returns the organization's Circle balances",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account\": {\n    \"status\": \"ACTIVE\",\n    \"type\": \"DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT\",\n    \"address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"circle_wallet_id\": \"1000646072\"\n  },\n  \"balances\": [\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"amount\": \"100.00\"\n    },\n    {\n      \"asset_code\": \"USDC\",\n      \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n      \"amount\": \"100.00\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ca2490f-c84e-4dbf-8695-4a9f9f9a40d7",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "536f558a-b66b-4657-8ca0-ba56fcac9d40",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9ffb67dc-2ec7-41f3-8a05-6251148546b6",
+    "name": "Platform Server Accounts Balances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

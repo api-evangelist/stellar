@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Payments API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/payments",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page requested."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search payments by ID, external_payment_id, receiver wallet address, or disbursement name."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of payments"
+              },
+              {
+                "name": "page_limit",
+                "value": "",
+                "type": "query",
+                "description": "Define how many results will be returned in the response."
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Exact match on the status of the payment."
+              },
+              {
+                "name": "receiver_id",
+                "value": "b6b667ad-6cc2-46cf-9be7-561daace7d48",
+                "type": "query",
+                "description": "UUID that represents a receiver in the database"
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return payments that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return payments that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort payments"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting payments."
+              }
+            ]
+          },
+          "docs": "Returns all individual payments matching the request criteria. This endpoint supports pagination, and filtering on payment status, type, receiver ID, and timestamp. Each payment has details on the transaction itself, receiver, disbursement, asset, status history, and blockchain information."
+        },
+        {
+          "info": {
+            "name": "Create Direct Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/payments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new direct payment that is immediately sent to the specified receiver if they have a valid registered wallet. Direct payments bypass the disbursement workflow and are processed instantly."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/payments/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Payment`."
+              }
+            ]
+          },
+          "docs": "Fetches detailed information on a specific payment by  `id `."
+        },
+        {
+          "info": {
+            "name": "Retry Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/payments/retry",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retries failed payments by ID."
+        },
+        {
+          "info": {
+            "name": "Update Payment Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/payments/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Payment`."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels a payment by setting its status to `CANCELED`."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Transaction's Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/transactions/:transaction_hash/payments",
+            "params": [
+              {
+                "name": "transaction_hash",
+                "value": "",
+                "type": "path",
+                "description": "Transactions are commands that modify the ledger state and consist of one or more operations."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint returns the payments of a specific transaction."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

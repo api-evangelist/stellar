@@ -1,0 +1,246 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Ledgers API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ledgers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a Ledger",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers/:sequence",
+            "params": [
+              {
+                "name": "sequence",
+                "value": "",
+                "type": "path",
+                "description": "The sequence number of a specific ledger."
+              }
+            ]
+          },
+          "docs": "The single ledger endpoint provides information on a specific ledger."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Ledger's Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers/:sequence/transactions",
+            "params": [
+              {
+                "name": "sequence",
+                "value": "",
+                "type": "path",
+                "description": "The sequence number of a specific ledger."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              },
+              {
+                "name": "include_failed",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include failed operations in results. Options include true and false."
+              }
+            ]
+          },
+          "docs": "This endpoint represents successful transactions in a given ledger."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Ledger's Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers/:sequence/payments",
+            "params": [
+              {
+                "name": "sequence",
+                "value": "",
+                "type": "path",
+                "description": "The sequence number of a specific ledger."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              },
+              {
+                "name": "include_failed",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include failed operations in results. Options include true and false."
+              },
+              {
+                "name": "join",
+                "value": "",
+                "type": "query",
+                "description": "Set to transactions to include the transactions which created each of the operations in the response."
+              }
+            ]
+          },
+          "docs": "This endpoint returns all payment-related operations in a specific ledger. Operation types that can be returned by this endpoint include: create_account, payment, path_payment, and account_merge."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Ledger's Operations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers/:sequence/operations",
+            "params": [
+              {
+                "name": "sequence",
+                "value": "",
+                "type": "path",
+                "description": "The sequence number of a specific ledger."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              },
+              {
+                "name": "include_failed",
+                "value": "",
+                "type": "query",
+                "description": "Set to true to include failed operations in results. Options include true and false."
+              },
+              {
+                "name": "join",
+                "value": "",
+                "type": "query",
+                "description": "Set to transactions to include the transactions which created each of the operations in the response."
+              }
+            ]
+          },
+          "docs": "This endpoint returns successful operations in a specific ledger."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Ledgers's Effects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers/:sequence/effects",
+            "params": [
+              {
+                "name": "sequence",
+                "value": "",
+                "type": "path",
+                "description": "The sequence number of a specific ledger."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint returns the effects of a specific ledger."
+        },
+        {
+          "info": {
+            "name": "List All Ledgers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/ledgers",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint lists all ledgers and can be used in streaming mode. Streaming mode allows you to listen for new ledgers as they close. If called in streaming mode, Horizon will start at the earliest known ledger unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream ledgers since your request time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

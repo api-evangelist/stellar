@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Fee Stats API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fee Stats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Fee Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/fee_stats"
+          },
+          "docs": "The fee stats endpoint provides information about per-operation fee stats over the last 5 ledgers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

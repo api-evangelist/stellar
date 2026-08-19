@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Statistics API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve All Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/statistics"
+          },
+          "docs": "Fetches all metrics on all disbursements the organization has created. The response includes basic aggregations on payments, receivers, receiver wallets, and assets."
+        },
+        {
+          "info": {
+            "name": "Retrieve Disbursement Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/statistics/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Disbursement`."
+              }
+            ]
+          },
+          "docs": "Fetches metrics on a specific disbursement by  `id `."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

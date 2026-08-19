@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Exports API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Disbursements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/exports/disbursements",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A search term used to query through the disbursement names."
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Comma-separated list of disbursement statuses to filter by."
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return disbursements that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return disbursements that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort disbursements"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting disbursements."
+              }
+            ]
+          },
+          "docs": "Exports a CSV file of disbursements."
+        },
+        {
+          "info": {
+            "name": "Export Payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/exports/payments",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search payments by ID, external_payment_id, receiver wallet address, or disbursement name."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Type of payments"
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Exact match on the status of the payment."
+              },
+              {
+                "name": "receiver_id",
+                "value": "b6b667ad-6cc2-46cf-9be7-561daace7d48",
+                "type": "query",
+                "description": "UUID that represents a receiver in the database"
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return payments that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return payments that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort payments."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting payments."
+              }
+            ]
+          },
+          "docs": "Exports a CSV file of payments."
+        },
+        {
+          "info": {
+            "name": "Export Receivers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/exports/receivers",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A search term used to query through the receiver phone_number, email, and ID."
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Exact match on the status of the receiver wallet."
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return receivers that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return receivers that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort receivers"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting receivers."
+              }
+            ]
+          },
+          "docs": "Exports a CSV file of receivers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

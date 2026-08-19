@@ -1,0 +1,356 @@
+{
+  "item": [
+    {
+      "id": "61670eeb-7a47-48e3-b6fe-d3824c298cf3",
+      "name": "Rates",
+      "description": {
+        "content": "Requests containing data that can be used to provide exchange rates between on & off-chain assets.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3a9adaed-245d-40e7-bdb9-c8fba5d3b726",
+          "name": "Retrieve Rates",
+          "request": {
+            "name": "Retrieve Rates",
+            "description": {
+              "content": "Transactions that involve two non-equivalent on & off-chain assets (such as USDC on Stellar and fiat EUR) must\nuse exchange rates that are communicated to the client application requesting the transaction. When clients make\nrequests to the Platform for these exchange rates, the Platform sends this request to the anchor to fetch it.\n\nRates can be [indicative](https://www.investopedia.com/terms/i/indicativequote.asp) or\n[firm](https://www.investopedia.com/terms/f/firmquote.asp). The anchor must provide an ID and expiration if the\nclient requests a firm rate.\n\nAnchors can provide discounted rates specific client applications. The Platform includes the `client_id` parameter\nfor this reason.\n\nEither `sell_amount` or `buy_amount` will be included in requests as parameters, but never both. In the same way,\neither `sell_delivery_method` and `buy_delivery_method` may be included in requests, but never both, since either\n`sell_asset` or `buy_asset` is a Stellar asset.\n\n\nUpon receiving the response, the Anchor Platform will validate the amount and price of the response.\n\nIf the validation fails, the Platform will respond to the client application's request with a HTTP status\ncode of `502 Bad Gateway`.\n\nThe `sell_amount`, `buy_amount`, `price`, and `fee` are validated as follows:\n\n- if `rate.fee` exists,\n  - `rate.fee.asset` must have a positive value of `significant_decimals` defined in the asset configuration.\n  - `rate.fee.total` must equal to the sum of `rate.fee.details.amount`.\n  - if the `rate.fee.asset == rate.sell_asset`, `sell_amount ~= price * buy_amount + fee` must hold true.\n  - if the `rate.fee.asset == rate.buy_asset`,  `sell_amount ~= price * (buy_amount + fee)` must hold true.\n- if `rate.fee` does not exist, `sell_amount ~= price * buy_amount` must hold true.\n\nThe `~=` is defined as equality within rounding error.\n    The rounding error is defined as `10^(-significant_decimals)`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "(Required) The type of rate requested. If `firm`, the response must include `rate.id` and `rate.expires_at`."
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "An identifier for the client application making the request. This ID can be used to offer different fees to different clients.\n\nClient IDs will be the Stellar public key the public key used to authenticate via SEP-10. Anchors must ensure\nthat the public key specified in the request matches a public key known to belong to the sending anchor.\n\nThis parameter will only be specified if the client is authenticated via SEP-10. Anchors can define whether or not\nauthentication is required for fetching indicative rates. Firm rates always require authentication.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sell_asset",
+                  "value": "<string>",
+                  "description": "(Required) The asset the client application will send to the anchor in exchange for `buy_asset` in\n[Asset Identification Format](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#asset-identification-format).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "buy_asset",
+                  "value": "<string>",
+                  "description": "(Required) The asset the that the anchor will send in exchange for `sell_asset` in\n[Asset Identification Format](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#asset-identification-format).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sell_amount",
+                  "value": "<string>",
+                  "description": "The amount of `sell_asset` the client application will send in exchange for `buy_asset`. Will not be used in\nconjunction with `buy_amount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "buy_amount",
+                  "value": "<string>",
+                  "description": "The amount of `buy_asset` the anchor will send in exchange for `sell_asset`. Will not be used in conjunction\nwith `sell_amount`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "country_code",
+                  "value": "<string>",
+                  "description": "The [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code of the user's current address.\nAnchors should expect this parameter to be provided if one of the assets of the buy/sell pair is fiat and it\nis available in two or more countries.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "expire_after",
+                  "value": "<string>",
+                  "description": "The client's desired `expires_at` date and time for the quote that can be used if this is a firm quote. This should\nbe a [UTC ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) string. Anchors should return `400 Bad\nRequest` if an expiration date on or after the requested value cannot be provided.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sell_delivery_method",
+                  "value": "<string>",
+                  "description": "The method the client or user will use to deliver `sell_asset` to the Anchor. This value may affect the\nexpiration and price provided. The values used for this parameter is defined in the application's configuration.\nWill not be used in conjunction with `buy_delivery_method`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "buy_delivery_method",
+                  "value": "<string>",
+                  "description": "The method the client or user wants used to receive `buy_asset` from the Anchor. This value may affect the\nexpiration and price provided. The values used for this parameter is defined in the application's configuration.\nWill not be used in conjunction with `sell_delivery_method`.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "88fa54b9-8576-4c10-9a8c-3ab2e977e98b",
+              "name": "Success.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expire_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_delivery_method",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_delivery_method",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"rate\": {\n    \"price\": \"string\",\n    \"sell_amount\": \"string\",\n    \"buy_amount\": \"string\",\n    \"id\": \"string\",\n    \"expires_at\": \"2006-03-14T17:46:58.822Z\",\n    \"fee\": {\n      \"total\": \"string\",\n      \"asset\": \"string\",\n      \"details\": [\n        {\n          \"name\": \"string\",\n          \"amount\": \"string\",\n          \"description\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"amount\": \"string\",\n          \"description\": \"string\"\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e3668b4-a16d-4e50-81f0-fb433666b590",
+              "name": "Unprocessable Entity. This status should be returned when the anchor understood the request but cannot\nreturn a success response.\nIn these cases, the Platform will respond to the client application's request with a `400 Bad Request`\nand include the error message provided by the anchor in the response body.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expire_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_delivery_method",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_delivery_method",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0db3cc27-6216-4993-81d9-480358029e60",
+              "name": "Error. The Platform will respond to the client application with the same response code and body.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_asset",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_amount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "country_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "expire_after",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sell_delivery_method",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buy_delivery_method",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5d0398ab-7127-4e32-9dee-bf5a21c5f016",
+    "name": "Platform Server Accounts Rates API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

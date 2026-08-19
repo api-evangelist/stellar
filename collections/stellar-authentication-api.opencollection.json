@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Authentication API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Log In",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/login"
+          },
+          "docs": "Allows credentialed SDP users to log in to the SDP dashboard with a password. Note: all passwords must be at least 8 characters long and a combination of uppercase letters, lowercase letters, numbers, and symbols."
+        },
+        {
+          "info": {
+            "name": "Refresh Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/refresh-token"
+          },
+          "docs": "A user’s token expires after 15 minutes. This endpoint handles refreshing the user’s token without disrupting their experience. It is triggered within the 30-second window before the token expires."
+        },
+        {
+          "info": {
+            "name": "Provide Multi-Factor Authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/mfa",
+            "headers": [
+              {
+                "name": "Device-ID",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Governs the multi-factor authentication process for SDP user login, including the ability to remember the device so MFA is not always required."
+        },
+        {
+          "info": {
+            "name": "Forgot Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/forgot-password"
+          },
+          "docs": "Sends an email with a token to an SDP user who has gone through the Forgot Password process."
+        },
+        {
+          "info": {
+            "name": "Reset Rassword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/reset-password"
+          },
+          "docs": "Allows an SDP user who has gone through the Forgot Password process to set their new password with a token sent via email."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

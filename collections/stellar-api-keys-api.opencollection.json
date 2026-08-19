@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts API Keys API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/api-keys"
+          },
+          "docs": "Retrieves all API keys created by the current user. The results are ordered by creation date in descending order (most recent first). API key values are not included in the response for security reasons."
+        },
+        {
+          "info": {
+            "name": "Create API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API Key to access SDP endpoints. API Key can be configured to have a granular read/write access, also API key can be restricted to the specific IP or range of the IPs."
+        },
+        {
+          "info": {
+            "name": "Get API Key Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API key"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific API key by its ID. Returns the API key details including permissions and restrictions, but does not include the actual key value for security reasons."
+        },
+        {
+          "info": {
+            "name": "Update API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API key to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing API key's permissions and IP restrictions. The API key name and expiration date cannot be modified after creation."
+        },
+        {
+          "info": {
+            "name": "Delete API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform-server.exampleanchor.com/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API key to delete"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an API key. This action cannot be undone. Once deleted, the API key will no longer be able to authenticate API requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,195 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Receivers API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Receivers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Verification Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/receivers/verification-types"
+          },
+          "docs": "Returns the supported receiver verification types."
+        },
+        {
+          "info": {
+            "name": "List All Receivers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/receivers",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page requested."
+              },
+              {
+                "name": "page_limit",
+                "value": "",
+                "type": "query",
+                "description": "Define how many results will be returned in the response."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A search term used to query through the receiver phone_number, email, and ID."
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Exact match on the status of the receiver wallet."
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return receivers that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return receivers that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort receivers"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting receivers."
+              }
+            ]
+          },
+          "docs": "Returns all receivers matching the request criteria. This endpoint supports pagination and filtering on receiver status, receiver attributes, and timestamp. Each payment has details on the receiver, high-level payments metrics, and wallets associated with the receiver."
+        },
+        {
+          "info": {
+            "name": "Create Receiver",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/receivers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Receiver. Allows clients to create a single receiver record, which can later be referenced in payments or disbursements."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Receiver",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/receivers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Receiver`."
+              }
+            ]
+          },
+          "docs": "Fetches detailed information on a specific receiver by  `id `, including all associated wallets."
+        },
+        {
+          "info": {
+            "name": "Update a Receiver",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/receivers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Receiver`."
+              }
+            ]
+          },
+          "docs": "This endpoint allows an organization to add and update information on the receiver, including email address, external ID, date of birth, personal PIN, and national ID number. The response includes all information on the receiver."
+        },
+        {
+          "info": {
+            "name": "Update Receiver Wallet",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/receivers/:receiver_id/wallets/:receiver_wallet_id",
+            "params": [
+              {
+                "name": "receiver_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Receiver`."
+              },
+              {
+                "name": "receiver_wallet_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the receiver wallet."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a receiver wallet's Stellar address and memo for user-managed wallets."
+        },
+        {
+          "info": {
+            "name": "Update Receiver Wallet Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/receivers/wallets/:receiver_wallet_id/status",
+            "params": [
+              {
+                "name": "receiver_wallet_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the receiver wallet."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a receiver wallet's status. Only `READY` is supported."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

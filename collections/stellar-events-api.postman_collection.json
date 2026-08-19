@@ -1,0 +1,150 @@
+{
+  "item": [
+    {
+      "id": "3f6acefe-a590-418a-bc4e-7696fd943ddb",
+      "name": "Events",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "800750f7-3ddd-40e6-9662-4031166e5b44",
+          "name": "Receive an Event",
+          "request": {
+            "name": "Receive an Event",
+            "description": {
+              "content": "Receive a JSON object representing an event.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "event"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"payload\": {\n    \"transaction\": {\n      \"id\": \"<string>\",\n      \"sep\": \"<string>\",\n      \"kind\": \"<string>\",\n      \"status\": \"<string>\",\n      \"amount_expected\": {\n        \"amount\": \"<string>\",\n        \"asset\": \"<string>\"\n      },\n      \"destination_account\": \"<string>\",\n      \"started_at\": \"<dateTime>\",\n      \"type\": \"<string>\",\n      \"amount_in\": {\n        \"amount\": \"<string>\",\n        \"asset\": \"<string>\"\n      },\n      \"amount_out\": {\n        \"amount\": \"<string>\",\n        \"asset\": \"<string>\"\n      },\n      \"fee_details\": {\n        \"total\": \"<string>\",\n        \"asset\": \"<string>\",\n        \"details\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      \"quote_id\": \"<string>\",\n      \"updated_at\": \"<dateTime>\",\n      \"completed_at\": \"<dateTime>\",\n      \"transfer_received_at\": \"<dateTime>\",\n      \"user_action_required_by\": \"<dateTime>\",\n      \"message\": \"<string>\",\n      \"refunds\": {\n        \"amount_refunded\": {\n          \"amount\": \"<string>\",\n          \"asset\": \"<string>\"\n        },\n        \"amount_fee\": {\n          \"amount\": \"<string>\",\n          \"asset\": \"<string>\"\n        },\n        \"payments\": [\n          {\n            \"id\": \"<string>\",\n            \"id_type\": \"<string>\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"<dateTime>\",\n            \"refunded_at\": \"<dateTime>\"\n          },\n          {\n            \"id\": \"<string>\",\n            \"id_type\": \"<string>\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"<dateTime>\",\n            \"refunded_at\": \"<dateTime>\"\n          }\n        ]\n      },\n      \"stellar_transactions\": [\n        {\n          \"id\": \"<string>\",\n          \"created_at\": \"<dateTime>\",\n          \"envelope\": \"<string>\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"<string>\",\n          \"memo_type\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"created_at\": \"<dateTime>\",\n          \"envelope\": \"<string>\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"<string>\",\n          \"memo_type\": \"<string>\"\n        }\n      ],\n      \"source_account\": \"<string>\",\n      \"external_transaction_id\": \"<string>\",\n      \"memo\": \"<string>\",\n      \"memo_type\": \"<string>\",\n      \"refund_memo\": \"<string>\",\n      \"refund_memo_type\": \"<string>\",\n      \"client_domain\": \"<string>\",\n      \"client_name\": \"<string>\",\n      \"customers\": {\n        \"sender\": {\n          \"id\": \"<string>\",\n          \"account\": \"<string>\",\n          \"memo\": \"<string>\"\n        },\n        \"receiver\": {\n          \"id\": \"<string>\",\n          \"account\": \"<string>\",\n          \"memo\": \"<string>\"\n        }\n      },\n      \"creator\": {\n        \"id\": \"<string>\",\n        \"account\": \"<string>\",\n        \"memo\": \"<string>\"\n      }\n    },\n    \"quote\": {\n      \"id\": \"<string>\",\n      \"sell_amount\": \"<string>\",\n      \"sell_asset\": \"<string>\",\n      \"buy_amount\": \"<string>\",\n      \"buy_asset\": \"<string>\",\n      \"expires_at\": \"<dateTime>\",\n      \"price\": \"<string>\",\n      \"total_price\": \"<string>\",\n      \"creator\": {\n        \"id\": \"<string>\",\n        \"account\": \"<string>\",\n        \"memo\": \"<string>\"\n      },\n      \"transaction_id\": \"<string>\",\n      \"created_at\": \"<dateTime>\"\n    },\n    \"customer\": {\n      \"id\": \"<string>\"\n    }\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0b78a5b5-af8f-4d2a-8ab5-39d0958e6d45",
+              "name": "The event is successfully processed and ready to receive next event. The response body is empty.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"payload\": {\n    \"transaction\": {\n      \"id\": \"string\",\n      \"sep\": \"24\",\n      \"kind\": \"deposit\",\n      \"status\": \"pending_user_transfer_complete\",\n      \"amount_expected\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"destination_account\": \"string\",\n      \"started_at\": \"2014-08-12T22:42:12.192Z\",\n      \"type\": \"string\",\n      \"amount_in\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_out\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"fee_details\": {\n        \"total\": \"string\",\n        \"asset\": \"string\",\n        \"details\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      \"quote_id\": \"string\",\n      \"updated_at\": \"1955-12-15T23:09:50.018Z\",\n      \"completed_at\": \"2012-06-13T12:41:57.243Z\",\n      \"transfer_received_at\": \"2022-04-03T10:59:45.986Z\",\n      \"user_action_required_by\": \"1961-08-19T02:14:09.733Z\",\n      \"message\": \"string\",\n      \"refunds\": {\n        \"amount_refunded\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"amount_fee\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"payments\": [\n          {\n            \"id\": \"string\",\n            \"id_type\": \"external\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"1948-02-06T06:26:22.493Z\",\n            \"refunded_at\": \"1985-12-18T07:23:39.892Z\"\n          },\n          {\n            \"id\": \"string\",\n            \"id_type\": \"external\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"2003-06-04T08:10:43.372Z\",\n            \"refunded_at\": \"1999-02-27T18:20:39.808Z\"\n          }\n        ]\n      },\n      \"stellar_transactions\": [\n        {\n          \"id\": \"string\",\n          \"created_at\": \"2009-05-13T04:55:54.503Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"text\"\n        },\n        {\n          \"id\": \"string\",\n          \"created_at\": \"1982-05-23T12:16:58.034Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"id\"\n        }\n      ],\n      \"source_account\": \"string\",\n      \"external_transaction_id\": \"string\",\n      \"memo\": \"string\",\n      \"memo_type\": \"text id hash\",\n      \"refund_memo\": \"string\",\n      \"refund_memo_type\": \"text id hash\",\n      \"client_domain\": \"string\",\n      \"client_name\": \"string\",\n      \"customers\": {\n        \"sender\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        },\n        \"receiver\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        }\n      },\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      }\n    },\n    \"quote\": {\n      \"id\": \"string\",\n      \"sell_amount\": \"string\",\n      \"sell_asset\": \"string\",\n      \"buy_amount\": \"string\",\n      \"buy_asset\": \"string\",\n      \"expires_at\": \"2004-01-23T17:37:18.840Z\",\n      \"price\": \"string\",\n      \"total_price\": \"string\",\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      },\n      \"transaction_id\": \"string\",\n      \"created_at\": \"2013-06-18T22:52:52.310Z\"\n    },\n    \"customer\": {\n      \"id\": \"string\"\n    }\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8fe0b52c-9454-4e26-9020-ef1abe028c1a",
+              "name": "The event is invalid or rejected. The response body contains the error message.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "event"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"type\": \"<string>\",\n  \"payload\": {\n    \"transaction\": {\n      \"id\": \"string\",\n      \"sep\": \"24\",\n      \"kind\": \"deposit\",\n      \"status\": \"pending_user_transfer_complete\",\n      \"amount_expected\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"destination_account\": \"string\",\n      \"started_at\": \"2014-08-12T22:42:12.192Z\",\n      \"type\": \"string\",\n      \"amount_in\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"amount_out\": {\n        \"amount\": \"string\",\n        \"asset\": \"string\"\n      },\n      \"fee_details\": {\n        \"total\": \"string\",\n        \"asset\": \"string\",\n        \"details\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ]\n      },\n      \"quote_id\": \"string\",\n      \"updated_at\": \"1955-12-15T23:09:50.018Z\",\n      \"completed_at\": \"2012-06-13T12:41:57.243Z\",\n      \"transfer_received_at\": \"2022-04-03T10:59:45.986Z\",\n      \"user_action_required_by\": \"1961-08-19T02:14:09.733Z\",\n      \"message\": \"string\",\n      \"refunds\": {\n        \"amount_refunded\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"amount_fee\": {\n          \"amount\": \"string\",\n          \"asset\": \"string\"\n        },\n        \"payments\": [\n          {\n            \"id\": \"string\",\n            \"id_type\": \"external\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"1948-02-06T06:26:22.493Z\",\n            \"refunded_at\": \"1985-12-18T07:23:39.892Z\"\n          },\n          {\n            \"id\": \"string\",\n            \"id_type\": \"external\",\n            \"amount\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"fee\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"requested_at\": \"2003-06-04T08:10:43.372Z\",\n            \"refunded_at\": \"1999-02-27T18:20:39.808Z\"\n          }\n        ]\n      },\n      \"stellar_transactions\": [\n        {\n          \"id\": \"string\",\n          \"created_at\": \"2009-05-13T04:55:54.503Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"text\"\n        },\n        {\n          \"id\": \"string\",\n          \"created_at\": \"1982-05-23T12:16:58.034Z\",\n          \"envelope\": \"string\",\n          \"payments\": [\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"id\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"payment_type\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"source_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"destination_account\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"amount\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"memo\": \"string\",\n          \"memo_type\": \"id\"\n        }\n      ],\n      \"source_account\": \"string\",\n      \"external_transaction_id\": \"string\",\n      \"memo\": \"string\",\n      \"memo_type\": \"text id hash\",\n      \"refund_memo\": \"string\",\n      \"refund_memo_type\": \"text id hash\",\n      \"client_domain\": \"string\",\n      \"client_name\": \"string\",\n      \"customers\": {\n        \"sender\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        },\n        \"receiver\": {\n          \"id\": \"string\",\n          \"account\": \"string\",\n          \"memo\": \"string\"\n        }\n      },\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      }\n    },\n    \"quote\": {\n      \"id\": \"string\",\n      \"sell_amount\": \"string\",\n      \"sell_asset\": \"string\",\n      \"buy_amount\": \"string\",\n      \"buy_asset\": \"string\",\n      \"expires_at\": \"2004-01-23T17:37:18.840Z\",\n      \"price\": \"string\",\n      \"total_price\": \"string\",\n      \"creator\": {\n        \"id\": \"string\",\n        \"account\": \"string\",\n        \"memo\": \"string\"\n      },\n      \"transaction_id\": \"string\",\n      \"created_at\": \"2013-06-18T22:52:52.310Z\"\n    },\n    \"customer\": {\n      \"id\": \"string\"\n    }\n  },\n  \"timestamp\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5bb29158-e272-4de6-9dac-12fe834ec44a",
+    "name": "Platform Server Accounts Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,764 @@
+{
+  "item": [
+    {
+      "id": "3d2c30d1-f3d5-41f4-bf84-d2f5816448f0",
+      "name": "Ledgers",
+      "description": {
+        "content": "Each ledger stores the state of the network at a point in time and contains all the changes - transactions, operations, effects, etc. - to that state.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5fe22fd0-913f-4ae0-b989-4e185c7274c0",
+          "name": "Retrieve a Ledger",
+          "request": {
+            "name": "Retrieve a Ledger",
+            "description": {
+              "content": "The single ledger endpoint provides information on a specific ledger.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers",
+                ":sequence"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "sequence",
+                  "description": "(Required) The sequence number of a specific ledger."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0c31a921-582b-4b0c-aeff-5417317fe99e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers",
+                    ":sequence"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "sequence",
+                      "description": "(Required) The sequence number of a specific ledger."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27146933\"\n    },\n    \"transactions\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27146933/transactions{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"operations\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27146933/operations{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"payments\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27146933/payments{?cursor,limit,order}\",\n      \"templated\": true\n    },\n    \"effects\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27146933/effects{?cursor,limit,order}\",\n      \"templated\": true\n    }\n  },\n  \"id\": \"e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329\",\n  \"paging_token\": \"116595189421703168\",\n  \"hash\": \"e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329\",\n  \"prev_hash\": \"9eac16fecd885147067b58b7684f60d216f931b813f651265bbc97de4cea313d\",\n  \"sequence\": 27146933,\n  \"successful_transaction_count\": 26,\n  \"failed_transaction_count\": 9,\n  \"operation_count\": 67,\n  \"closed_at\": \"2019-12-06T22:39:32Z\",\n  \"total_coins\": \"105443902087.3472865\",\n  \"fee_pool\": \"1807264.7509661\",\n  \"base_fee_in_stroops\": 100,\n  \"base_reserve_in_stroops\": 5000000,\n  \"max_tx_set_size\": 1000,\n  \"protocol_version\": 12,\n  \"header_xdr\": \"AAAADJ6sFv7NiFFHBntYt2hPYNIW+TG4E/ZRJlu8l95M6jE9bsvzId+Gtul2mNMW4UZQ+KqSb/nbN8F1CTxAfQsyUy8AAAAAXerYpAAAAAAAAAAAXQNpS8daKGZUeY5quYUcIiJZBMB7LiLsZJsEx9qw79fx99Bu/lk+sIePNUNcuOC2euthzfhLuWJ1nZBuoQFDjgGeOrUOoh6z7HlbYQAAEG/dvCadAAABFgAAAAAIOwAqAAAAZABMS0AAAAPooSNtHXJNJKKWlBtgkAM1LBxzlzYjIlS0xwpjP+uCi76fQj59wgTy0+xtx7O1qTb+W6zcI2zWZnrUU/8v8RZHFBfoo20QYKh95+wWr348yZAexZpdrjhyCxbChxlVTZOX6nZfIgcYBMnZRkOTCLdPO76yeqpDhqu9KrPe3YPTO3wAAAAA\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28dd6b91-0ada-4ebb-8869-06355533bf30",
+          "name": "Retrieve a Ledger's Transactions",
+          "request": {
+            "name": "Retrieve a Ledger's Transactions",
+            "description": {
+              "content": "This endpoint represents successful transactions in a given ledger.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers",
+                ":sequence",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "sequence",
+                  "description": "(Required) The sequence number of a specific ledger."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64cf2dca-4f3e-4645-b2a0-c40557fd6e49",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers",
+                    ":sequence",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "sequence",
+                      "description": "(Required) The sequence number of a specific ledger."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=&limit=2&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=116596430667259904&limit=2&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/transactions?cursor=116596430667255808&limit=2&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"memo\": \"FadBcV0owHrsLQif/V2TxZKGA2YiX+MoifI7oB/UjJM=\",\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0\"\n          },\n          \"account\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GBKTEASNXABG2NC4TY6N3IA5UFC6YW53Y4KTIKY3CUEKQ2W5EIYRMYVB\"\n          },\n          \"ledger\": {\n            \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222\"\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0/operations{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0/effects{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=116596430667255808\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=116596430667255808\"\n          }\n        },\n        \"id\": \"3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0\",\n        \"paging_token\": \"116596430667255808\",\n        \"successful\": true,\n        \"hash\": \"3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0\",\n        \"ledger\": 27147222,\n        \"created_at\": \"2019-12-06T23:05:38Z\",\n        \"source_account\": \"GBKTEASNXABG2NC4TY6N3IA5UFC6YW53Y4KTIKY3CUEKQ2W5EIYRMYVB\",\n        \"source_account_sequence\": \"113943107245989112\",\n        \"fee_charged\": 100,\n        \"max_fee\": 100,\n        \"operation_count\": 1,\n        \"envelope_xdr\": \"AAAAAFUyAk24Am00XJ483aAdoUXsW7vHFTQrGxUIqGrdIjEWAAAAZAGUzqcAAFz4AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAADFadBcV0owHrsLQif/V2TxZKGA2YiX+MoifI7oB/UjJMAAAABAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAEAAAAAB77j4CQxLlm5aPrq/PDwFhGNs2ldqbdCZwkSfzXhUhYAAAABTk9ETAAAAAB1jYLXrFzNBOWCoPnZSHI3PJAhHtc1TrCaiPuZwSf5pgAAAAAAAABNAAAAAAAAAALw9Tl2AAAAQLSLnL3XT3F6dq5m2WHZ7tH3HBrK/e+p2G7Hrl3WXQToUsgxKIRH6bhHT/mIWwnrfLZ9nlVjMCFoZPqVKrI2lgLdIjEWAAAAQCrZ9IbjDAB408VgQaqNpwX8hXr/OUsoEexkWGkN9PjcBG2nf4bKWdbjiaqHZ+LrvM+DdmhxtA3L9bzmCie8NgA=\",\n        \"result_xdr\": \"AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAA=\",\n        \"result_meta_xdr\": \"AAAAAQAAAAIAAAADAZ471gAAAAAAAAAAVTICTbgCbTRcnjzdoB2hRexbu8cVNCsbFQioat0iMRYAAAAAB5tToAGUzqcAAFz3AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAZ471gAAAAAAAAAAVTICTbgCbTRcnjzdoB2hRexbu8cVNCsbFQioat0iMRYAAAAAB5tToAGUzqcAAFz4AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAABAAAAAMBnju+AAAAAQAAAAAHvuPgJDEuWblo+ur88PAWEY2zaV2pt0JnCRJ/NeFSFgAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAAAAAIP38ASptjhEiAAAAAAAEAAAAAAAAAAAAAAAEBnjvWAAAAAQAAAAAHvuPgJDEuWblo+ur88PAWEY2zaV2pt0JnCRJ/NeFSFgAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAAAAAIP8wASptjhEiAAAAAAAEAAAAAAAAAAAAAAAMBnjvVAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAALEhqMpZ//////////wAAAAEAAAAAAAAAAAAAAAEBnjvWAAAAAQAAAADhZHiqD/Q3uSTgjYEWGVRfCCHYvFmeqJU12G9SkzJYEQAAAAFOT0RMAAAAAHWNgtesXM0E5YKg+dlIcjc8kCEe1zVOsJqI+5nBJ/mmAAAALEhqMkl//////////wAAAAEAAAAAAAAAAA==\",\n        \"fee_meta_xdr\": \"AAAAAgAAAAMBnjvKAAAAAAAAAABVMgJNuAJtNFyePN2gHaFF7Fu7xxU0KxsVCKhq3SIxFgAAAAAHm1QEAZTOpwAAXPcAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEBnjvWAAAAAAAAAABVMgJNuAJtNFyePN2gHaFF7Fu7xxU0KxsVCKhq3SIxFgAAAAAHm1OgAZTOpwAAXPcAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==\",\n        \"memo_type\": \"hash\",\n        \"signatures\": [\n          \"tIucvddPcXp2rmbZYdnu0fccGsr976nYbseuXdZdBOhSyDEohEfpuEdP+YhbCet8tn2eVWMwIWhk+pUqsjaWAg==\",\n          \"Ktn0huMMAHjTxWBBqo2nBfyFev85SygR7GRYaQ30+NwEbad/hspZ1uOJqodn4uu8z4N2aHG0Dcv1vOYKJ7w2AA==\"\n        ]\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479\"\n          },\n          \"account\": {\n            \"href\": \"https://horizon-testnet.stellar.org/accounts/GDUHYA43LEQWXLJ5GQGNDJHZY6TZN2OK3KA4YQXQ47BRMRDRIUUC4IU5\"\n          },\n          \"ledger\": {\n            \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222\"\n          },\n          \"operations\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479/operations{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479/effects{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=asc&cursor=116596430667259904\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions?order=desc&cursor=116596430667259904\"\n          }\n        },\n        \"id\": \"83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479\",\n        \"paging_token\": \"116596430667259904\",\n        \"successful\": true,\n        \"hash\": \"83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479\",\n        \"ledger\": 27147222,\n        \"created_at\": \"2019-12-06T23:05:38Z\",\n        \"source_account\": \"GDUHYA43LEQWXLJ5GQGNDJHZY6TZN2OK3KA4YQXQ47BRMRDRIUUC4IU5\",\n        \"source_account_sequence\": \"113383696345604336\",\n        \"fee_charged\": 100,\n        \"max_fee\": 100,\n        \"operation_count\": 1,\n        \"envelope_xdr\": \"AAAAAOh8A5tZIWutPTQM0aT5x6eW6cragcxC8OfDFkRxRSguAAAAZAGS0d8AACDwAAAAAQAAAAAAAAAAAAAAAF3q3zYAAAAAAAAAAQAAAAEAAAAASe2g7z3OqB0F+vr+sM6vGMHgnomyJOLJeGMMjT1jgPcAAAADAAAAAVJNVAAAAAAAyGdd4j3sXGNb4PWMyeROuBvzRJJbU+On/O1oSxFvcqwAAAAAAAAAAAAAABcAB2UNAJiWgAAAAAAAAAAAAAAAAAAAAAJxRSguAAAAQG/ksOk2naI/PrA/6qes3c0IhoOpnBghd038S62rayiophPSs3HyUbgbOEpYQCkJezrf1bP+s2fFXVCEXbgveQk9Y4D3AAAAQAINPdxGV1VIeQ1OUDDlqtrSy8FrWQ/+CtRxqVHcHg98SYh5co/gd83R4IGDxukCByTbYapkrUOD0XDJKC/hcg4=\",\n        \"result_xdr\": \"AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAADAAAAAAAAAAAAAAACAAAAAA==\",\n        \"result_meta_xdr\": \"AAAAAQAAAAIAAAADAZ471gAAAAAAAAAA6HwDm1kha609NAzRpPnHp5bpytqBzELw58MWRHFFKC4AAAAAAKovMAGS0d8AACDvAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAZ471gAAAAAAAAAA6HwDm1kha609NAzRpPnHp5bpytqBzELw58MWRHFFKC4AAAAAAKovMAGS0d8AACDwAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA==\",\n        \"fee_meta_xdr\": \"AAAAAgAAAAMBnjukAAAAAAAAAADofAObWSFrrT00DNGk+cenlunK2oHMQvDnwxZEcUUoLgAAAAAAqi+UAZLR3wAAIO8AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEBnjvWAAAAAAAAAADofAObWSFrrT00DNGk+cenlunK2oHMQvDnwxZEcUUoLgAAAAAAqi8wAZLR3wAAIO8AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA==\",\n        \"memo_type\": \"none\",\n        \"signatures\": [\n          \"b+Sw6Tadoj8+sD/qp6zdzQiGg6mcGCF3TfxLratrKKimE9KzcfJRuBs4SlhAKQl7Ot/Vs/6zZ8VdUIRduC95CQ==\",\n          \"Ag093EZXVUh5DU5QMOWq2tLLwWtZD/4K1HGpUdweD3xJiHlyj+B3zdHggYPG6QIHJNthqmStQ4PRcMkoL+FyDg==\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3d80b8c-6ed1-49a7-a2a6-9b7e0f98f077",
+          "name": "Retrieve a Ledger's Payments",
+          "request": {
+            "name": "Retrieve a Ledger's Payments",
+            "description": {
+              "content": "This endpoint returns all payment-related operations in a specific ledger. Operation types that can be returned by this endpoint include: create_account, payment, path_payment, and account_merge.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers",
+                ":sequence",
+                "payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                },
+                {
+                  "description": {
+                    "content": "Set to transactions to include the transactions which created each of the operations in the response.",
+                    "type": "text/plain"
+                  },
+                  "key": "join",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "sequence",
+                  "description": "(Required) The sequence number of a specific ledger."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "234d951b-f7b7-460b-8a5b-abee3bf8321a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers",
+                    ":sequence",
+                    "payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "join",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "sequence",
+                      "description": "(Required) The sequence number of a specific ledger."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=&limit=1&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/118202550867476481\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/118202550867476481/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=118202550867476481\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=118202550867476481\"\n          }\n        },\n        \"id\": \"118202550867476481\",\n        \"paging_token\": \"118202550867476481\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH\",\n        \"type\": \"payment\",\n        \"type_i\": 1,\n        \"created_at\": \"2019-12-30T22:35:49Z\",\n        \"transaction_hash\": \"971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea\",\n        \"asset_type\": \"credit_alphanum4\",\n        \"asset_code\": \"NODL\",\n        \"asset_issuer\": \"GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL\",\n        \"from\": \"GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH\",\n        \"to\": \"GDGJS7AXAUFDZARIRDVZ5V7CFW6XY47WSBE2OVLCCGCDWOE7INKYN3PS\",\n        \"amount\": \"0.0000017\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "286b012e-bbd3-4b6b-bfc7-e3aac30462f4",
+          "name": "Retrieve a Ledger's Operations",
+          "request": {
+            "name": "Retrieve a Ledger's Operations",
+            "description": {
+              "content": "This endpoint returns successful operations in a specific ledger.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers",
+                ":sequence",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_failed",
+                  "value": "<boolean>",
+                  "description": "Set to true to include failed operations in results. Options include true and false."
+                },
+                {
+                  "description": {
+                    "content": "Set to transactions to include the transactions which created each of the operations in the response.",
+                    "type": "text/plain"
+                  },
+                  "key": "join",
+                  "value": ""
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "sequence",
+                  "description": "(Required) The sequence number of a specific ledger."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6300217c-25f2-4684-901f-53d3f0c2a9df",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers",
+                    ":sequence",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "include_failed",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "join",
+                      "value": ""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "sequence",
+                      "description": "(Required) The sequence number of a specific ledger."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=&limit=2&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=116596430667259905&limit=2&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/27147222/operations?cursor=116596430667255809&limit=2&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/116596430667255809\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/116596430667255809/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=116596430667255809\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=116596430667255809\"\n          }\n        },\n        \"id\": \"116596430667255809\",\n        \"paging_token\": \"116596430667255809\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH\",\n        \"type\": \"payment\",\n        \"type_i\": 1,\n        \"created_at\": \"2019-12-06T23:05:38Z\",\n        \"transaction_hash\": \"3a644389bbec63dd2b107a03c16711563fc549daa7b7f56f951a2e470f81f2e0\",\n        \"asset_type\": \"credit_alphanum4\",\n        \"asset_code\": \"NODL\",\n        \"asset_issuer\": \"GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL\",\n        \"from\": \"GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH\",\n        \"to\": \"GAD35Y7AEQYS4WNZND5OV7HQ6ALBDDNTNFO2TN2CM4ERE7ZV4FJBNXZ6\",\n        \"amount\": \"0.0000077\"\n      },\n      {\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/116596430667259905\"\n          },\n          \"transaction\": {\n            \"href\": \"https://horizon-testnet.stellar.org/transactions/83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479\"\n          },\n          \"effects\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/116596430667259905/effects\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=116596430667259905\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=116596430667259905\"\n          }\n        },\n        \"id\": \"116596430667259905\",\n        \"paging_token\": \"116596430667259905\",\n        \"transaction_successful\": true,\n        \"source_account\": \"GBE63IHPHXHKQHIF7L5P5MGOV4MMDYE6RGZCJYWJPBRQZDJ5MOAPOX7A\",\n        \"type\": \"manage_offer\",\n        \"type_i\": 3,\n        \"created_at\": \"2019-12-06T23:05:38Z\",\n        \"transaction_hash\": \"83eabfa824b57436eda49bb9ac28675285f6d945325f69db41792078a83d3479\",\n        \"amount\": \"0.0000023\",\n        \"price\": \"0.0484621\",\n        \"price_r\": {\n          \"n\": 484621,\n          \"d\": 10000000\n        },\n        \"buying_asset_type\": \"native\",\n        \"selling_asset_type\": \"credit_alphanum4\",\n        \"selling_asset_code\": \"RMT\",\n        \"selling_asset_issuer\": \"GDEGOXPCHXWFYY234D2YZSPEJ24BX42ESJNVHY5H7TWWQSYRN5ZKZE3N\",\n        \"offer_id\": 0\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0902eebf-d06c-4210-a37d-1319df8ea976",
+          "name": "Retrieve a Ledgers's Effects",
+          "request": {
+            "name": "Retrieve a Ledgers's Effects",
+            "description": {
+              "content": "This endpoint returns the effects of a specific ledger.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers",
+                ":sequence",
+                "effects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "sequence",
+                  "description": "(Required) The sequence number of a specific ledger."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "db07cecf-3ae6-4a24-91bd-987aff277b4a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers",
+                    ":sequence",
+                    "effects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "sequence",
+                      "description": "(Required) The sequence number of a specific ledger."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=33676838572034-1&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=12884905985-1&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905985\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-1\"\n          }\n        },\n        \"id\": \"0000000012884905985-0000000001\",\n        \"paging_token\": \"12884905985-1\",\n        \"account\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"type\": \"account_created\",\n        \"type_i\": 0,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"starting_balance\": \"20.0000000\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905985\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-2\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-2\"\n          }\n        },\n        \"id\": \"0000000012884905985-0000000002\",\n        \"paging_token\": \"12884905985-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"account_debited\",\n        \"type_i\": 3,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"20.0000000\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1a7771c1-0864-4871-85e5-d58458d6276c",
+          "name": "List All Ledgers",
+          "request": {
+            "name": "List All Ledgers",
+            "description": {
+              "content": "This endpoint lists all ledgers and can be used in streaming mode. Streaming mode allows you to listen for new ledgers as they close. If called in streaming mode, Horizon will start at the earliest known ledger unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream ledgers since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ledgers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9dfb4e11-1351-496c-8c55-bf415bd43182",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ledgers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"effects\": {\n            \"href\": \"/ledgers/1/effects/{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"/ledgers/1/operations/{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"self\": {\n            \"href\": \"/ledgers/1\"\n          },\n          \"transactions\": {\n            \"href\": \"/ledgers/1/transactions/{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1\",\n        \"paging_token\": \"4294967296\",\n        \"hash\": \"e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1\",\n        \"sequence\": 1,\n        \"transaction_count\": 0,\n        \"successful_transaction_count\": 0,\n        \"failed_transaction_count\": 0,\n        \"operation_count\": 0,\n        \"tx_set_operation_count\": 0,\n        \"closed_at\": \"1970-01-01T00:00:00Z\",\n        \"total_coins\": \"100000000000.0000000\",\n        \"fee_pool\": \"0.0000000\",\n        \"base_fee_in_stroops\": 100,\n        \"base_reserve_in_stroops\": 100000000,\n        \"max_tx_set_size\": 50\n      },\n      {\n        \"_links\": {\n          \"effects\": {\n            \"href\": \"/ledgers/2/effects/{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"operations\": {\n            \"href\": \"/ledgers/2/operations/{?cursor,limit,order}\",\n            \"templated\": true\n          },\n          \"self\": {\n            \"href\": \"/ledgers/2\"\n          },\n          \"transactions\": {\n            \"href\": \"/ledgers/2/transactions/{?cursor,limit,order}\",\n            \"templated\": true\n          }\n        },\n        \"id\": \"e12e5809ab8c59d8256e691cb48a024dd43960bc15902d9661cd627962b2bc71\",\n        \"paging_token\": \"8589934592\",\n        \"hash\": \"e12e5809ab8c59d8256e691cb48a024dd43960bc15902d9661cd627962b2bc71\",\n        \"prev_hash\": \"e8e10918f9c000c73119abe54cf089f59f9015cc93c49ccf00b5e8b9afb6e6b1\",\n        \"sequence\": 2,\n        \"transaction_count\": 0,\n        \"successful_transaction_count\": 0,\n        \"failed_transaction_count\": 0,\n        \"operation_count\": 0,\n        \"closed_at\": \"2015-07-16T23:49:00Z\",\n        \"total_coins\": \"100000000000.0000000\",\n        \"fee_pool\": \"0.0000000\",\n        \"base_fee_in_stroops\": 100,\n        \"base_reserve_in_stroops\": 100000000,\n        \"max_tx_set_size\": 100\n      }\n    ]\n  },\n  \"_links\": {\n    \"next\": {\n      \"href\": \"/ledgers?order=asc&limit=2&cursor=8589934592\"\n    },\n    \"prev\": {\n      \"href\": \"/ledgers?order=desc&limit=2&cursor=4294967296\"\n    },\n    \"self\": {\n      \"href\": \"/ledgers?order=asc&limit=2&cursor=\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ac2c7c1f-8b84-41a2-a5c3-fc15b07eaf5c",
+    "name": "Platform Server Accounts Ledgers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

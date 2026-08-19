@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Trade Aggregations API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trade Aggregations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Trade Aggregations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/trade_aggregations",
+            "params": [
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "The lower time boundary represented as milliseconds since epoch."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "The upper time boundary represented as milliseconds since epoch."
+              },
+              {
+                "name": "resolution",
+                "value": "",
+                "type": "query",
+                "description": "The segment duration represented as milliseconds. Supported values are 1 minute (60000), 5 minutes (300000), 15 minutes (900000), 1 hour (3600000), 1 day (86400000) and 1 week (604800000)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Segments can be offset using this parameter. Expressed in milliseconds. Can only be used if the resolution is greater than 1 hour. Value must be in whole hours, less than the provided resolution, and less than 24 hours."
+              },
+              {
+                "name": "base_asset_type",
+                "value": "",
+                "type": "query",
+                "description": "The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+              },
+              {
+                "name": "base_asset_issuer",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`."
+              },
+              {
+                "name": "base_asset_code",
+                "value": "",
+                "type": "query",
+                "description": "The code for the base asset. Required if the `base_asset_type` is not `native`."
+              },
+              {
+                "name": "counter_asset_type",
+                "value": "",
+                "type": "query",
+                "description": "The type for the counter asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+              },
+              {
+                "name": "counter_asset_issuer",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`."
+              },
+              {
+                "name": "counter_asset_code",
+                "value": "",
+                "type": "query",
+                "description": "The code for the counter asset. Required if the `counter_asset_type` is not `native`."
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+              }
+            ]
+          },
+          "docs": "This endpoint displays trade data based on filters set in the arguments.\n\nThis is done by dividing a given time range into segments and aggregating statistics, for a given asset pair (base, counter) over each of these segments.\n\nThe duration of the segments is specified with the `resolution` parameter. The start and end of the time range are given by `startTime` and `endTime` respectively, which are both rounded to the nearest multiple of `resolution` since epoch.\n\nThe individual segments are al"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

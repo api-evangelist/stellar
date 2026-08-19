@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Paths API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Paths",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Strict Receive Payment Paths",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/paths/strict-receive",
+            "params": [
+              {
+                "name": "source_account",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the sender. Any returned path must start with an asset that the sender holds. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments."
+              },
+              {
+                "name": "source_assets",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of assets available to the sender. Any returned path must start with an asset in this list. Each asset is formatted as `CODE:ISSUER_ACCOUNT`. For example: `USD:GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX`. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments."
+              },
+              {
+                "name": "destination_asset_type",
+                "value": "",
+                "type": "query",
+                "description": "The type for the destination asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+              },
+              {
+                "name": "destination_asset_issuer",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the issuer of the destination asset. Required if the `destination_asset_type` is not `native`."
+              },
+              {
+                "name": "destination_asset_code",
+                "value": "",
+                "type": "query",
+                "description": "The code for the destination asset. Required if the `destination_asset_type` is not `native`."
+              },
+              {
+                "name": "destination_amount",
+                "value": "",
+                "type": "query",
+                "description": "The amount of the destination asset that should be received."
+              }
+            ]
+          },
+          "docs": "The strict receive payment path endpoint lists the paths a payment can take based on the amount of an asset you want the recipient to receive. The destination asset amount stays constant, and the type and amount of an asset sent varies based on offers in the order books.\n\nFor this search, Horizon loads a list of assets available to the sender (based on `source_account` or `source_assets`) and displays the possible paths from the different source assets to the destination asset. Only paths that s"
+        },
+        {
+          "info": {
+            "name": "List Strict Send Payment Paths",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/paths/strict-send",
+            "params": [
+              {
+                "name": "source_asset_type",
+                "value": "",
+                "type": "query",
+                "description": "The type for the source asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+              },
+              {
+                "name": "source_asset_issuer",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the issuer of the source asset. Required if the `source_asset_type` is not `native`."
+              },
+              {
+                "name": "source_asset_code",
+                "value": "",
+                "type": "query",
+                "description": "The code for the source asset. Required if the `source_asset_type` is not `native`."
+              },
+              {
+                "name": "source_amount",
+                "value": "",
+                "type": "query",
+                "description": "The amount of the source asset that should be sent."
+              },
+              {
+                "name": "destination_account",
+                "value": "",
+                "type": "query",
+                "description": "The Stellar address of the receiver. Any returned path must end with an asset that the recipient can receive. Using either `source_account` or `source_assets` as an argument is required for strict send path payments."
+              },
+              {
+                "name": "destination_assets",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of assets that the recipient can receive. Any returned path must end with an asset in this list. Each asset is formatted as `CODE:ISSUER_ACCOUNT`. For example: `USD:GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX`. Using either `source_account` or `source_assets` as an argument is required for strict send path payments."
+              }
+            ]
+          },
+          "docs": "The strict send payment path endpoint lists the paths a payment can take based on the amount of an asset you want to send. The source asset amount stays constant, and the type and amount of an asset received varies based on offers in the order books.\n\nFor this search, Horizon loads a list of assets that the recipient can receive (based on `destination_account` or `destination_assets`) and displays the possible paths from the different source assets to the destination asset. Only paths that satis"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

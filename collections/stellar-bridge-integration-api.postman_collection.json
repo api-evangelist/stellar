@@ -1,0 +1,425 @@
+{
+  "item": [
+    {
+      "id": "b548418c-9f69-473a-b4db-04b54663c54c",
+      "name": "Bridge Integration",
+      "description": {
+        "content": "Bridge integration endpoints for connecting organizations with Bridge services.\n\n**Integration Flow:**\n1. Organization opts into Bridge (OPTED_IN status)\n2. Complete KYC verification process via Bridge\n3. Create virtual account for USD deposits (READY_FOR_DEPOSIT status)\n4. Receive USD deposits that are automatically converted to USDC on Stellar\n\n**Status Description:**\n- NOT_ENABLED → Bridge service not configured\n- NOT_OPTED_IN → Organization hasn't opted in\n- OPTED_IN → Organization opted in, KYC link created\n- READY_FOR_DEPOSIT → Virtual account created, ready for deposits\n- ERROR → Integration error occurred\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "75d91ba2-3e00-4eb8-a93a-89929f840497",
+          "name": "Get Bridge Integration Status",
+          "request": {
+            "name": "Get Bridge Integration Status",
+            "description": {
+              "content": "Retrieves the current Bridge integration status and information for the organization.\nReturns live data from the Bridge API including KYC status and virtual account details.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bridge-integration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "061ae243-92d7-443e-9898-8df5efce0521",
+              "name": "Bridge integration status retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"NOT_ENABLED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3f3dfe8-5f01-42ff-a4b7-9db3fe9ab6fd",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b2a60f0-1957-4520-becf-8616838d5e2d",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76cc7718-4320-47f8-91f7-e6479c05f100",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a56118db-905d-4110-940d-752f540eb6d0",
+          "name": "Update Bridge Integration Status",
+          "request": {
+            "name": "Update Bridge Integration Status",
+            "description": {
+              "content": "Updates the Bridge integration status. Supports two main operations:\n1. Opt-in to Bridge (status: \"OPTED_IN\") - Creates KYC link for organization onboarding\n2. Create Virtual Account (status: \"READY_FOR_DEPOSIT\") - Creates virtual account after KYC approval\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bridge-integration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"email\": \"<email>\",\n  \"full_name\": \"<string>\",\n  \"kyc_type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "28784405-e3d1-41b5-8ee2-3cc1f1ec2233",
+              "name": "Bridge integration updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"OPTED_IN\",\n  \"email\": \"john@example.com\",\n  \"full_name\": \"John Doe\",\n  \"kyc_type\": \"business\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"OPTED_IN\",\n  \"customer_id\": \"cust_123abc\",\n  \"kyc_status\": {\n    \"id\": \"kyc_456def\",\n    \"full_name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"type\": \"business\",\n    \"kyc_link\": \"https://bridge.stellar.org/kyc/456def\",\n    \"tos_link\": \"https://bridge.stellar.org/tos/456def\",\n    \"kyc_status\": \"under_review\",\n    \"tos_status\": \"approved\",\n    \"customer_id\": \"cust_123abc\",\n    \"rejection_reasons\": [\n      \"Incomplete documentation\",\n      \"Address verification failed\"\n    ],\n    \"created_at\": \"2025-01-01T00:00:00Z\"\n  },\n  \"virtual_account\": {\n    \"id\": \"va_789xyz\",\n    \"status\": \"activated\",\n    \"developer_fee_percent\": \"0.5\",\n    \"customer_id\": \"cust_123abc\",\n    \"source_deposit_instructions\": {\n      \"bank_beneficiary_name\": \"Stellar Bridge\",\n      \"currency\": \"usd\",\n      \"bank_name\": \"Wells Fargo\",\n      \"bank_address\": \"123 Main St, San Francisco, CA\",\n      \"bank_account_number\": \"1234567890\",\n      \"bank_routing_number\": \"121000248\",\n      \"payment_rails\": [\n        \"ach\",\n        \"wire\"\n      ]\n    },\n    \"destination\": {\n      \"payment_rail\": \"stellar\",\n      \"currency\": \"usdc\",\n      \"address\": \"GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37\",\n      \"blockchain_memo\": \"12345\"\n    }\n  },\n  \"opted_in_by\": \"user_789\",\n  \"opted_in_at\": \"2025-01-01T00:00:00Z\",\n  \"virtual_account_created_by\": \"user_789\",\n  \"virtual_account_created_at\": \"2025-01-01T00:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5164c0b-bd8c-460c-b5b4-f4ddfa718716",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"OPTED_IN\",\n  \"email\": \"john@example.com\",\n  \"full_name\": \"John Doe\",\n  \"kyc_type\": \"business\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89afd848-6a24-4b23-be69-544312b5734e",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"OPTED_IN\",\n  \"email\": \"john@example.com\",\n  \"full_name\": \"John Doe\",\n  \"kyc_type\": \"business\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26be06ee-52f5-4205-b71d-a27594a2508e",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bridge-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"OPTED_IN\",\n  \"email\": \"john@example.com\",\n  \"full_name\": \"John Doe\",\n  \"kyc_type\": \"business\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ed551a04-f771-4530-bae5-99308b1c3f39",
+    "name": "Platform Server Accounts Bridge Integration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

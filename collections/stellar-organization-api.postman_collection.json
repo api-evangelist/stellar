@@ -1,0 +1,976 @@
+{
+  "item": [
+    {
+      "id": "7c402647-5a4c-41c8-9cf5-ab469bd621a8",
+      "name": "Organization",
+      "description": {
+        "content": "Organization endpoints manage the process of getting and updating organizational profile information. The organization's profile has basic information set at the time of SDP deployment. It can be modified by the Owner. Organizations can also manage their preferences, like which assets to use, through these endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "67da194c-374f-4d62-9836-69cff1ee9578",
+          "name": "Get Organization Info",
+          "request": {
+            "name": "Get Organization Info",
+            "description": {
+              "content": "This endpoint returns the organization's info. It is used in many places across the UI. It returns the name in the navbar and the public key of the organization’s distribution account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "aed1730d-5e89-452a-b0e1-d0eac193e41e",
+              "name": "Returns organization details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"distribution_account\": {\n    \"status\": \"ACTIVE\",\n    \"type\": \"DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT\",\n    \"address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n    \"circle_wallet_id\": \"1000646072\"\n  },\n  \"is_approval_required\": true,\n  \"logo_url\": \"https://stellar-disbursement-platform-backend-dev.stellar.org/organization/logo\",\n  \"name\": \"Stellar Aid\",\n  \"payment_cancellation_period_days\": 5,\n  \"privacy_policy_link\": \"https://stellar.org/privacy-policy\",\n  \"receiver_invitation_resend_interval_days\": 5,\n  \"timezone_utc_offset\": \"+00:00\",\n  \"distribution_account_public_key\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n  \"otp_message_template\": \"{{.OTP}} is your {{.OrganizationName}} phone verification code.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a026808-4f75-48e2-a2d1-7d53032dc312",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "062d8048-1d56-49e4-9d30-d4ab8ce2875d",
+          "name": "Update Organization Profile",
+          "request": {
+            "name": "Update Organization Profile",
+            "description": {
+              "content": "Updates the organization profile details. Only account owners have permission to do this. Note: both fields are optional but at least one should be sent in the request. It is not necessary to set the header Content-Type for this request. It is set automatically by the HTTP client.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "logo",
+                  "type": "file",
+                  "description": "The logo of the organization, file type must be png or jpeg."
+                },
+                {
+                  "key": "data",
+                  "value": "<json>",
+                  "type": "text",
+                  "description": "A JSON string that contains the details to update. Contains the following keys:  `organization_name` (string): the new name of the organization, `timezone_utc_offset` (string): the new timezone offset of the organization, `is_approval_required` (boolean): whether the approval workflow is enabled or not. `receiver_registration_message_template` (string): the message template sent to the receivers inviting them to registration. Sending this field empty sets the `default` value for it. `otp_message_template` (string): the message template sent to the receivers sending the OTP to complete the registration flow. Sending this field empty sets the `default` value for it. For example: '{\"organization_name\": \"NewOrgName\", \"timezone_utc_offset\": \"+02:00\", \"is_approval_required\": true, \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\", \"otp_message_template\": \"{{.OTP}} is your {{.OrganizationName}} phone verification code.\"}'\n"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "126f7ca0-8d05-4a4a-8347-6c7fd7d87986",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The logo of the organization, file type must be png or jpeg.",
+                        "type": "text/plain"
+                      },
+                      "key": "logo",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A JSON string that contains the details to update. Contains the following keys:  `organization_name` (string): the new name of the organization, `timezone_utc_offset` (string): the new timezone offset of the organization, `is_approval_required` (boolean): whether the approval workflow is enabled or not. `receiver_registration_message_template` (string): the message template sent to the receivers inviting them to registration. Sending this field empty sets the `default` value for it. `otp_message_template` (string): the message template sent to the receivers sending the OTP to complete the registration flow. Sending this field empty sets the `default` value for it. For example: '{\"organization_name\": \"NewOrgName\", \"timezone_utc_offset\": \"+02:00\", \"is_approval_required\": true, \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\", \"otp_message_template\": \"{{.OTP}} is your {{.OrganizationName}} phone verification code.\"}'\n",
+                        "type": "text/plain"
+                      },
+                      "key": "data",
+                      "value": "<json>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"organization profile updated successfully\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58f30105-8bfa-46de-9183-8fffe69d59ae",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The logo of the organization, file type must be png or jpeg.",
+                        "type": "text/plain"
+                      },
+                      "key": "logo",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A JSON string that contains the details to update. Contains the following keys:  `organization_name` (string): the new name of the organization, `timezone_utc_offset` (string): the new timezone offset of the organization, `is_approval_required` (boolean): whether the approval workflow is enabled or not. `receiver_registration_message_template` (string): the message template sent to the receivers inviting them to registration. Sending this field empty sets the `default` value for it. `otp_message_template` (string): the message template sent to the receivers sending the OTP to complete the registration flow. Sending this field empty sets the `default` value for it. For example: '{\"organization_name\": \"NewOrgName\", \"timezone_utc_offset\": \"+02:00\", \"is_approval_required\": true, \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\", \"otp_message_template\": \"{{.OTP}} is your {{.OrganizationName}} phone verification code.\"}'\n",
+                        "type": "text/plain"
+                      },
+                      "key": "data",
+                      "value": "<json>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "16b63f1d-86dc-408c-af4d-85be7749f250",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The logo of the organization, file type must be png or jpeg.",
+                        "type": "text/plain"
+                      },
+                      "key": "logo",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A JSON string that contains the details to update. Contains the following keys:  `organization_name` (string): the new name of the organization, `timezone_utc_offset` (string): the new timezone offset of the organization, `is_approval_required` (boolean): whether the approval workflow is enabled or not. `receiver_registration_message_template` (string): the message template sent to the receivers inviting them to registration. Sending this field empty sets the `default` value for it. `otp_message_template` (string): the message template sent to the receivers sending the OTP to complete the registration flow. Sending this field empty sets the `default` value for it. For example: '{\"organization_name\": \"NewOrgName\", \"timezone_utc_offset\": \"+02:00\", \"is_approval_required\": true, \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\", \"otp_message_template\": \"{{.OTP}} is your {{.OrganizationName}} phone verification code.\"}'\n",
+                        "type": "text/plain"
+                      },
+                      "key": "data",
+                      "value": "<json>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c203967b-d209-47d9-8501-e0cd5f69dd9d",
+          "name": "Retrieve Organization Logo",
+          "request": {
+            "name": "Retrieve Organization Logo",
+            "description": {
+              "content": "Retrieves the logo of the organization for display in the UI navbar.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                "logo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8980b1f0-099a-440b-8468-7cf132c93b81",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    "logo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5ced708-b703-4222-9784-72bfc35654a0",
+          "name": "Circle Account Setup",
+          "request": {
+            "name": "Circle Account Setup",
+            "description": {
+              "content": "Updates the Circle configuration for the organization. Only account owners have permission to do this. Note: in the first time configuration, all fields are mandatory, but after it is been configured at least once, you can replace a single field at a time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                "circle-config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"<string>\",\n  \"wallet_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a45697d5-c96a-47e4-bdb1-f1c5b78e9de7",
+              "name": "Circle configuration updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    "circle-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"wallet_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Circle configuration updated\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d176cd1c-a01f-486c-8248-cb15d46a7b96",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    "circle-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"wallet_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2e62ba3b-3016-4831-afce-2fe722ac4515",
+          "name": "Get All Assets",
+          "request": {
+            "name": "Get All Assets",
+            "description": {
+              "content": "Fetches the list of available assets to populate the dropdown box in the New Disbursement flow. Note: the organization must hold a balance in a particular asset to use it in a disbursement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "d155b43a-a97d-461b-a7e6-6fd7b32c001f",
+              "name": "A list of assets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b701a794-050c-4302-b574-44d3088f641f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aedd0832-4d28-4ebe-b3e2-4c670ca68c30",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80084912-d99a-496c-b7bf-a4e68c216b33",
+          "name": "Create Asset",
+          "request": {
+            "name": "Create Asset",
+            "description": {
+              "content": "This endpoint is used to create a new asset that can be used in a Disbursement. Note: the organization must hold a balance in a particular asset to use it in a disbursement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"<string>\",\n  \"issuer\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "15df32f4-cf64-4774-b009-98eca10eab06",
+              "name": "Asset created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"USDC\",\n  \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7ab5e956-fcca-4e90-9427-94ce903a2ae5",
+              "name": "Bad request, invalid request body or the provided code/issuer is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"USDC\",\n  \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ab9cde1a-dddc-4b91-b529-dd02999bf127",
+          "name": "Delete Asset",
+          "request": {
+            "name": "Delete Asset",
+            "description": {
+              "content": "This endpoint is used to soft delete an asset.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "assets",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the asset to delete"
+                }
+              ]
+            },
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "6ae75022-3920-4348-bee3-cfd0dd3e4e1b",
+              "name": "Asset deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the asset to delete"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6ca1417c-5803-45ef-b3b7-ae8e6605aebc",
+              "name": "Asset already deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the asset to delete"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "72d816df-73e2-4299-831c-7dce781790ce",
+              "name": "Asset not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "assets",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the asset to delete"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "41b9350c-7c2f-4e05-b7a8-9a0e68e68df2",
+    "name": "Platform Server Accounts Organization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

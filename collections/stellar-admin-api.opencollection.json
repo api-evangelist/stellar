@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Admin API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Tenants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/tenants"
+          },
+          "docs": "Get All Tenants"
+        },
+        {
+          "info": {
+            "name": "Create Tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/tenants"
+          },
+          "docs": "Create Tenant"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/tenants/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID or Name of the `Tenant`."
+              }
+            ]
+          },
+          "docs": "Retrieve a Tenant"
+        },
+        {
+          "info": {
+            "name": "Update a Tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/tenants/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Tenant`."
+              }
+            ]
+          },
+          "docs": "This endpoint updates the Tenant data."
+        },
+        {
+          "info": {
+            "name": "Soft delete a Tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform-server.exampleanchor.com/tenants/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Tenant`."
+              }
+            ]
+          },
+          "docs": "Soft delete a Tenant"
+        },
+        {
+          "info": {
+            "name": "Default Tenant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/tenants/default-tenant"
+          },
+          "docs": "Sets the tenant specified in the request body as the default one, resolving all the incoming API request to that tenant when the env `SINGLE_TENANT_MODE` is set to true. Once set, the default tenant can be overwritten but never unset, although it is only effective when `SINGLE_TENANT_MODE` is set to true.\n\nDefault tenant is useful for development purposes or when the SDP is used by a single organization. This allows the organization to skip specifying the tenant in every request and simplifies t"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

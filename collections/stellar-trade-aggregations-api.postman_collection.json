@@ -1,0 +1,214 @@
+{
+  "item": [
+    {
+      "id": "be59429b-40c7-466d-be74-0179a268b7a8",
+      "name": "Trade Aggregations",
+      "description": {
+        "content": "A trade aggregation represents aggregated statistics on an asset pair (base and counter) for a specific time period. Trade aggregations are useful to developers of trading clients and provide historical trade data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0e88bff1-21f2-43c5-8fcb-09c0234d6625",
+          "name": "List Trade Aggregations",
+          "request": {
+            "name": "List Trade Aggregations",
+            "description": {
+              "content": "This endpoint displays trade data based on filters set in the arguments.\n\nThis is done by dividing a given time range into segments and aggregating statistics, for a given asset pair (base, counter) over each of these segments.\n\nThe duration of the segments is specified with the `resolution` parameter. The start and end of the time range are given by `startTime` and `endTime` respectively, which are both rounded to the nearest multiple of `resolution` since epoch.\n\nThe individual segments are also aligned with multiples of `resolution` since epoch. If you want to change this alignment, the segments can be `offset` by specifying the offset parameter.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trade_aggregations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "<long>",
+                  "description": "The lower time boundary represented as milliseconds since epoch."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_time",
+                  "value": "<long>",
+                  "description": "The upper time boundary represented as milliseconds since epoch."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<long>",
+                  "description": "Segments can be offset using this parameter. Expressed in milliseconds. Can only be used if the resolution is greater than 1 hour. Value must be in whole hours, less than the provided resolution, and less than 24 hours."
+                },
+                {
+                  "disabled": false,
+                  "key": "base_asset_type",
+                  "value": "<string>",
+                  "description": "(Required) The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+                },
+                {
+                  "disabled": false,
+                  "key": "base_asset_issuer",
+                  "value": "<string>",
+                  "description": "The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "base_asset_code",
+                  "value": "<string>",
+                  "description": "The code for the base asset. Required if the `base_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "counter_asset_type",
+                  "value": "<string>",
+                  "description": "(Required) The type for the counter asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+                },
+                {
+                  "disabled": false,
+                  "key": "counter_asset_issuer",
+                  "value": "<string>",
+                  "description": "The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "counter_asset_code",
+                  "value": "<string>",
+                  "description": "The code for the counter asset. Required if the `counter_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6c144fb-a4bd-41e5-a779-96bda920536b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trade_aggregations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_time",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "base_asset_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "base_asset_issuer",
+                      "value": "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX"
+                    },
+                    {
+                      "key": "base_asset_code",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "counter_asset_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "counter_asset_issuer",
+                      "value": "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX"
+                    },
+                    {
+                      "key": "counter_asset_code",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/trade_aggregations?base_asset_type=native&counter_asset_code=EURT&counter_asset_issuer=GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S&counter_asset_type=credit_alphanum4&resolution=3600000&start_time=1582156800000&end_time=1582178400001\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/trade_aggregations?base_asset_type=native&counter_asset_code=EURT&counter_asset_issuer=GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S&counter_asset_type=credit_alphanum4&end_time=1582178400001&resolution=3600000&start_time=1582171200000\"\n    },\n    \"prev\": {\n      \"href\": \"\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"timestamp\": 1582164000000,\n        \"trade_count\": 3,\n        \"base_volume\": \"399.3873200\",\n        \"counter_volume\": \"25.5368082\",\n        \"avg\": \"0.0639400\",\n        \"high\": \"0.0652169\",\n        \"high_r\": {\n          \"N\": 652169,\n          \"D\": 10000000\n        },\n        \"low\": \"0.0638338\",\n        \"low_r\": {\n          \"N\": 8107550,\n          \"D\": 127010393\n        },\n        \"open\": \"0.0652169\",\n        \"open_r\": {\n          \"N\": 652169,\n          \"D\": 10000000\n        },\n        \"close\": \"0.0638338\",\n        \"close_r\": {\n          \"N\": 8107550,\n          \"D\": 127010393\n        }\n      },\n      {\n        \"timestamp\": 1582167600000,\n        \"trade_count\": 1,\n        \"base_volume\": \"149.8415320\",\n        \"counter_volume\": \"9.7149804\",\n        \"avg\": \"0.0648350\",\n        \"high\": \"0.0648350\",\n        \"high_r\": {\n          \"N\": 5000000,\n          \"D\": 77118803\n        },\n        \"low\": \"0.0648350\",\n        \"low_r\": {\n          \"N\": 5000000,\n          \"D\": 77118803\n        },\n        \"open\": \"0.0648350\",\n        \"open_r\": {\n          \"N\": 5000000,\n          \"D\": 77118803\n        },\n        \"close\": \"0.0648350\",\n        \"close_r\": {\n          \"N\": 5000000,\n          \"D\": 77118803\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cd155b8b-f52f-4083-bd6c-8e8086347538",
+    "name": "Platform Server Accounts Trade Aggregations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

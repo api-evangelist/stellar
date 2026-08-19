@@ -1,0 +1,134 @@
+{
+  "item": [
+    {
+      "id": "61e2675e-b854-44b9-b243-7ec143d7c1dc",
+      "name": "Effects",
+      "description": {
+        "content": "Effects represent specific changes that occur in the ledger as a result of successful operations, but are not necessarily directly reflected in the ledger or history, as transactions and operations are.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e7e336d8-00fc-400a-8783-1c830e21c191",
+          "name": "List All Effects",
+          "request": {
+            "name": "List All Effects",
+            "description": {
+              "content": "This endpoint lists all effects and can be used in streaming mode. Streaming mode allows you to listen for new effects as they are added to the Stellar ledger. If called in streaming mode, Horizon will start at the earliest known effect unless a cursor is set, in which case it will start from that cursor. By setting the cursor value to now, you can stream effects created since your request time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "effects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<integer>",
+                  "description": "A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record."
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e2301f5-8e89-44c9-b445-dcdcc812fb19",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "effects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "6606617478959105"
+                    },
+                    {
+                      "key": "order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_links\": {\n    \"self\": {\n      \"href\": \"https://horizon-testnet.stellar.org/effects?cursor=&limit=10&order=asc\"\n    },\n    \"next\": {\n      \"href\": \"https://horizon-testnet.stellar.org/effects?cursor=33676838572034-1&limit=10&order=asc\"\n    },\n    \"prev\": {\n      \"href\": \"https://horizon-testnet.stellar.org/effects?cursor=12884905985-1&limit=10&order=desc\"\n    }\n  },\n  \"_embedded\": {\n    \"records\": [\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905985\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-1\"\n          }\n        },\n        \"id\": \"0000000012884905985-0000000001\",\n        \"paging_token\": \"12884905985-1\",\n        \"account\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"type\": \"account_created\",\n        \"type_i\": 0,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"starting_balance\": \"20.0000000\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905985\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-2\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-2\"\n          }\n        },\n        \"id\": \"0000000012884905985-0000000002\",\n        \"paging_token\": \"12884905985-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"account_debited\",\n        \"type_i\": 3,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"20.0000000\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905985\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-3\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-3\"\n          }\n        },\n        \"id\": \"0000000012884905985-0000000003\",\n        \"paging_token\": \"12884905985-3\",\n        \"account\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"type\": \"signer_created\",\n        \"type_i\": 10,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"weight\": 1,\n        \"public_key\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"key\": \"\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905986\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905986-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905986-1\"\n          }\n        },\n        \"id\": \"0000000012884905986-0000000001\",\n        \"paging_token\": \"12884905986-1\",\n        \"account\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"type\": \"account_credited\",\n        \"type_i\": 2,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"99999999959.9999700\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905986\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905986-2\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905986-2\"\n          }\n        },\n        \"id\": \"0000000012884905986-0000000002\",\n        \"paging_token\": \"12884905986-2\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"account_debited\",\n        \"type_i\": 3,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"99999999959.9999700\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/12884905987\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905987-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905987-1\"\n          }\n        },\n        \"id\": \"0000000012884905987-0000000001\",\n        \"paging_token\": \"12884905987-1\",\n        \"account\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"type\": \"signer_removed\",\n        \"type_i\": 11,\n        \"created_at\": \"2015-09-30T17:15:54Z\",\n        \"weight\": 0,\n        \"public_key\": \"GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7\",\n        \"key\": \"\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/33676838572033\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=33676838572033-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=33676838572033-1\"\n          }\n        },\n        \"id\": \"0000033676838572033-0000000001\",\n        \"paging_token\": \"33676838572033-1\",\n        \"account\": \"GAP2KHWUMOHY7IO37UJY7SEBIITJIDZS5DRIIQRPEUT4VUKHZQGIRWS4\",\n        \"type\": \"account_created\",\n        \"type_i\": 0,\n        \"created_at\": \"2015-10-01T04:15:01Z\",\n        \"starting_balance\": \"20.0000000\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/33676838572033\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=33676838572033-2\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=33676838572033-2\"\n          }\n        },\n        \"id\": \"0000033676838572033-0000000002\",\n        \"paging_token\": \"33676838572033-2\",\n        \"account\": \"GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB\",\n        \"type\": \"account_debited\",\n        \"type_i\": 3,\n        \"created_at\": \"2015-10-01T04:15:01Z\",\n        \"asset_type\": \"native\",\n        \"amount\": \"20.0000000\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/33676838572033\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=33676838572033-3\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=33676838572033-3\"\n          }\n        },\n        \"id\": \"0000033676838572033-0000000003\",\n        \"paging_token\": \"33676838572033-3\",\n        \"account\": \"GAP2KHWUMOHY7IO37UJY7SEBIITJIDZS5DRIIQRPEUT4VUKHZQGIRWS4\",\n        \"type\": \"signer_created\",\n        \"type_i\": 10,\n        \"created_at\": \"2015-10-01T04:15:01Z\",\n        \"weight\": 1,\n        \"public_key\": \"GAP2KHWUMOHY7IO37UJY7SEBIITJIDZS5DRIIQRPEUT4VUKHZQGIRWS4\",\n        \"key\": \"\"\n      },\n      {\n        \"_links\": {\n          \"operation\": {\n            \"href\": \"https://horizon-testnet.stellar.org/operations/33676838572034\"\n          },\n          \"succeeds\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=desc&cursor=33676838572034-1\"\n          },\n          \"precedes\": {\n            \"href\": \"https://horizon-testnet.stellar.org/effects?order=asc&cursor=33676838572034-1\"\n          }\n        },\n        \"id\": \"0000033676838572034-0000000001\",\n        \"paging_token\": \"33676838572034-1\",\n        \"account\": \"GCZTBYH66ISTZKUPVJWTMHWBH4S4JIJ7WNLQJXCTQJKWY3FIT34BWZCJ\",\n        \"type\": \"account_created\",\n        \"type_i\": 0,\n        \"created_at\": \"2015-10-01T04:15:01Z\",\n        \"starting_balance\": \"20.0000000\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b4159479-3f77-46ff-89f9-f61d14d1dee6",
+    "name": "Platform Server Accounts Effects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

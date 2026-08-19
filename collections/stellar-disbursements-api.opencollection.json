@@ -1,0 +1,249 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Platform Server Accounts Disbursements API",
+    "version": "3.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Disbursements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List All Disbursements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/disbursements",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page requested."
+              },
+              {
+                "name": "page_limit",
+                "value": "",
+                "type": "query",
+                "description": "Define how many results will be returned in the response."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A search term used to query through the disbursement names."
+              },
+              {
+                "name": "status",
+                "value": "DRAFT",
+                "type": "query",
+                "description": "Comma-separated list of disbursement statuses to filter by."
+              },
+              {
+                "name": "created_at_after",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return disbursements that are created after this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "created_at_before",
+                "value": "2006-01-02",
+                "type": "query",
+                "description": "Only return disbursements that are created before this date. Format: YYYY-MM-DD"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort disbursements"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting disbursements."
+              }
+            ]
+          },
+          "docs": "Fetches all disbursements the organization has created. This endpoint supports pagination. The response includes basic aggregations on payments within the disbursement."
+        },
+        {
+          "info": {
+            "name": "Create Disbursement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/disbursements"
+          },
+          "docs": "Creates a new disbursement in  `draft ` state with basic details. Important: a disbursement is not triggered until the organization adds receivers through the Upload Disbursement Instructions endpoint and the status changes from  `draft ` to  `ready `."
+        },
+        {
+          "info": {
+            "name": "Retrieve a Disbursement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Disbursement`."
+              }
+            ]
+          },
+          "docs": "Fetches information on a specific disbursement by  `id `."
+        },
+        {
+          "info": {
+            "name": "Deletes a Draft Disbursement",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the `Disbursement`."
+              }
+            ]
+          },
+          "docs": "Deletes a Disbursement in Draft or Ready Status by `id`."
+        },
+        {
+          "info": {
+            "name": "List All Disbursement Receivers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id/receivers",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Disbursement"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to fetch."
+              },
+              {
+                "name": "page_limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of records to return per page."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field used to sort receivers"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction for sorting receivers."
+              }
+            ]
+          },
+          "docs": "Fetches a list of receivers within a specific disbursement using the disbursement  `id `. This endpoint supports pagination and sorting."
+        },
+        {
+          "info": {
+            "name": "Download Disbursement Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id/instructions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Disbursement"
+              }
+            ]
+          },
+          "docs": "Allows an SDP user to download the raw CSV file that was uploaded when creating the disbursement. This will only return results after instructions have been attached to a draft disbursement."
+        },
+        {
+          "info": {
+            "name": "Upload Disbursement Instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id/instructions",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the Disbursement"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Adds a file containing a list of receivers to a  `DRAFT` disbursement. This step is required before a disbursement can begin. The file must be a CSV and has a different possible formats according with the disbursement configuration, and they can be found at [public/resources/disbursementTemplates](https://github.com/stellar/stellar-disbursement-platform-frontend/tree/58873bbf36cff4614e603daf449079b1d9fad24a/public/resources/disbursementTemplates). The operation is idempotent, guaranteed by delet"
+        },
+        {
+          "info": {
+            "name": "Update a Disbursement Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://platform-server.exampleanchor.com/disbursements/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the disbursement"
+              }
+            ]
+          },
+          "docs": "Updates the status of a disbursement according to the state machine. The disbursement must move from  `draft ` to  `ready ` in order to start the disbursement and trigger payments. Payments will start as soon as this endpoint is hit. A disbursement can also be moved into  `paused ` state by an SDP user to prevent further payments from going out and restarted when they are ready."
+        },
+        {
+          "info": {
+            "name": "List Registration Contact Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform-server.exampleanchor.com/registration-contact-types"
+          },
+          "docs": "Returns the supported registration contact types for disbursement instructions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

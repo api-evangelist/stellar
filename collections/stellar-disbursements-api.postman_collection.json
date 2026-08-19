@@ -1,0 +1,2343 @@
+{
+  "item": [
+    {
+      "id": "24005ea8-7c51-4460-b36a-e8c15398e7be",
+      "name": "Disbursements",
+      "description": {
+        "content": "Endpoints related to disbursements. A disbursement is a group of payments sent to multiple individuals at once. An SDP user with the appropriate role triggers a new disbursement through the SDP dashboard by uploading a list of receivers and amounts. When the receiver has linked their wallet to the SDP, the payment automatically begins. SDP users can track their disbursements in real-time through the SDP dashboard. Each disbursement must have a unique name defined by the organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b5d90486-5ba7-4ae3-a7b3-3f2648e6f876",
+          "name": "List All Disbursements",
+          "request": {
+            "name": "List All Disbursements",
+            "description": {
+              "content": "Fetches all disbursements the organization has created. This endpoint supports pagination. The response includes basic aggregations on payments within the disbursement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page requested."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_limit",
+                  "value": "20",
+                  "description": "Define how many results will be returned in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "A search term used to query through the disbursement names."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Comma-separated list of disbursement statuses to filter by."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_after",
+                  "value": "<string>",
+                  "description": "Only return disbursements that are created after this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "created_at_before",
+                  "value": "<string>",
+                  "description": "Only return disbursements that are created before this date. Format: YYYY-MM-DD"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "created_at",
+                  "description": "Field used to sort disbursements"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "desc",
+                  "description": "Direction for sorting disbursements."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "adf34141-838b-4cdc-bc4b-bc69d036cf92",
+              "name": "A list of Disbursement details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"?page=3&page_limit=2\",\n    \"prev\": \"?page=1&page_limit=2\",\n    \"pages\": 8,\n    \"total\": 16\n  },\n  \"data\": [\n    {\n      \"id\": \"619da857-8725-4c58-933d-c120a458e0f5\",\n      \"name\": \"Disbursement Name\",\n      \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n      \"registration_contact_type\": \"PHONE_NUMBER_AND_WALLET_ADDRESS\",\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"created_at\": \"2023-07-31T20:50:45.648Z\",\n        \"updated_at\": \"2023-07-31T20:50:45.648Z\"\n      },\n      \"asset\": {\n        \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n        \"code\": \"USDC\",\n        \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\",\n        \"deleted_at\": \"2023-06-03T10:55:51Z\"\n      },\n      \"status\": \"READY\",\n      \"verification_field\": \"NATIONAL_ID_NUMBER\",\n      \"status_history\": [\n        {\n          \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n          \"status\": \"DRAFT\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        },\n        {\n          \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n          \"status\": \"READY\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        }\n      ],\n      \"file_name\": \"disbursement-feb-03-2023.csv\",\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\",\n      \"total_payments\": 10,\n      \"total_payments_sent\": 8,\n      \"total_payments_failed\": 1,\n      \"total_payments_remaining\": 1,\n      \"amount_disbursed\": \"800.00\",\n      \"total_amount\": \"1000.00\",\n      \"average_amount\": \"100.00\"\n    },\n    {\n      \"id\": \"619da857-8725-4c58-933d-c120a458e0f5\",\n      \"name\": \"Disbursement Name\",\n      \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n      \"registration_contact_type\": \"EMAIL\",\n      \"wallet\": {\n        \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n        \"name\": \"Vibrant Assist\",\n        \"homepage\": \"https://vibrantapp.com\",\n        \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n        \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n        \"created_at\": \"2023-07-31T20:50:45.648Z\",\n        \"updated_at\": \"2023-07-31T20:50:45.648Z\"\n      },\n      \"asset\": {\n        \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n        \"code\": \"USDC\",\n        \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\",\n        \"deleted_at\": \"2023-06-03T10:55:51Z\"\n      },\n      \"status\": \"READY\",\n      \"verification_field\": \"YEAR_MONTH\",\n      \"status_history\": [\n        {\n          \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n          \"status\": \"PAUSED\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        },\n        {\n          \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n          \"status\": \"COMPLETED\",\n          \"timestamp\": \"2023-02-03T10:45:51Z\"\n        }\n      ],\n      \"file_name\": \"disbursement-feb-03-2023.csv\",\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\",\n      \"total_payments\": 10,\n      \"total_payments_sent\": 8,\n      \"total_payments_failed\": 1,\n      \"total_payments_remaining\": 1,\n      \"amount_disbursed\": \"800.00\",\n      \"total_amount\": \"1000.00\",\n      \"average_amount\": \"100.00\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8acc41b1-9e90-4355-a884-b48da560df65",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7fe9016-d1bf-4a77-88d0-804fbba25730",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "DRAFT"
+                    },
+                    {
+                      "key": "created_at_after",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "created_at_before",
+                      "value": "2006-01-02"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "763d0e57-fdf5-410e-b7ad-80995bc2a8f7",
+          "name": "Create Disbursement",
+          "request": {
+            "name": "Create Disbursement",
+            "description": {
+              "content": "Creates a new disbursement in  `draft ` state with basic details. Important: a disbursement is not triggered until the organization adds receivers through the Upload Disbursement Instructions endpoint and the status changes from  `draft ` to  `ready `.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"wallet_id\": \"<string>\",\n  \"asset_id\": \"<string>\",\n  \"verification_field\": \"<string>\",\n  \"registration_contact_type\": \"<string>\",\n  \"receiver_registration_message_template\": \"<string>\"\n}"
+            }
+          },
+          "response": [
+            {
+              "id": "23c9610d-4b64-4026-bb7c-7c7a8ba51bc7",
+              "name": "A new disbursement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My New Disbursement name\",\n  \"wallet_id\": \"e2de8544-b7e2-40a9-ad40-411f70d5c4bf\",\n  \"asset_id\": \"d227a68c-2f40-11ee-be56-0242ac120002\",\n  \"verification_field\": \"DATE_OF_BIRTH\",\n  \"registration_contact_type\": \"PHONE_NUMBER\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\"\n}"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"619da857-8725-4c58-933d-c120a458e0f5\",\n  \"name\": \"Disbursement Name\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n  \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n  \"wallet\": {\n    \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n    \"name\": \"Vibrant Assist\",\n    \"homepage\": \"https://vibrantapp.com\",\n    \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n    \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n    \"created_at\": \"2023-07-31T20:50:45.648Z\",\n    \"updated_at\": \"2023-07-31T20:50:45.648Z\"\n  },\n  \"asset\": {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  \"status\": \"READY\",\n  \"verification_field\": \"NATIONAL_ID_NUMBER\",\n  \"status_history\": [\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"PAUSED\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"DRAFT\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    }\n  ],\n  \"file_name\": \"disbursement-feb-03-2023.csv\",\n  \"created_at\": \"2023-02-03T10:45:51Z\",\n  \"updated_at\": \"2023-02-03T10:45:51Z\",\n  \"total_payments\": 10,\n  \"total_payments_sent\": 8,\n  \"total_payments_failed\": 1,\n  \"total_payments_remaining\": 1,\n  \"amount_disbursed\": \"800.00\",\n  \"total_amount\": \"1000.00\",\n  \"average_amount\": \"100.00\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac6aa59a-aaa7-4dd8-952a-4eaab64b16dd",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My New Disbursement name\",\n  \"wallet_id\": \"e2de8544-b7e2-40a9-ad40-411f70d5c4bf\",\n  \"asset_id\": \"d227a68c-2f40-11ee-be56-0242ac120002\",\n  \"verification_field\": \"DATE_OF_BIRTH\",\n  \"registration_contact_type\": \"PHONE_NUMBER\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\"\n}"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Bad request\",\n  \"extras\": {\n    \"status\": 400,\n    \"message\": \"Invalid wallet provided\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2001dc1e-ee8c-4f27-8463-e856b41de1e2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My New Disbursement name\",\n  \"wallet_id\": \"e2de8544-b7e2-40a9-ad40-411f70d5c4bf\",\n  \"asset_id\": \"d227a68c-2f40-11ee-be56-0242ac120002\",\n  \"verification_field\": \"DATE_OF_BIRTH\",\n  \"registration_contact_type\": \"PHONE_NUMBER\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\"\n}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ff45b71-c5b4-4a5d-aafc-740301a827f5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"My New Disbursement name\",\n  \"wallet_id\": \"e2de8544-b7e2-40a9-ad40-411f70d5c4bf\",\n  \"asset_id\": \"d227a68c-2f40-11ee-be56-0242ac120002\",\n  \"verification_field\": \"DATE_OF_BIRTH\",\n  \"registration_contact_type\": \"PHONE_NUMBER\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\"\n}"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49d1a1ac-0abd-4623-9973-83366eb7cf1d",
+          "name": "Retrieve a Disbursement",
+          "request": {
+            "name": "Retrieve a Disbursement",
+            "description": {
+              "content": "Fetches information on a specific disbursement by  `id `.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Disbursement`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "95006017-7e2a-42e9-86e1-4000adbcba51",
+              "name": "Disbursement details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"619da857-8725-4c58-933d-c120a458e0f5\",\n  \"name\": \"Disbursement Name\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n  \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n  \"wallet\": {\n    \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n    \"name\": \"Vibrant Assist\",\n    \"homepage\": \"https://vibrantapp.com\",\n    \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n    \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n    \"created_at\": \"2023-07-31T20:50:45.648Z\",\n    \"updated_at\": \"2023-07-31T20:50:45.648Z\"\n  },\n  \"asset\": {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  \"status\": \"READY\",\n  \"verification_field\": \"NATIONAL_ID_NUMBER\",\n  \"status_history\": [\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"PAUSED\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"DRAFT\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    }\n  ],\n  \"file_name\": \"disbursement-feb-03-2023.csv\",\n  \"created_at\": \"2023-02-03T10:45:51Z\",\n  \"updated_at\": \"2023-02-03T10:45:51Z\",\n  \"total_payments\": 10,\n  \"total_payments_sent\": 8,\n  \"total_payments_failed\": 1,\n  \"total_payments_remaining\": 1,\n  \"amount_disbursed\": \"800.00\",\n  \"total_amount\": \"1000.00\",\n  \"average_amount\": \"100.00\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2fc57d6-7cb5-4568-ac51-132751efdf8f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5bfc59d-c7eb-4fe8-a31b-2d4d76b35675",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6210daa8-fa33-4f45-9947-522d5e0718e9",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Disbursement not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5e3484f-4f98-48fa-b9c8-bc1873a1a78b",
+          "name": "Deletes a Draft Disbursement",
+          "request": {
+            "name": "Deletes a Draft Disbursement",
+            "description": {
+              "content": "Deletes a Disbursement in Draft or Ready Status by `id`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the `Disbursement`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "1269c95e-bfe0-4eee-a16e-78c4667f36ca",
+              "name": "Deleted Disbursement details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"619da857-8725-4c58-933d-c120a458e0f5\",\n  \"name\": \"Disbursement Name\",\n  \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n  \"registration_contact_type\": \"EMAIL_AND_WALLET_ADDRESS\",\n  \"wallet\": {\n    \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n    \"name\": \"Vibrant Assist\",\n    \"homepage\": \"https://vibrantapp.com\",\n    \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n    \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n    \"created_at\": \"2023-07-31T20:50:45.648Z\",\n    \"updated_at\": \"2023-07-31T20:50:45.648Z\"\n  },\n  \"asset\": {\n    \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n    \"code\": \"USDC\",\n    \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n    \"created_at\": \"2023-02-03T10:45:51Z\",\n    \"updated_at\": \"2023-02-03T10:45:51Z\",\n    \"deleted_at\": \"2023-06-03T10:55:51Z\"\n  },\n  \"status\": \"READY\",\n  \"verification_field\": \"NATIONAL_ID_NUMBER\",\n  \"status_history\": [\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"PAUSED\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"user_id\": \"3f351b9e-ed0f-40fa-a314-14757b42dab1\",\n      \"status\": \"DRAFT\",\n      \"timestamp\": \"2023-02-03T10:45:51Z\"\n    }\n  ],\n  \"file_name\": \"disbursement-feb-03-2023.csv\",\n  \"created_at\": \"2023-02-03T10:45:51Z\",\n  \"updated_at\": \"2023-02-03T10:45:51Z\",\n  \"total_payments\": 10,\n  \"total_payments_sent\": 8,\n  \"total_payments_failed\": 1,\n  \"total_payments_remaining\": 1,\n  \"amount_disbursed\": \"800.00\",\n  \"total_amount\": \"1000.00\",\n  \"average_amount\": \"100.00\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66524b1e-db4f-4b9e-8696-055333725ed9",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fa8fc4d-3964-4344-a235-4f11dae0a216",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45e16df4-817a-4020-965e-6f87fbb54d67",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d299b5b-34b2-40b8-a390-ce59e67f243d",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the `Disbursement`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18fa0bb1-225b-4d9a-8afd-b2b6da4294b4",
+          "name": "List All Disbursement Receivers",
+          "request": {
+            "name": "List All Disbursement Receivers",
+            "description": {
+              "content": "Fetches a list of receivers within a specific disbursement using the disbursement  `id `. This endpoint supports pagination and sorting.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id",
+                "receivers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number to fetch."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_limit",
+                  "value": "20",
+                  "description": "The number of records to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "updated_at",
+                  "description": "Field used to sort receivers"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "desc",
+                  "description": "Direction for sorting receivers."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the Disbursement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "b7bcc892-5537-494d-ae71-f89171955209",
+              "name": "A list of Disbursement Receivers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"?page=3&page_limit=2\",\n    \"prev\": \"?page=1&page_limit=2\",\n    \"pages\": 8,\n    \"total\": 16\n  },\n  \"data\": [\n    {\n      \"id\": \"ec3a57c0-5660-4b5a-af76-acadc7b09b93\",\n      \"email\": \"receiver@mail.org\",\n      \"phone_number\": \"+15552368475\",\n      \"external_id\": \"usr129001\",\n      \"receiver_wallet\": {\n        \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n        \"receiver\": {\n          \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n        },\n        \"wallet\": {\n          \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n          \"name\": \"Vibrant Assist\",\n          \"homepage\": \"https://vibrantapp.com\",\n          \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n          \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n          \"enabled\": true,\n          \"user_managed\": false\n        },\n        \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n        \"stellar_memo\": \"string\",\n        \"stellar_memo_type\": \"string\",\n        \"created_at\": \"2023-02-03T10:45:51.000Z\",\n        \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n        \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n        \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n        \"total_payments\": \"2\",\n        \"payments_received\": \"2\",\n        \"failed_payments\": \"0\",\n        \"remaining_payments\": \"0\",\n        \"received_amounts\": [\n          {\n            \"asset_code\": \"USDC\",\n            \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n            \"received_amount\": \"100.00\"\n          },\n          {\n            \"asset_code\": \"USDC\",\n            \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n            \"received_amount\": \"100.00\"\n          }\n        ],\n        \"status\": \"FLAGGED\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          }\n        ]\n      },\n      \"payment\": {\n        \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n        \"amount\": \"100.00\",\n        \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n        \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n        \"stellar_operation_id\": \"string\",\n        \"status\": \"SUCCESS\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status_message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status_message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"type\": \"DIRECT\",\n        \"disbursement\": {\n          \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n          \"name\": \"disbursement-june-29\",\n          \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n          \"registration_contact_type\": \"PHONE_NUMBER_AND_WALLET_ADDRESS\",\n          \"status\": \"STARTED\",\n          \"verification_field\": \"NATIONAL_ID_NUMBER\",\n          \"status_history\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"file_name\": \"disbursement-feb-03-2023.csv\",\n          \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n          \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n        },\n        \"asset\": {\n          \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n          \"code\": \"USDC\",\n          \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"created_at\": \"2023-02-03T10:45:51Z\",\n          \"updated_at\": \"2023-02-03T10:45:51Z\",\n          \"deleted_at\": \"2023-06-03T10:55:51Z\"\n        },\n        \"receiver_wallet\": {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"wallet\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"homepage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sep_10_client_domain\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deep_link_schema\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"user_managed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"sep24_transaction_id\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n          \"status\": \"REGISTERED\",\n          \"status_history\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n          \"otp_confirmed_with\": \"string\"\n        },\n        \"external_payment_id\": \"payment-001\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\"\n      },\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\"\n    },\n    {\n      \"id\": \"ec3a57c0-5660-4b5a-af76-acadc7b09b93\",\n      \"email\": \"receiver@mail.org\",\n      \"phone_number\": \"+15552368475\",\n      \"external_id\": \"usr129001\",\n      \"receiver_wallet\": {\n        \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n        \"receiver\": {\n          \"id\": \"029e2ed0-feb6-4c40-8b47-0836a85741a2\"\n        },\n        \"wallet\": {\n          \"id\": \"5ada9ed5-455a-4782-a0ee-160767e0deb1\",\n          \"name\": \"Vibrant Assist\",\n          \"homepage\": \"https://vibrantapp.com\",\n          \"sep_10_client_domain\": \"api-dev.vibrantapp.com\",\n          \"deep_link_schema\": \"https://vibrantapp.com/sdp-dev\",\n          \"enabled\": true,\n          \"user_managed\": false\n        },\n        \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n        \"stellar_memo\": \"string\",\n        \"stellar_memo_type\": \"string\",\n        \"created_at\": \"2023-02-03T10:45:51.000Z\",\n        \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n        \"invited_at\": \"2023-02-09T10:45:51.000Z\",\n        \"last_message_sent_at\": \"2023-02-10T10:45:51.000Z\",\n        \"total_payments\": \"2\",\n        \"payments_received\": \"2\",\n        \"failed_payments\": \"0\",\n        \"remaining_payments\": \"0\",\n        \"received_amounts\": [\n          {\n            \"asset_code\": \"USDC\",\n            \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n            \"received_amount\": \"100.00\"\n          },\n          {\n            \"asset_code\": \"USDC\",\n            \"asset_issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n            \"received_amount\": \"100.00\"\n          }\n        ],\n        \"status\": \"FLAGGED\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": \"2023-02-10T10:45:51Z\"\n          }\n        ]\n      },\n      \"payment\": {\n        \"id\": \"ddf22f55-3259-4822-a4e2-ce01334997f4\",\n        \"amount\": \"100.00\",\n        \"stellar_transaction_id\": \"0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b\",\n        \"circle_transfer_request_id\": \"74a68b6a-3f67-424b-b8b0-e593a19d7463\",\n        \"stellar_operation_id\": \"string\",\n        \"status\": \"PENDING\",\n        \"status_history\": [\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status_message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status_message\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timestamp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"type\": \"DISBURSEMENT\",\n        \"disbursement\": {\n          \"id\": \"c51ba1d5-52d3-412f-a59c-6ef32d59ab43\",\n          \"name\": \"disbursement-june-29\",\n          \"receiver_registration_message_template\": \"You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.\",\n          \"registration_contact_type\": \"PHONE_NUMBER\",\n          \"status\": \"PAUSED\",\n          \"verification_field\": \"PIN\",\n          \"status_history\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"file_name\": \"disbursement-feb-03-2023.csv\",\n          \"created_at\": \"2023-06-30T01:22:57.831975Z\",\n          \"updated_at\": \"2023-06-30T01:22:58.316511Z\"\n        },\n        \"asset\": {\n          \"id\": \"ffaec4b3-46b0-4db4-a4c4-6c3508057705\",\n          \"code\": \"USDC\",\n          \"issuer\": \"GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5\",\n          \"created_at\": \"2023-02-03T10:45:51Z\",\n          \"updated_at\": \"2023-02-03T10:45:51Z\",\n          \"deleted_at\": \"2023-06-03T10:55:51Z\"\n        },\n        \"receiver_wallet\": {\n          \"id\": \"803031d4-1d04-4879-b6d9-dc5641f9988e\",\n          \"receiver\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"wallet\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"homepage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sep_10_client_domain\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"deep_link_schema\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"enabled\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"user_managed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"stellar_address\": \"GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL\",\n          \"stellar_memo\": \"string\",\n          \"stellar_memo_type\": \"string\",\n          \"sep24_transaction_id\": \"string\",\n          \"created_at\": \"2023-02-03T10:45:51.000Z\",\n          \"updated_at\": \"2023-02-03T10:45:51.000Z\",\n          \"invitation_sent_at\": \"2023-02-09T10:45:51.000Z\",\n          \"status\": \"REGISTERED\",\n          \"status_history\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"otp_confirmed_at\": \"2023-02-10T10:45:51Z\",\n          \"otp_confirmed_with\": \"string\"\n        },\n        \"external_payment_id\": \"payment-001\",\n        \"created_at\": \"2023-02-03T10:45:51Z\",\n        \"updated_at\": \"2023-02-03T10:45:51Z\"\n      },\n      \"created_at\": \"2023-02-03T10:45:51Z\",\n      \"updated_at\": \"2023-02-03T10:45:51Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53a73ad3-1557-447e-ab9f-63e00a997e3a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54f35aa5-1fe8-4696-973f-0c3996ddd151",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff390e74-71c9-40ac-baef-be427c6f4b2a",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "receivers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "updated_at"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f504350-00c5-4029-9ab4-3ec07074220b",
+          "name": "Download Disbursement Instructions",
+          "request": {
+            "name": "Download Disbursement Instructions",
+            "description": {
+              "content": "Allows an SDP user to download the raw CSV file that was uploaded when creating the disbursement. This will only return results after instructions have been attached to a draft disbursement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id",
+                "instructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the Disbursement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "68df24e1-d2bf-47ee-839d-eafe568b25a3",
+              "name": "Disbursement CSV file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "The filename of the returned CSV file.",
+                  "key": "Content-Disposition",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "790f587e-9269-4de1-9ded-f78bf3418414",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"extras\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f75de6c2-a03b-412f-ab74-2250dd893021",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14b54b7d-53c7-4c6c-adb3-e8321c113bab",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "863c8fed-bc2e-489b-8cb7-ecad6518c655",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Resource not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cf84476-edbf-4346-b9dd-0f37545ad81a",
+          "name": "Upload Disbursement Instructions",
+          "request": {
+            "name": "Upload Disbursement Instructions",
+            "description": {
+              "content": "Adds a file containing a list of receivers to a  `DRAFT` disbursement. This step is required before a disbursement can begin. The file must be a CSV and has a different possible formats according with the disbursement configuration, and they can be found at [public/resources/disbursementTemplates](https://github.com/stellar/stellar-disbursement-platform-frontend/tree/58873bbf36cff4614e603daf449079b1d9fad24a/public/resources/disbursementTemplates). The operation is idempotent, guaranteed by deleting and recreating the disbursement attributes when this endpoint is called.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id",
+                "instructions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the Disbursement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f251e0df-998d-4f76-9b43-06ecb5f36ac8",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"File uploaded succesfully\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce68cac4-0b6d-44dd-8151-e5a07ba52f60",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid file format *.xyz\",\n  \"extras\": {\n    \"foo\": \"bar\",\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7601a028-4e3f-4dd5-a1b7-ef15461964fe",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bd95393-f127-44ea-9a25-9f352d6e97cf",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f51eeeb-b3bb-40ec-b326-c12c6ca34028",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "instructions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the Disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Disbursement instructions file to upload. The CSV file columns can vary depending om the way the disbursement was configured, and the fields are a subset of the following: [`phone`, `email`, `id`, `amount`, `verification`, `paymentID`, `walletAddress`]",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Disbursement not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "960e7340-2404-4b35-ae70-7f3011e11cca",
+          "name": "Update a Disbursement Status",
+          "request": {
+            "name": "Update a Disbursement Status",
+            "description": {
+              "content": "Updates the status of a disbursement according to the state machine. The disbursement must move from  `draft ` to  `ready ` in order to start the disbursement and trigger payments. Payments will start as soon as this endpoint is hit. A disbursement can also be moved into  `paused ` state by an SDP user to prevent further payments from going out and restarted when they are ready.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "disbursements",
+                ":id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) ID of the disbursement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH"
+          },
+          "response": [
+            {
+              "id": "164a1f9c-79ab-44ad-b686-fbf1fb73fed0",
+              "name": "Message Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Disbursement started\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fae02705-729a-40ff-b43e-ade53b579d2e",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Bad request\",\n  \"extras\": {\n    \"status\": 400,\n    \"message\": \"Disbursement is not ready to be started\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4596958e-d06a-4fd7-9023-6aea9ddf8d41",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d4cd8e7-ecdd-46d6-88e0-e57a07892254",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13854997-aa85-433c-83de-06a1de020652",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "disbursements",
+                    ":id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) ID of the disbursement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not found\",\n  \"extras\": {\n    \"status\": 404,\n    \"message\": \"Disbursement not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c1f89a1-7ec9-4f14-81e2-feced5a40f36",
+          "name": "List Registration Contact Types",
+          "request": {
+            "name": "List Registration Contact Types",
+            "description": {
+              "content": "Returns the supported registration contact types for disbursement instructions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "registration-contact-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "a5978318-bfe2-49b8-b2aa-e5cbf5631544",
+              "name": "A list of registration contact types",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "registration-contact-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"EMAIL_AND_WALLET_ADDRESS\",\n  \"EMAIL\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b26d5df-ce42-438b-a6be-4698cc3ba1c1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "registration-contact-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Not authorized\",\n  \"extras\": {\n    \"status\": 401,\n    \"message\": \"Not authorized\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4500a27e-351f-4924-8a6a-7d2b7d7e1454",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "registration-contact-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7040affd-583a-4488-813d-00eaeb235748",
+    "name": "Platform Server Accounts Disbursements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}

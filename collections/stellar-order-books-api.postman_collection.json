@@ -1,0 +1,174 @@
+{
+  "item": [
+    {
+      "id": "25eaa902-4d85-4daa-80a8-24966afc75c0",
+      "name": "Order Books",
+      "description": {
+        "content": "An order book is a collections of offers for a specific pair of assets.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b7ae1985-9763-4aa1-b6ef-5875dc3e1da8",
+          "name": "Retrieve an Order Book",
+          "request": {
+            "name": "Retrieve an Order Book",
+            "description": {
+              "content": "The order book endpoint provides an order book's bids and asks and can be used in [streaming](https://developers.stellar.org/docs/data/apis/horizon/api-reference/structure/streaming) mode.\n\nWhen filtering for a specific order book, you must use use all six of these arguments: `base_asset_type`, `base_asset_issuer`, `base_asset_code`, `counter_asset_type`, `counter_asset_issuer`, and `counter_asset_code`. If the base or counter asset is XLM, you only need to indicate the asset type as `native` and do not need to designate the code or the issuer.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "order_book"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "selling_asset_type",
+                  "value": "<string>",
+                  "description": "(Required) The type for the asset being sold (base asset). Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+                },
+                {
+                  "disabled": false,
+                  "key": "selling_asset_issuer",
+                  "value": "<string>",
+                  "description": "The Stellar address of the issuer of the asset being sold (base asset). Required if the `selling_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "selling_asset_code",
+                  "value": "<string>",
+                  "description": "The code for the asset being sold (base asset). Required if the `selling_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "buying_asset_type",
+                  "value": "<string>",
+                  "description": "The type for the asset being bought (counter asset). Either `native`, `credit_alphanum4`, or `credit_alphanum12`."
+                },
+                {
+                  "disabled": false,
+                  "key": "buying_asset_issuer",
+                  "value": "<string>",
+                  "description": "The Stellar address of the issuer of the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "buying_asset_code",
+                  "value": "<string>",
+                  "description": "The code for the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "The maximum number of records returned. The limit can range from 1 to 200 — an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 20 for order books."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0727ef5b-eb68-4f9a-8bcd-c83a69216692",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "order_book"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "selling_asset_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "selling_asset_issuer",
+                      "value": "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX"
+                    },
+                    {
+                      "key": "selling_asset_code",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "buying_asset_type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "buying_asset_issuer",
+                      "value": "GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX"
+                    },
+                    {
+                      "key": "buying_asset_code",
+                      "value": "EUR"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bids\": [\n    {\n      \"price_r\": {\n        \"n\": 10000000,\n        \"d\": 139999999\n      },\n      \"price\": \"0.0714286\",\n      \"amount\": \"24.9999990\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 1,\n        \"d\": 14\n      },\n      \"price\": \"0.0714286\",\n      \"amount\": \"188.0000000\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 1,\n        \"d\": 15\n      },\n      \"price\": \"0.0666667\",\n      \"amount\": \"230.3200000\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 1,\n        \"d\": 16\n      },\n      \"price\": \"0.0625000\",\n      \"amount\": \"50.0000000\"\n    }\n  ],\n  \"asks\": [\n    {\n      \"price_r\": {\n        \"n\": 5000000,\n        \"d\": 62500001\n      },\n      \"price\": \"0.0800000\",\n      \"amount\": \"4.9400001\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 10000000,\n        \"d\": 125000001\n      },\n      \"price\": \"0.0800000\",\n      \"amount\": \"2516.5154327\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 2,\n        \"d\": 25\n      },\n      \"price\": \"0.0800000\",\n      \"amount\": \"3125.0000000\"\n    },\n    {\n      \"price_r\": {\n        \"n\": 4,\n        \"d\": 49\n      },\n      \"price\": \"0.0816327\",\n      \"amount\": \"4593.7500000\"\n    }\n  ],\n  \"base\": {\n    \"asset_type\": \"native\"\n  },\n  \"counter\": {\n    \"asset_type\": \"credit_alphanum4\",\n    \"asset_code\": \"BB1\",\n    \"asset_issuer\": \"GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform-server.exampleanchor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6c4b340f-3b0e-4afa-992a-dd0b22e40a5e",
+    "name": "Platform Server Accounts Order Books API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.\n",
+      "type": "text/plain"
+    }
+  }
+}
