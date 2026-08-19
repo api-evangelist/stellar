@@ -1,6 +1,7 @@
 aid: stellar
 url: https://raw.githubusercontent.com/api-evangelist/stellar/refs/heads/main/apis.yml
 name: Stellar
+specificationVersion: '0.23'
 tags:
   - Blockchain
   - Cryptocurrency
