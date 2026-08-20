@@ -84,6 +84,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -151,6 +153,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -485,6 +489,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -517,6 +523,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
@@ -684,7 +692,8 @@ apis:
     in a Transaction.
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
-  tags:
+  tags: []
+  tags_raw:
   - Operations
   properties:
   - type: OpenAPI
@@ -1116,6 +1125,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -1150,6 +1161,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
