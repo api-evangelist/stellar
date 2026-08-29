@@ -1,15 +1,34 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: 3.0.0
-  title: Platform Server Accounts Paths API
-  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+  title: Horizon Paths API
+  version: 0.0.1
+  summary: Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by Stellar Core. This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
+  description: 'Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by [Stellar Core](https://developers.stellar.org/network/core-node). This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
+
+
+    Horizon can be accessed via cURL, a browser, or one of the [Stellar SDKs](https://developers.stellar.org/docs/tools/sdks). To reduce the complexity of your project, we recommend you use an SDK instead of making direct API calls.
+
+
+    This guide describes how to administer a production Horizon instance (refer to the [Developers'' Blog](https://www.stellar.org/developers-blog/a-new-sun-on-the-horizon) for some background on the performance and architectural improvements of this major version bump). For information about developing on the Horizon codebase, check out the [Development Guide](https://github.com/stellar/stellar-horizon/blob/main/DEVELOPING.md).
+
+
+    Before we begin, it''s worth reiterating the sentiment echoed in the [Core Node](https://developers.stellar.org/network/core-node) documentation: **we do not endorse running Horizon backed by a standalone Stellar Core instance**, and especially not by a _validating_ Stellar Core. These are two separate concerns, and decoupling them is important for both reliability and performance. Horizon instead manages its own, pared-down version of Stellar Core optimized for its own subset of needs (we''ll refer to this as a "Captive Core" instance).
 
     '
+  termsOfService: https://stellar.org/terms-of-service
+  contact:
+    name: Stellar Development Foundation
+    url: https://stellar.org
+    email: hello@stellar.org
   license:
     name: Apache 2.0
+    identifier: Apache-2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-- url: https://platform-server.exampleanchor.com
+- url: https://horizon-testnet.stellar.org
+  description: The Testnet Network
+- url: https://horizon-futurenet.stellar.org
+  description: The Futurenet network
 tags:
 - name: Paths
   description: Paths provide information about potential path payments. A path can be used to populate the necessary fields for a path payment operation.
@@ -118,6 +137,57 @@ paths:
         source: "from stellar_sdk import Server, Asset\nserver = Server(\"https://horizon-testnet.stellar.org\")\n\nresponse = server.strict_send_paths(\n    source_asset=Asset(\n        \"BRL\",\n        \"GDVKY2GU2DRXWTBEYJJWSFXIGBZV6AZNBVVSUHEPZI54LIS6BA7DVVSP\"\n    ),\n    source_amount=\"400\",\n    destination=\"GAYOLLLUIZE4DZMBB2ZBKGBUBZLIOYU6XFLW37GBP2VZD3ABNXCW4BVA\"\n).call()\n\nprint(response)\n"
 components:
   parameters:
+    SourceAssetTypeParam:
+      name: source_asset_type
+      in: query
+      required: true
+      description: The type for the source asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
+    DestinationAssetIssuerParam:
+      name: destination_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer of the destination asset. Required if the `destination_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    DestinationAccountParam:
+      name: destination_account
+      in: query
+      required: false
+      description: The Stellar address of the receiver. Any returned path must end with an asset that the recipient can receive. Using either `source_account` or `source_assets` as an argument is required for strict send path payments.
+      schema:
+        type: string
+        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
+    SourceAccountParam:
+      name: source_account
+      in: query
+      required: false
+      description: The Stellar address of the sender. Any returned path must start with an asset that the sender holds. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments.
+      schema:
+        type: string
+        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
+    SourceAssetCodeParam:
+      name: source_asset_code
+      in: query
+      required: false
+      description: The code for the source asset. Required if the `source_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    SourceAssetIssuerParam:
+      name: source_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer of the source asset. Required if the `source_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
     DestinationAssetsParam:
       name: destination_assets
       in: query
@@ -134,6 +204,30 @@ components:
       schema:
         type: string
         example: '5'
+    DestinationAssetCodeParam:
+      name: destination_asset_code
+      in: query
+      required: false
+      description: The code for the destination asset. Required if the `destination_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    SourceAssetsParam:
+      name: source_assets
+      in: query
+      required: false
+      description: 'A comma-separated list of assets available to the sender. Any returned path must start with an asset in this list. Each asset is formatted as `CODE:ISSUER_ACCOUNT`. For example: `USD:GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX`. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments.'
+      schema:
+        type: string
+        example: CNY:GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+    DestinationAmountParam:
+      name: destination_amount
+      in: query
+      required: true
+      description: The amount of the destination asset that should be received.
+      schema:
+        type: string
+        example: '5'
     DestinationAssetTypeParam:
       name: destination_asset_type
       in: query
@@ -145,148 +239,59 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
-    DestinationAmountParam:
-      name: destination_amount
-      in: query
-      required: true
-      description: The amount of the destination asset that should be received.
-      schema:
-        type: string
-        example: '5'
-    DestinationAssetIssuerParam:
-      name: destination_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the issuer of the destination asset. Required if the `destination_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    SourceAssetCodeParam:
-      name: source_asset_code
-      in: query
-      required: false
-      description: The code for the source asset. Required if the `source_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
-    SourceAssetTypeParam:
-      name: source_asset_type
-      in: query
-      required: true
-      description: The type for the source asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
-      schema:
-        type: string
-        enum:
-        - native
-        - credit_alphanum4
-        - credit_alphanum12
-    SourceAssetsParam:
-      name: source_assets
-      in: query
-      required: false
-      description: 'A comma-separated list of assets available to the sender. Any returned path must start with an asset in this list. Each asset is formatted as `CODE:ISSUER_ACCOUNT`. For example: `USD:GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX`. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments.'
-      schema:
-        type: string
-        example: CNY:GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-    SourceAssetIssuerParam:
-      name: source_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the issuer of the source asset. Required if the `source_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
-    SourceAccountParam:
-      name: source_account
-      in: query
-      required: false
-      description: The Stellar address of the sender. Any returned path must start with an asset that the sender holds. Using either `source_account` or `source_assets` as an argument is required for strict receive path payments.
-      schema:
-        type: string
-        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
-    DestinationAccountParam:
-      name: destination_account
-      in: query
-      required: false
-      description: The Stellar address of the receiver. Any returned path must end with an asset that the recipient can receive. Using either `source_account` or `source_assets` as an argument is required for strict send path payments.
-      schema:
-        type: string
-        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
-    DestinationAssetCodeParam:
-      name: destination_asset_code
-      in: query
-      required: false
-      description: The code for the destination asset. Required if the `destination_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
-  examples:
-    ListStrictReceivePaymentPaths:
-      value:
+  schemas:
+    Path:
+      type: object
+      properties:
         _embedded:
-          records:
-          - source_asset_type: credit_alphanum4
-            source_asset_code: CNY
-            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-            source_amount: '28.9871131'
-            destination_asset_type: credit_alphanum4
-            destination_asset_code: BB1
-            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
-            destination_amount: '5.0000000'
-            path:
-            - asset_type: credit_alphanum4
-              asset_code: XCN
-              asset_issuer: GCNY5OXYSY4FKHOPT2SPOQZAOEIGXB5LBYW3HVU3OWSTQITS65M5RCNY
-            - asset_type: native
-          - source_asset_type: credit_alphanum4
-            source_asset_code: CNY
-            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-            source_amount: '29.0722784'
-            destination_asset_type: credit_alphanum4
-            destination_asset_code: BB1
-            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
-            destination_amount: '5.0000000'
-            path:
-            - asset_type: credit_alphanum4
-              asset_code: ULT
-              asset_issuer: GC76RMFNNXBFDSJRBXCABWLHXDK4ITVQSMI56DC2ZJVC3YOLLPCKKULT
-            - asset_type: native
-          - source_asset_type: credit_alphanum4
-            source_asset_code: CNY
-            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-            source_amount: '29.4000002'
-            destination_asset_type: credit_alphanum4
-            destination_asset_code: BB1
-            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
-            destination_amount: '5.0000000'
-            path:
-            - asset_type: native
-          - source_asset_type: credit_alphanum4
-            source_asset_code: CNY
-            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-            source_amount: '31.8955888'
-            destination_asset_type: credit_alphanum4
-            destination_asset_code: BB1
-            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
-            destination_amount: '5.0000000'
-            path:
-            - asset_type: credit_alphanum4
-              asset_code: USD
-              asset_issuer: GBUYUAI75XXWDZEKLY66CFYKQPET5JR4EENXZBUZ3YXZ7DS56Z4OKOFU
-            - asset_type: native
-          - source_asset_type: credit_alphanum4
-            source_asset_code: CNY
-            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
-            source_amount: '34.7086084'
-            destination_asset_type: credit_alphanum4
-            destination_asset_code: BB1
-            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
-            destination_amount: '5.0000000'
-            path:
-            - asset_type: credit_alphanum4
-              asset_code: USD
-              asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-            - asset_type: native
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  source_asset_type:
+                    type: string
+                  source_asset_code:
+                    type: string
+                  source_asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  source_amount:
+                    type: string
+                  destination_asset_type:
+                    type: string
+                  destination_asset_code:
+                    type: string
+                  destination_asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  destination_amount:
+                    type: string
+                  path:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/schemas-Asset'
+              required:
+              - source_asset_type
+              - source_amount
+              - destination_asset_type
+              - destination_amount
+              - path
+    schemas-Asset:
+      type: object
+      properties:
+        asset_type:
+          type: string
+        asset_code:
+          type: string
+        asset_issuer:
+          $ref: '#/components/schemas/address'
+      required:
+      - asset_type
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+  examples:
     ListStrictSendPaymentPaths:
       value:
         _embedded:
@@ -595,55 +600,89 @@ components:
             destination_asset_type: native
             destination_amount: '1226.9231099'
             path: []
-  schemas:
-    address:
-      type: string
-      pattern: G[A-Z0-9]{55}
-    schemas-Asset:
-      type: object
-      properties:
-        asset_type:
-          type: string
-        asset_code:
-          type: string
-        asset_issuer:
-          $ref: '#/components/schemas/address'
-      required:
-      - asset_type
-    Path:
-      type: object
-      properties:
+    ListStrictReceivePaymentPaths:
+      value:
         _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  source_asset_type:
-                    type: string
-                  source_asset_code:
-                    type: string
-                  source_asset_issuer:
-                    $ref: '#/components/schemas/address'
-                  source_amount:
-                    type: string
-                  destination_asset_type:
-                    type: string
-                  destination_asset_code:
-                    type: string
-                  destination_asset_issuer:
-                    $ref: '#/components/schemas/address'
-                  destination_amount:
-                    type: string
-                  path:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/schemas-Asset'
-              required:
-              - source_asset_type
-              - source_amount
-              - destination_asset_type
-              - destination_amount
-              - path
+          records:
+          - source_asset_type: credit_alphanum4
+            source_asset_code: CNY
+            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+            source_amount: '28.9871131'
+            destination_asset_type: credit_alphanum4
+            destination_asset_code: BB1
+            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
+            destination_amount: '5.0000000'
+            path:
+            - asset_type: credit_alphanum4
+              asset_code: XCN
+              asset_issuer: GCNY5OXYSY4FKHOPT2SPOQZAOEIGXB5LBYW3HVU3OWSTQITS65M5RCNY
+            - asset_type: native
+          - source_asset_type: credit_alphanum4
+            source_asset_code: CNY
+            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+            source_amount: '29.0722784'
+            destination_asset_type: credit_alphanum4
+            destination_asset_code: BB1
+            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
+            destination_amount: '5.0000000'
+            path:
+            - asset_type: credit_alphanum4
+              asset_code: ULT
+              asset_issuer: GC76RMFNNXBFDSJRBXCABWLHXDK4ITVQSMI56DC2ZJVC3YOLLPCKKULT
+            - asset_type: native
+          - source_asset_type: credit_alphanum4
+            source_asset_code: CNY
+            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+            source_amount: '29.4000002'
+            destination_asset_type: credit_alphanum4
+            destination_asset_code: BB1
+            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
+            destination_amount: '5.0000000'
+            path:
+            - asset_type: native
+          - source_asset_type: credit_alphanum4
+            source_asset_code: CNY
+            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+            source_amount: '31.8955888'
+            destination_asset_type: credit_alphanum4
+            destination_asset_code: BB1
+            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
+            destination_amount: '5.0000000'
+            path:
+            - asset_type: credit_alphanum4
+              asset_code: USD
+              asset_issuer: GBUYUAI75XXWDZEKLY66CFYKQPET5JR4EENXZBUZ3YXZ7DS56Z4OKOFU
+            - asset_type: native
+          - source_asset_type: credit_alphanum4
+            source_asset_code: CNY
+            source_asset_issuer: GAREELUB43IRHWEASCFBLKHURCGMHE5IF6XSE7EXDLACYHGRHM43RFOX
+            source_amount: '34.7086084'
+            destination_asset_type: credit_alphanum4
+            destination_asset_code: BB1
+            destination_asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
+            destination_amount: '5.0000000'
+            path:
+            - asset_type: credit_alphanum4
+              asset_code: USD
+              asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+            - asset_type: native
+x-tagGroups:
+- name: Resources
+  tags:
+  - Accounts
+  - Assets
+  - Claimable Balances
+  - Effects
+  - Ledgers
+  - Liquidity Pools
+  - Offers
+  - Operations
+  - Payments
+  - Trades
+  - Transactions
+- name: Aggregations
+  tags:
+  - Order Books
+  - Paths
+  - Trade Aggregations
+  - Fee Stats

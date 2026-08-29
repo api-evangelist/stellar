@@ -1,15 +1,34 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  version: 3.0.0
-  title: Platform Server Accounts Ledgers API
-  description: 'The platform server is an internal component. It should be hosted in a private network and should not be accessible from the Internet. This server enables the business to fetch and update the state of transactions using its API.
+  title: Horizon Ledgers API
+  version: 0.0.1
+  summary: Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by Stellar Core. This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
+  description: 'Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by [Stellar Core](https://developers.stellar.org/network/core-node). This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
+
+
+    Horizon can be accessed via cURL, a browser, or one of the [Stellar SDKs](https://developers.stellar.org/docs/tools/sdks). To reduce the complexity of your project, we recommend you use an SDK instead of making direct API calls.
+
+
+    This guide describes how to administer a production Horizon instance (refer to the [Developers'' Blog](https://www.stellar.org/developers-blog/a-new-sun-on-the-horizon) for some background on the performance and architectural improvements of this major version bump). For information about developing on the Horizon codebase, check out the [Development Guide](https://github.com/stellar/stellar-horizon/blob/main/DEVELOPING.md).
+
+
+    Before we begin, it''s worth reiterating the sentiment echoed in the [Core Node](https://developers.stellar.org/network/core-node) documentation: **we do not endorse running Horizon backed by a standalone Stellar Core instance**, and especially not by a _validating_ Stellar Core. These are two separate concerns, and decoupling them is important for both reliability and performance. Horizon instead manages its own, pared-down version of Stellar Core optimized for its own subset of needs (we''ll refer to this as a "Captive Core" instance).
 
     '
+  termsOfService: https://stellar.org/terms-of-service
+  contact:
+    name: Stellar Development Foundation
+    url: https://stellar.org
+    email: hello@stellar.org
   license:
     name: Apache 2.0
+    identifier: Apache-2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-- url: https://platform-server.exampleanchor.com
+- url: https://horizon-testnet.stellar.org
+  description: The Testnet Network
+- url: https://horizon-futurenet.stellar.org
+  description: The Futurenet network
 tags:
 - name: Ledgers
   description: Each ledger stores the state of the network at a point in time and contains all the changes - transactions, operations, effects, etc. - to that state.
@@ -155,565 +174,7 @@ paths:
                 ListAllLedgers:
                   $ref: '#/components/examples/ListAllLedgers'
 components:
-  schemas:
-    id:
-      type: string
-    paging_token:
-      type: string
-    Ledger:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '#/components/schemas/link'
-                      transactions:
-                        $ref: '#/components/schemas/link'
-                      operations:
-                        $ref: '#/components/schemas/link'
-                      payments:
-                        $ref: '#/components/schemas/link'
-                      effects:
-                        $ref: '#/components/schemas/link'
-                    required:
-                    - self
-                    - transactions
-                    - operations
-                    - effects
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    $ref: '#/components/schemas/paging_token'
-                  hash:
-                    $ref: '#/components/schemas/hash'
-                  pre_hash:
-                    $ref: '#/components/schemas/hash'
-                  sequence:
-                    type: integer
-                    format: int32
-                  successful_transaction_count:
-                    type: integer
-                    format: int32
-                  failed_transaction_count:
-                    type: integer
-                    format: int32
-                  operation_count:
-                    type: integer
-                    format: int32
-                  tx_set_operation_count:
-                    type: integer
-                    format: int32
-                  closed_at:
-                    type: string
-                  total_coins:
-                    type: string
-                  fee_pool:
-                    type: string
-                  base_fee_in_stroops:
-                    type: integer
-                    format: int32
-                  base_reserve_in_stroops:
-                    type: integer
-                    format: int32
-                  max_tx_set_size:
-                    type: integer
-                    format: int32
-                  protocol_version:
-                    type: integer
-                    format: int32
-                  header_xdr:
-                    type: string
-          required:
-          - id
-          - paging_token
-          - hash
-          - sequence
-          - successful_transaction_count
-          - failed_transaction_count
-          - operation_count
-          - tx_set_operation_count
-          - closed_at
-          - total_coins
-          - fee_pool
-          - base_fee_in_stroops
-          - base_reserve_in_stroops
-          - max_tx_set_size
-          - protocol_version
-          - header_xdr
-    Operation:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            effects:
-              $ref: '#/components/schemas/link'
-            precedes:
-              $ref: '#/components/schemas/link'
-            self:
-              $ref: '#/components/schemas/link'
-            succeds:
-              $ref: '#/components/schemas/link'
-            transaction:
-              $ref: '#/components/schemas/link'
-        id:
-          $ref: '#/components/schemas/id'
-        paging_token:
-          $ref: '#/components/schemas/paging_token'
-        type_i:
-          type: number
-          example: 0
-        type:
-          type: string
-          example: create_account
-    Links:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/link'
-            next:
-              $ref: '#/components/schemas/link'
-            prev:
-              $ref: '#/components/schemas/link'
-    InnerTransaction:
-      type: object
-      properties:
-        hash:
-          $ref: '#/components/schemas/hash'
-        signatures:
-          $ref: '#/components/schemas/signatures'
-        max_fee:
-          type: string
-    Transaction:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  memo:
-                    type: string
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '#/components/schemas/link'
-                      account:
-                        $ref: '#/components/schemas/link'
-                      ledger:
-                        $ref: '#/components/schemas/link'
-                      operations:
-                        $ref: '#/components/schemas/link'
-                      effects:
-                        $ref: '#/components/schemas/link'
-                      precedes:
-                        $ref: '#/components/schemas/link'
-                      succeeds:
-                        $ref: '#/components/schemas/link'
-                      transaction:
-                        $ref: '#/components/schemas/link'
-                    required:
-                    - self
-                    - account
-                    - ledger
-                    - operations
-                    - effects
-                    - precedes
-                    - succeeds
-                    - transaction
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    type: string
-                  successful:
-                    type: boolean
-                  hash:
-                    type: string
-                  ledger:
-                    type: integer
-                    format: int32
-                  created_at:
-                    type: string
-                  source_account:
-                    $ref: '#/components/schemas/address'
-                  account_muxed:
-                    type: string
-                  account_muxed_id:
-                    type: string
-                  source_account_sequence:
-                    type: string
-                  fee_account:
-                    $ref: '#/components/schemas/address'
-                  fee_account_muxed:
-                    $ref: '#/components/schemas/address'
-                  fee_account_muxed_id:
-                    type: string
-                  fee_charged:
-                    type: string
-                  max_fee:
-                    type: string
-                  operation_count:
-                    type: integer
-                    format: int32
-                  envelope_xdr:
-                    type: string
-                  result_xdr:
-                    type: string
-                  result_meta_xdr:
-                    type: string
-                  fee_meta_xdr:
-                    type: string
-                  memo_type:
-                    type: string
-                  signatures:
-                    $ref: '#/components/schemas/signatures'
-                  preconditions:
-                    $ref: '#/components/schemas/TransactionPreconditions'
-                  fee_bump_transaction:
-                    $ref: '#/components/schemas/FeeBumpTransaction'
-                  inner_transaction:
-                    $ref: '#/components/schemas/InnerTransaction'
-                required:
-                - id
-                - paging_token
-                - successful
-                - hash
-                - ledger
-                - created_at
-                - source_account
-                - source_account_sequence
-                - fee_account
-                - fee_charged
-                - max_fee
-                - operation_count
-                - envelope_xdr
-                - result_xdr
-                - result_meta_xdr
-                - memo_type
-                - signatures
-    hash:
-      type: string
-    signatures:
-      type: array
-      items:
-        type: string
-        pattern: G[A-Z0-9]{55}
-    FeeBumpTransaction:
-      type: object
-      properties:
-        hash:
-          $ref: '#/components/schemas/hash'
-        signatures:
-          $ref: '#/components/schemas/signatures'
-    address:
-      type: string
-      pattern: G[A-Z0-9]{55}
-    TransactionPreconditions:
-      type: object
-      properties:
-        timebounds:
-          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
-        ledgerbounds:
-          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
-        min_account_sequence:
-          type: string
-        min_account_sequence_age:
-          type: string
-        min_account_sequence_ledger_gap:
-          type: integer
-          format: uint32
-        extra_signers:
-          type: array
-          items:
-            type: string
-    Effect:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      operation:
-                        $ref: '#/components/schemas/link'
-                      succeeds:
-                        $ref: '#/components/schemas/link'
-                      precedes:
-                        $ref: '#/components/schemas/link'
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    $ref: '#/components/schemas/paging_token'
-                  account:
-                    $ref: '#/components/schemas/address'
-                  type:
-                    type: string
-                    enum:
-                    - Account Created
-                    - Account Removed
-                    - Account Credited
-                    - Account Debited
-                    - Account Thresholds Updated
-                    - Account Home Domain Updated
-                    - Account Flags Updated
-                    - Account Inflation Destination Updated
-                    - Signer Created
-                    - Signer Removed
-                    - Signer Updated
-                    - Trustline Created
-                    - Trustline Removed
-                    - Trustline Updated
-                    - Trustline Authorized
-                    - Trustline Deauthorized
-                    - Offer Created
-                    - Offer Removed
-                    - Offer Updated
-                    - Trade
-                    - Data Created
-                    - Data Removed
-                    - Data Updated
-                    - Claimable Balance Created
-                    - Claimable Balance Claimant Created
-                    - Claimable Balance Claimed
-                    - Account Sponsorship Created
-                    - Account Sponsorship Updated
-                    - Account Sponsorship Removed
-                    - Trustline Sponsorship Created
-                    - Trustline Sponsorship Updated
-                    - Trustline Sponsorship Removed
-                    - Account Data Sponsorship Created
-                    - Account Data Sponsorship Updated
-                    - Account Data Sponsorship Removed
-                    - Claimable Balance Sponsorship Created
-                    - Claimable Balance Sponsorship Updated
-                    - Claimable Balance Sponsorship Removed
-                    - Account Signer Sponsorship Created
-                    - Account Signer Sponsorship Updated
-                    - Account Signer Sponsorship Removed
-                    - Liquidity Pool Created
-                    - Liquidity Pool Removed
-                    - Liquidity Pool Revoked
-                    - Liquidity Pool Deposited
-                    - Liquidity Pool Withdraw
-                    - Liquidity Pool Trade
-                    - Sequence Bumped
-                  type_i:
-                    type: number
-                    example: 1
-                  created_at:
-                    type: string
-          required:
-          - id
-          - paging_token
-          - account
-          - type
-          - type_i
-          - created_at
-    TransactionPreconditionsLedgerbounds:
-      type: object
-      properties:
-        min_ledger:
-          type: string
-        max_ledger:
-          type: string
-    TransactionPreconditionsTimebounds:
-      type: object
-      properties:
-        min_time:
-          type: string
-        max_time:
-          type: string
-    link:
-      type: object
-      properties:
-        href:
-          type: string
-          format: link
-        templated:
-          type: boolean
-      required:
-      - href
-    Payment:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '#/components/schemas/link'
-                      transaction:
-                        $ref: '#/components/schemas/link'
-                      effects:
-                        $ref: '#/components/schemas/link'
-                      succeeds:
-                        $ref: '#/components/schemas/link'
-                      precedes:
-                        $ref: '#/components/schemas/link'
-                    required:
-                    - self
-                    - transaction
-                    - effects
-                    - succeeds
-                    - precedes
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    type: string
-                  transaction_successful:
-                    type: boolean
-                  source_account:
-                    $ref: '#/components/schemas/address'
-                  type:
-                    type: string
-                    example: payment
-                  type_i:
-                    type: string
-                  created_at:
-                    type: string
-                  transaction_hash:
-                    type: string
-                  asset_type:
-                    type: string
-                  asset_code:
-                    enum:
-                    - native
-                    - credit_alphanum4
-                    - credit_alphanum12
-                  asset_issuer:
-                    $ref: '#/components/schemas/address'
-                  from:
-                    $ref: '#/components/schemas/address'
-                  to:
-                    $ref: '#/components/schemas/address'
-                  amount:
-                    type: string
-                required:
-                - id
-                - paging_token
-                - transaction_successful
-                - source_account
-                - type
-                - type_i
-                - created_at
-                - transaction_hash
-                - asset_type
-                - from
-                - to
-                - amount
-  parameters:
-    OrderParam:
-      name: order
-      in: query
-      required: false
-      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    JoinParam:
-      name: join
-      in: query
-      required: false
-      description: Set to transactions to include the transactions which created each of the operations in the response.
-    CursorParam:
-      name: cursor
-      in: query
-      required: false
-      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
-      schema:
-        type: integer
-        example: 6606617478959105
-    SequenceParam:
-      name: sequence
-      in: path
-      required: true
-      description: The sequence number of a specific ledger.
-      schema:
-        type: integer
-        example: 0
-    LimitParam:
-      name: limit
-      in: query
-      required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
-      schema:
-        type: integer
-        example: 10
-    IncludeFailedParam:
-      name: include_failed
-      in: query
-      required: false
-      description: Set to true to include failed operations in results. Options include true and false.
-      schema:
-        type: boolean
-        enum:
-        - true
-        - false
   examples:
-    RetrieveALedger:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/ledgers/27146933
-          transactions:
-            href: https://horizon-testnet.stellar.org/ledgers/27146933/transactions{?cursor,limit,order}
-            templated: true
-          operations:
-            href: https://horizon-testnet.stellar.org/ledgers/27146933/operations{?cursor,limit,order}
-            templated: true
-          payments:
-            href: https://horizon-testnet.stellar.org/ledgers/27146933/payments{?cursor,limit,order}
-            templated: true
-          effects:
-            href: https://horizon-testnet.stellar.org/ledgers/27146933/effects{?cursor,limit,order}
-            templated: true
-        id: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
-        paging_token: '116595189421703168'
-        hash: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
-        prev_hash: 9eac16fecd885147067b58b7684f60d216f931b813f651265bbc97de4cea313d
-        sequence: 27146933
-        successful_transaction_count: 26
-        failed_transaction_count: 9
-        operation_count: 67
-        closed_at: '2019-12-06T22:39:32Z'
-        total_coins: '105443902087.3472865'
-        fee_pool: '1807264.7509661'
-        base_fee_in_stroops: 100
-        base_reserve_in_stroops: 5000000
-        max_tx_set_size: 1000
-        protocol_version: 12
-        header_xdr: AAAADJ6sFv7NiFFHBntYt2hPYNIW+TG4E/ZRJlu8l95M6jE9bsvzId+Gtul2mNMW4UZQ+KqSb/nbN8F1CTxAfQsyUy8AAAAAXerYpAAAAAAAAAAAXQNpS8daKGZUeY5quYUcIiJZBMB7LiLsZJsEx9qw79fx99Bu/lk+sIePNUNcuOC2euthzfhLuWJ1nZBuoQFDjgGeOrUOoh6z7HlbYQAAEG/dvCadAAABFgAAAAAIOwAqAAAAZABMS0AAAAPooSNtHXJNJKKWlBtgkAM1LBxzlzYjIlS0xwpjP+uCi76fQj59wgTy0+xtx7O1qTb+W6zcI2zWZnrUU/8v8RZHFBfoo20QYKh95+wWr348yZAexZpdrjhyCxbChxlVTZOX6nZfIgcYBMnZRkOTCLdPO76yeqpDhqu9KrPe3YPTO3wAAAAA
     ListAllLedgers:
       value:
         _embedded:
@@ -779,6 +240,115 @@ components:
             href: /ledgers?order=desc&limit=2&cursor=4294967296
           self:
             href: /ledgers?order=asc&limit=2&cursor=
+    RetrieveALedger:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933
+          transactions:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/transactions{?cursor,limit,order}
+            templated: true
+          operations:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/operations{?cursor,limit,order}
+            templated: true
+          payments:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/payments{?cursor,limit,order}
+            templated: true
+          effects:
+            href: https://horizon-testnet.stellar.org/ledgers/27146933/effects{?cursor,limit,order}
+            templated: true
+        id: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
+        paging_token: '116595189421703168'
+        hash: e1218a337cecda05526fba902c61d3d7130baa58d8db41f544bf563f779b6329
+        prev_hash: 9eac16fecd885147067b58b7684f60d216f931b813f651265bbc97de4cea313d
+        sequence: 27146933
+        successful_transaction_count: 26
+        failed_transaction_count: 9
+        operation_count: 67
+        closed_at: '2019-12-06T22:39:32Z'
+        total_coins: '105443902087.3472865'
+        fee_pool: '1807264.7509661'
+        base_fee_in_stroops: 100
+        base_reserve_in_stroops: 5000000
+        max_tx_set_size: 1000
+        protocol_version: 12
+        header_xdr: AAAADJ6sFv7NiFFHBntYt2hPYNIW+TG4E/ZRJlu8l95M6jE9bsvzId+Gtul2mNMW4UZQ+KqSb/nbN8F1CTxAfQsyUy8AAAAAXerYpAAAAAAAAAAAXQNpS8daKGZUeY5quYUcIiJZBMB7LiLsZJsEx9qw79fx99Bu/lk+sIePNUNcuOC2euthzfhLuWJ1nZBuoQFDjgGeOrUOoh6z7HlbYQAAEG/dvCadAAABFgAAAAAIOwAqAAAAZABMS0AAAAPooSNtHXJNJKKWlBtgkAM1LBxzlzYjIlS0xwpjP+uCi76fQj59wgTy0+xtx7O1qTb+W6zcI2zWZnrUU/8v8RZHFBfoo20QYKh95+wWr348yZAexZpdrjhyCxbChxlVTZOX6nZfIgcYBMnZRkOTCLdPO76yeqpDhqu9KrPe3YPTO3wAAAAA
+    RetrieveALedgersPayments:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=&limit=1&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/118202550867476481
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/118202550867476481/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=118202550867476481
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=118202550867476481
+            id: '118202550867476481'
+            paging_token: '118202550867476481'
+            transaction_successful: true
+            source_account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            type: payment
+            type_i: 1
+            created_at: '2019-12-30T22:35:49Z'
+            transaction_hash: 971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
+            asset_type: credit_alphanum4
+            asset_code: NODL
+            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
+            from: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            to: GDGJS7AXAUFDZARIRDVZ5V7CFW6XY47WSBE2OVLCCGCDWOE7INKYN3PS
+            amount: '0.0000017'
+    RetrieveALedgersEffects:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=&limit=10&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=33676838572034-1&limit=10&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=12884905985-1&limit=10&order=desc
+        _embedded:
+          records:
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/12884905985
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-1
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-1
+            id: 0000000012884905985-0000000001
+            paging_token: 12884905985-1
+            account: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
+            type: account_created
+            type_i: 0
+            created_at: '2015-09-30T17:15:54Z'
+            starting_balance: '20.0000000'
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/12884905985
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-2
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-2
+            id: 0000000012884905985-0000000002
+            paging_token: 12884905985-2
+            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: account_debited
+            type_i: 3
+            created_at: '2015-09-30T17:15:54Z'
+            asset_type: native
+            amount: '20.0000000'
     RetrieveALedgersOperations:
       value:
         _links:
@@ -928,79 +498,548 @@ components:
             signatures:
             - b+Sw6Tadoj8+sD/qp6zdzQiGg6mcGCF3TfxLratrKKimE9KzcfJRuBs4SlhAKQl7Ot/Vs/6zZ8VdUIRduC95CQ==
             - Ag093EZXVUh5DU5QMOWq2tLLwWtZD/4K1HGpUdweD3xJiHlyj+B3zdHggYPG6QIHJNthqmStQ4PRcMkoL+FyDg==
-    RetrieveALedgersEffects:
-      value:
+  parameters:
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    SequenceParam:
+      name: sequence
+      in: path
+      required: true
+      description: The sequence number of a specific ledger.
+      schema:
+        type: integer
+        example: 0
+    IncludeFailedParam:
+      name: include_failed
+      in: query
+      required: false
+      description: Set to true to include failed operations in results. Options include true and false.
+      schema:
+        type: boolean
+        enum:
+        - true
+        - false
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    JoinParam:
+      name: join
+      in: query
+      required: false
+      description: Set to transactions to include the transactions which created each of the operations in the response.
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+  schemas:
+    Operation:
+      type: object
+      properties:
         _links:
-          self:
-            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=&limit=10&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=33676838572034-1&limit=10&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/ledgers/0/effects?cursor=12884905985-1&limit=10&order=desc
-        _embedded:
-          records:
-          - _links:
-              operation:
-                href: https://horizon-testnet.stellar.org/operations/12884905985
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-1
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-1
-            id: 0000000012884905985-0000000001
-            paging_token: 12884905985-1
-            account: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
-            type: account_created
-            type_i: 0
-            created_at: '2015-09-30T17:15:54Z'
-            starting_balance: '20.0000000'
-          - _links:
-              operation:
-                href: https://horizon-testnet.stellar.org/operations/12884905985
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985-2
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985-2
-            id: 0000000012884905985-0000000002
-            paging_token: 12884905985-2
-            account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            type: account_debited
-            type_i: 3
-            created_at: '2015-09-30T17:15:54Z'
-            asset_type: native
-            amount: '20.0000000'
-    RetrieveALedgersPayments:
-      value:
+          type: object
+          properties:
+            effects:
+              $ref: '#/components/schemas/link'
+            precedes:
+              $ref: '#/components/schemas/link'
+            self:
+              $ref: '#/components/schemas/link'
+            succeds:
+              $ref: '#/components/schemas/link'
+            transaction:
+              $ref: '#/components/schemas/link'
+        id:
+          $ref: '#/components/schemas/id'
+        paging_token:
+          $ref: '#/components/schemas/paging_token'
+        type_i:
+          type: number
+          example: 0
+        type:
+          type: string
+          example: create_account
+    TransactionPreconditionsTimebounds:
+      type: object
+      properties:
+        min_time:
+          type: string
+        max_time:
+          type: string
+    Links:
+      type: object
+      properties:
         _links:
-          self:
-            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=&limit=1&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/ledgers/27521176/payments?cursor=118202550867476481&limit=1&order=desc
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
+    FeeBumpTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+    Transaction:
+      type: object
+      properties:
         _embedded:
-          records:
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/operations/118202550867476481
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
-              effects:
-                href: https://horizon-testnet.stellar.org/operations/118202550867476481/effects
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=118202550867476481
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=118202550867476481
-            id: '118202550867476481'
-            paging_token: '118202550867476481'
-            transaction_successful: true
-            source_account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
-            type: payment
-            type_i: 1
-            created_at: '2019-12-30T22:35:49Z'
-            transaction_hash: 971454b84a82baa38afa975e9eb4ff2632821b5a3e7f7993a7e20bbd9d7633ea
-            asset_type: credit_alphanum4
-            asset_code: NODL
-            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
-            from: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
-            to: GDGJS7AXAUFDZARIRDVZ5V7CFW6XY47WSBE2OVLCCGCDWOE7INKYN3PS
-            amount: '0.0000017'
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  memo:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      account:
+                        $ref: '#/components/schemas/link'
+                      ledger:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - account
+                    - ledger
+                    - operations
+                    - effects
+                    - precedes
+                    - succeeds
+                    - transaction
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  successful:
+                    type: boolean
+                  hash:
+                    type: string
+                  ledger:
+                    type: integer
+                    format: int32
+                  created_at:
+                    type: string
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  account_muxed:
+                    type: string
+                  account_muxed_id:
+                    type: string
+                  source_account_sequence:
+                    type: string
+                  fee_account:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed:
+                    $ref: '#/components/schemas/address'
+                  fee_account_muxed_id:
+                    type: string
+                  fee_charged:
+                    type: string
+                  max_fee:
+                    type: string
+                  operation_count:
+                    type: integer
+                    format: int32
+                  envelope_xdr:
+                    type: string
+                  result_xdr:
+                    type: string
+                  result_meta_xdr:
+                    type: string
+                  fee_meta_xdr:
+                    type: string
+                  memo_type:
+                    type: string
+                  signatures:
+                    $ref: '#/components/schemas/signatures'
+                  preconditions:
+                    $ref: '#/components/schemas/TransactionPreconditions'
+                  fee_bump_transaction:
+                    $ref: '#/components/schemas/FeeBumpTransaction'
+                  inner_transaction:
+                    $ref: '#/components/schemas/InnerTransaction'
+                required:
+                - id
+                - paging_token
+                - successful
+                - hash
+                - ledger
+                - created_at
+                - source_account
+                - source_account_sequence
+                - fee_account
+                - fee_charged
+                - max_fee
+                - operation_count
+                - envelope_xdr
+                - result_xdr
+                - result_meta_xdr
+                - memo_type
+                - signatures
+    paging_token:
+      type: string
+    Ledger:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      transactions:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      payments:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - transactions
+                    - operations
+                    - effects
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  hash:
+                    $ref: '#/components/schemas/hash'
+                  pre_hash:
+                    $ref: '#/components/schemas/hash'
+                  sequence:
+                    type: integer
+                    format: int32
+                  successful_transaction_count:
+                    type: integer
+                    format: int32
+                  failed_transaction_count:
+                    type: integer
+                    format: int32
+                  operation_count:
+                    type: integer
+                    format: int32
+                  tx_set_operation_count:
+                    type: integer
+                    format: int32
+                  closed_at:
+                    type: string
+                  total_coins:
+                    type: string
+                  fee_pool:
+                    type: string
+                  base_fee_in_stroops:
+                    type: integer
+                    format: int32
+                  base_reserve_in_stroops:
+                    type: integer
+                    format: int32
+                  max_tx_set_size:
+                    type: integer
+                    format: int32
+                  protocol_version:
+                    type: integer
+                    format: int32
+                  header_xdr:
+                    type: string
+          required:
+          - id
+          - paging_token
+          - hash
+          - sequence
+          - successful_transaction_count
+          - failed_transaction_count
+          - operation_count
+          - tx_set_operation_count
+          - closed_at
+          - total_coins
+          - fee_pool
+          - base_fee_in_stroops
+          - base_reserve_in_stroops
+          - max_tx_set_size
+          - protocol_version
+          - header_xdr
+    Effect:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      operation:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    $ref: '#/components/schemas/paging_token'
+                  account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    enum:
+                    - Account Created
+                    - Account Removed
+                    - Account Credited
+                    - Account Debited
+                    - Account Thresholds Updated
+                    - Account Home Domain Updated
+                    - Account Flags Updated
+                    - Account Inflation Destination Updated
+                    - Signer Created
+                    - Signer Removed
+                    - Signer Updated
+                    - Trustline Created
+                    - Trustline Removed
+                    - Trustline Updated
+                    - Trustline Authorized
+                    - Trustline Deauthorized
+                    - Offer Created
+                    - Offer Removed
+                    - Offer Updated
+                    - Trade
+                    - Data Created
+                    - Data Removed
+                    - Data Updated
+                    - Claimable Balance Created
+                    - Claimable Balance Claimant Created
+                    - Claimable Balance Claimed
+                    - Account Sponsorship Created
+                    - Account Sponsorship Updated
+                    - Account Sponsorship Removed
+                    - Trustline Sponsorship Created
+                    - Trustline Sponsorship Updated
+                    - Trustline Sponsorship Removed
+                    - Account Data Sponsorship Created
+                    - Account Data Sponsorship Updated
+                    - Account Data Sponsorship Removed
+                    - Claimable Balance Sponsorship Created
+                    - Claimable Balance Sponsorship Updated
+                    - Claimable Balance Sponsorship Removed
+                    - Account Signer Sponsorship Created
+                    - Account Signer Sponsorship Updated
+                    - Account Signer Sponsorship Removed
+                    - Liquidity Pool Created
+                    - Liquidity Pool Removed
+                    - Liquidity Pool Revoked
+                    - Liquidity Pool Deposited
+                    - Liquidity Pool Withdraw
+                    - Liquidity Pool Trade
+                    - Sequence Bumped
+                  type_i:
+                    type: number
+                    example: 1
+                  created_at:
+                    type: string
+          required:
+          - id
+          - paging_token
+          - account
+          - type
+          - type_i
+          - created_at
+    hash:
+      type: string
+    Payment:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - transaction
+                    - effects
+                    - succeeds
+                    - precedes
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  transaction_successful:
+                    type: boolean
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    example: payment
+                  type_i:
+                    type: string
+                  created_at:
+                    type: string
+                  transaction_hash:
+                    type: string
+                  asset_type:
+                    type: string
+                  asset_code:
+                    enum:
+                    - native
+                    - credit_alphanum4
+                    - credit_alphanum12
+                  asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  from:
+                    $ref: '#/components/schemas/address'
+                  to:
+                    $ref: '#/components/schemas/address'
+                  amount:
+                    type: string
+                required:
+                - id
+                - paging_token
+                - transaction_successful
+                - source_account
+                - type
+                - type_i
+                - created_at
+                - transaction_hash
+                - asset_type
+                - from
+                - to
+                - amount
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
+    signatures:
+      type: array
+      items:
+        type: string
+        pattern: G[A-Z0-9]{55}
+    TransactionPreconditions:
+      type: object
+      properties:
+        timebounds:
+          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
+        ledgerbounds:
+          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
+        min_account_sequence:
+          type: string
+        min_account_sequence_age:
+          type: string
+        min_account_sequence_ledger_gap:
+          type: integer
+          format: uint32
+        extra_signers:
+          type: array
+          items:
+            type: string
+    InnerTransaction:
+      type: object
+      properties:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+        max_fee:
+          type: string
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    TransactionPreconditionsLedgerbounds:
+      type: object
+      properties:
+        min_ledger:
+          type: string
+        max_ledger:
+          type: string
+    id:
+      type: string
+x-tagGroups:
+- name: Resources
+  tags:
+  - Accounts
+  - Assets
+  - Claimable Balances
+  - Effects
+  - Ledgers
+  - Liquidity Pools
+  - Offers
+  - Operations
+  - Payments
+  - Trades
+  - Transactions
+- name: Aggregations
+  tags:
+  - Order Books
+  - Paths
+  - Trade Aggregations
+  - Fee Stats
