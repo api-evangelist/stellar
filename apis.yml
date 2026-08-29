@@ -1,6 +1,20 @@
 aid: stellar
 url: https://raw.githubusercontent.com/api-evangelist/stellar/refs/heads/main/apis.yml
 name: Stellar
+deliveryModel:
+  model: open-core
+  license: Apache-2.0
+  open_source: true
+  commercial: true
+  callable_host: false
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 specificationVersion: '0.23'
 tags:
   - Blockchain
@@ -1222,6 +1236,12 @@ apis:
   - type: GitHubRepository
     url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
+  - type: IssueTracker
+    url: https://github.com/stellar/go/issues
+  - type: CodeOfConduct
+    url: https://github.com/stellar/.github/blob/master/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/stellar/go/blob/master/CONTRIBUTING.md
   - type: License
     name: Apache-2.0
     url: https://github.com/stellar/go/blob/master/LICENSE
