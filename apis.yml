@@ -43,7 +43,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stellar.pn
 access: 3rd-Party
 created: '2026-06-14'
 modified: '2026-06-14'
-position: Consumer
+position: Consuming
 description: >-
   Stellar is an open-source, decentralized blockchain network designed for fast, low-cost cross-border
   payments and asset issuance. The Stellar Development Foundation (SDF) maintains the core protocol and
@@ -1236,6 +1236,9 @@ apis:
   - type: GitHubRepository
     url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
+  - type: CapabilityMap
+    url: capabilities/stellar-capability-edges.yml
+    name: Stellar Business Capability Map
   - type: IssueTracker
     url: https://github.com/stellar/go/issues
   - type: CodeOfConduct
