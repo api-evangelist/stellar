@@ -1236,6 +1236,8 @@ apis:
   - type: GitHubRepository
     url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
+  - type: Website
+    url: https://www.stellar.org/
   - type: CapabilityMap
     url: capabilities/stellar-capability-edges.yml
     name: Stellar Business Capability Map
