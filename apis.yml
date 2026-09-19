@@ -741,6 +741,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Order Book
+  tags_raw:
   - Order Books
   properties:
   - type: OpenAPI
@@ -881,6 +883,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Profiles
+  tags_raw:
   - Profile
   properties:
   - type: OpenAPI
@@ -1108,6 +1112,8 @@ apis:
   humanURL: https://developers.stellar.org/docs/data/apis/horizon
   baseURL: https://horizon.stellar.org
   tags:
+  - Trade
+  tags_raw:
   - Trades
   properties:
   - type: OpenAPI
