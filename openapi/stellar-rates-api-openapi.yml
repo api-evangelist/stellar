@@ -6,9 +6,7 @@ info:
 
     The Synchronous Callbacks API defines requests made by the Platform while it is processing a request from a client application. The
 
-    anchor''s responses to these requests affect the Platform responses to the client application.
-
-    '
+    anchor''s responses to these requests affect the Platform responses to the client application.'
   title: Callbacks Server Rates API
   license:
     name: Apache 2.0
@@ -21,7 +19,59 @@ tags:
 paths:
   /rate:
     get:
-      description: "Transactions that involve two non-equivalent on & off-chain assets (such as USDC on Stellar and fiat EUR) must\nuse exchange rates that are communicated to the client application requesting the transaction. When clients make\nrequests to the Platform for these exchange rates, the Platform sends this request to the anchor to fetch it.\n\nRates can be [indicative](https://www.investopedia.com/terms/i/indicativequote.asp) or\n[firm](https://www.investopedia.com/terms/f/firmquote.asp). The anchor must provide an ID and expiration if the\nclient requests a firm rate.\n\nAnchors can provide discounted rates specific client applications. The Platform includes the `client_id` parameter\nfor this reason.\n\nEither `sell_amount` or `buy_amount` will be included in requests as parameters, but never both. In the same way,\neither `sell_delivery_method` and `buy_delivery_method` may be included in requests, but never both, since either\n`sell_asset` or `buy_asset` is a Stellar asset.\n\n\nUpon receiving the response, the Anchor Platform will validate the amount and price of the response.\n\nIf the validation fails, the Platform will respond to the client application's request with a HTTP status\ncode of `502 Bad Gateway`.\n\nThe `sell_amount`, `buy_amount`, `price`, and `fee` are validated as follows:\n\n- if `rate.fee` exists,\n  - `rate.fee.asset` must have a positive value of `significant_decimals` defined in the asset configuration.\n  - `rate.fee.total` must equal to the sum of `rate.fee.details.amount`.\n  - if the `rate.fee.asset == rate.sell_asset`, `sell_amount ~= price * buy_amount + fee` must hold true.\n  - if the `rate.fee.asset == rate.buy_asset`,  `sell_amount ~= price * (buy_amount + fee)` must hold true.\n- if `rate.fee` does not exist, `sell_amount ~= price * buy_amount` must hold true.\n\nThe `~=` is defined as equality within rounding error.\n    The rounding error is defined as `10^(-significant_decimals)`\n"
+      description: 'Transactions that involve two non-equivalent on & off-chain assets (such as USDC on Stellar and fiat EUR) must
+
+        use exchange rates that are communicated to the client application requesting the transaction. When clients make
+
+        requests to the Platform for these exchange rates, the Platform sends this request to the anchor to fetch it.
+
+
+        Rates can be indicative or
+
+        firm. The anchor must provide an ID and expiration if the
+
+        client requests a firm rate.
+
+
+        Anchors can provide discounted rates specific client applications. The Platform includes the `client_id` parameter
+
+        for this reason.
+
+
+        Either `sell_amount` or `buy_amount` will be included in requests as parameters, but never both. In the same way,
+
+        either `sell_delivery_method` and `buy_delivery_method` may be included in requests, but never both, since either
+
+        `sell_asset` or `buy_asset` is a Stellar asset.
+
+
+        Upon receiving the response, the Anchor Platform will validate the amount and price of the response.
+
+
+        If the validation fails, the Platform will respond to the client application''s request with a HTTP status
+
+        code of `502 Bad Gateway`.
+
+
+        The `sell_amount`, `buy_amount`, `price`, and `fee` are validated as follows:
+
+
+        - if `rate.fee` exists,
+
+        - `rate.fee.asset` must have a positive value of `significant_decimals` defined in the asset configuration.
+
+        - `rate.fee.total` must equal to the sum of `rate.fee.details.amount`.
+
+        - if the `rate.fee.asset == rate.sell_asset`, `sell_amount ~= price * buy_amount + fee` must hold true.
+
+        - if the `rate.fee.asset == rate.buy_asset`, `sell_amount ~= price * (buy_amount + fee)` must hold true.
+
+        - if `rate.fee` does not exist, `sell_amount ~= price * buy_amount` must hold true.
+
+
+        The `~=` is defined as equality within rounding error.
+
+        The rounding error is defined as `10^(-significant_decimals)`'
       tags:
       - Rates
       x-seps:
@@ -167,15 +217,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        id:
-          type: string
-      required:
-      - error
     RateResponse:
       type: object
       properties:
@@ -236,6 +277,15 @@ components:
       required:
       - total
       - asset
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
 x-tagGroups:
 - name: Callbacks Server
   tags:

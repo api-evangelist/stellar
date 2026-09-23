@@ -6,9 +6,7 @@ info:
 
     The Synchronous Callbacks API defines requests made by the Platform while it is processing a request from a client application. The
 
-    anchor''s responses to these requests affect the Platform responses to the client application.
-
-    '
+    anchor''s responses to these requests affect the Platform responses to the client application.'
   title: Callbacks Server Customers API
   license:
     name: Apache 2.0
@@ -17,15 +15,38 @@ servers:
 - url: https://callback.business-server.exampleanchor.com
 tags:
 - name: Customers
-  description: '[SEP-12](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md) requests made from client
+  description: 'SEP-12 requests made from client
 
-    applications.
-
-    '
+    applications.'
 paths:
   /customer:
     get:
-      description: "The request and response for this endpoint is identical to the\n[`GET /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-get)\nrequest and response defined in SEP-12.\n\nThis endpoint allows clients to:\n\n  1. Fetch the fields the server requires in order to register a new customer via a SEP-12\n[`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put) request\n\nIf the server does not have a customer registered for the parameters sent in the request, it should return the\nfields required in the response. The same response should be returned when no parameters are sent.\n\n  2. Check the status of a customer that may already be registered\n\nThis allows clients to check whether the customers information was accepted, rejected, or still needs more info.\nIf the server still needs more info, or the server needs updated information, it should return the fields required.\n"
+      description: 'The request and response for this endpoint is identical to the
+
+        `GET /customer`
+
+        request and response defined in SEP-12.
+
+
+        This endpoint allows clients to:
+
+
+        1. Fetch the fields the server requires in order to register a new customer via a SEP-12
+
+        `PUT /customer` request
+
+
+        If the server does not have a customer registered for the parameters sent in the request, it should return the
+
+        fields required in the response. The same response should be returned when no parameters are sent.
+
+
+        2. Check the status of a customer that may already be registered
+
+
+        This allows clients to check whether the customers information was accepted, rejected, or still needs more info.
+
+        If the server still needs more info, or the server needs updated information, it should return the fields required.'
       tags:
       - Customers
       x-seps:
@@ -129,7 +150,7 @@ paths:
 
         The request and response for this endpoint are identical to the
 
-        [`PUT /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-put)
+        `PUT /customer`
 
         request and response defined in SEP-12.
 
@@ -140,9 +161,7 @@ paths:
 
         be forwarded to the anchor as with the `application/json` content type. Requests containing
 
-        binary fields will be forwarded to the anchor as with the `multipart/form-data` content type.
-
-        '
+        binary fields will be forwarded to the anchor as with the `multipart/form-data` content type.'
       summary: Create or Update Customer Info
       operationId: putCustomer
       requestBody:
@@ -181,14 +200,12 @@ paths:
       - SEP-31
       description: 'The request for this endpoint is identical to the
 
-        [`DELETE /customer`](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#customer-delete)
+        `DELETE /customer`
 
         request defined in SEP-12.
 
 
-        Delete the customer''s data or queue the customers data for deletion.
-
-        '
+        Delete the customer''s data or queue the customers data for deletion.'
       summary: Delete Customer Data
       operationId: delCustomer
       parameters:
@@ -207,16 +224,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  examples:
+    SuccessKYC:
+      summary: The case when a customer has been successfully KYC'd and approved
+      value:
+        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
+        status: ACCEPTED
+        provided_fields:
+          first_name:
+            description: The customer's first name
+            type: string
+            status: ACCEPTED
+          last_name:
+            description: The customer's last name
+            type: string
+            status: ACCEPTED
+          email_address:
+            description: The customer's email address
+            type: string
+            status: ACCEPTED
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        id:
-          type: string
-      required:
-      - error
     PutCustomerRequest:
       type: object
       properties:
@@ -341,6 +368,75 @@ components:
         mobile_number_verification:
           type: string
         email_address_verification:
+          type: string
+    GetCustomerResponse:
+      type: object
+      required:
+      - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - PROCESSING
+          - NEEDS_INFO
+          - REJECTED
+        fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+        provided_fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - PROCESSING
+                - REJECTED
+                - VERIFICATION_REQUIRED
+              error:
+                type: string
+        message:
           type: string
     PutCustomerMultipartRequest:
       type: object
@@ -478,94 +574,15 @@ components:
           type: string
         email_address_verification:
           type: string
-    GetCustomerResponse:
+    Error:
       type: object
-      required:
-      - status
       properties:
+        error:
+          type: string
         id:
           type: string
-        status:
-          type: string
-          enum:
-          - ACCEPTED
-          - PROCESSING
-          - NEEDS_INFO
-          - REJECTED
-        fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-        provided_fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - PROCESSING
-                - REJECTED
-                - VERIFICATION_REQUIRED
-              error:
-                type: string
-        message:
-          type: string
-  examples:
-    SuccessKYC:
-      summary: The case when a customer has been successfully KYC'd and approved
-      value:
-        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
-        status: ACCEPTED
-        provided_fields:
-          first_name:
-            description: The customer's first name
-            type: string
-            status: ACCEPTED
-          last_name:
-            description: The customer's last name
-            type: string
-            status: ACCEPTED
-          email_address:
-            description: The customer's email address
-            type: string
-            status: ACCEPTED
+      required:
+      - error
 x-tagGroups:
 - name: Callbacks Server
   tags:

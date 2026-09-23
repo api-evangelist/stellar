@@ -3,18 +3,7 @@ info:
   title: Horizon Claimable Balances API
   version: 0.0.1
   summary: Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by Stellar Core. This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
-  description: 'Horizon provides an HTTP API to data in the Stellar network. It ingests and re-serves the data produced by the Stellar network in a form that is easier to consume by the average application relative to the performance-oriented data representations used by [Stellar Core](https://developers.stellar.org/network/core-node). This API serves the bridge between apps and Stellar Core. Projects like wallets, decentralized exchanges, and asset issuers use Horizon to submit transactions, query an account balance, or stream events like transactions to an account.
-
-
-    Horizon can be accessed via cURL, a browser, or one of the [Stellar SDKs](https://developers.stellar.org/docs/tools/sdks). To reduce the complexity of your project, we recommend you use an SDK instead of making direct API calls.
-
-
-    This guide describes how to administer a production Horizon instance (refer to the [Developers'' Blog](https://www.stellar.org/developers-blog/a-new-sun-on-the-horizon) for some background on the performance and architectural improvements of this major version bump). For information about developing on the Horizon codebase, check out the [Development Guide](https://github.com/stellar/stellar-horizon/blob/main/DEVELOPING.md).
-
-
-    Before we begin, it''s worth reiterating the sentiment echoed in the [Core Node](https://developers.stellar.org/network/core-node) documentation: **we do not endorse running Horizon backed by a standalone Stellar Core instance**, and especially not by a _validating_ Stellar Core. These are two separate concerns, and decoupling them is important for both reliability and performance. Horizon instead manages its own, pared-down version of Stellar Core optimized for its own subset of needs (we''ll refer to this as a "Captive Core" instance).
-
-    '
+  description: Horizon provides an HTTP API to data in the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   contact:
     name: Stellar Development Foundation
@@ -138,16 +127,35 @@ paths:
                   $ref: '#/components/examples/CBRetrieveRelatedOperations'
 components:
   parameters:
-    ClaimantParam:
-      name: claimant
-      in: query
-      required: false
-      description: Account ID of the destination address. Only include claimable balances which can be claimed by the given account ID.
     AssetParam:
       name: asset
       in: query
       required: false
       description: An issued asset represented as “Code:IssuerAccountID”. Every account in the response will have a trustline for the given asset.
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    SponsorParam:
+      name: sponser
+      in: query
+      required: false
+      description: Account ID of the sponsor. Every account in the response will either be sponsored by the given account ID or have a subentry (trustline, offer, or data entry) which is sponsored by the given account ID.
+      schema:
+        type: string
+        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
     OrderParam:
       name: order
       in: query
@@ -165,14 +173,11 @@ components:
       description: A unique identifier for this claimable balance.
       schema:
         type: string
-    SponsorParam:
-      name: sponser
+    ClaimantParam:
+      name: claimant
       in: query
       required: false
-      description: Account ID of the sponsor. Every account in the response will either be sponsored by the given account ID or have a subentry (trustline, offer, or data entry) which is sponsored by the given account ID.
-      schema:
-        type: string
-        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
+      description: Account ID of the destination address. Only include claimable balances which can be claimed by the given account ID.
     IncludeFailedParam:
       name: include_failed
       in: query
@@ -183,27 +188,11 @@ components:
         enum:
         - true
         - false
-    LimitParam:
-      name: limit
-      in: query
-      required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
-      schema:
-        type: integer
-        example: 10
     JoinParam:
       name: join
       in: query
       required: false
       description: Set to transactions to include the transactions which created each of the operations in the response.
-    CursorParam:
-      name: cursor
-      in: query
-      required: false
-      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
-      schema:
-        type: integer
-        example: 6606617478959105
   schemas:
     AccountMerge:
       type: object
@@ -260,7 +249,94 @@ components:
       - transaction_hash
       - account
       - into
-    PathPaymentStrictSend:
+    Payment:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      transaction:
+                        $ref: '#/components/schemas/link'
+                      effects:
+                        $ref: '#/components/schemas/link'
+                      succeeds:
+                        $ref: '#/components/schemas/link'
+                      precedes:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - transaction
+                    - effects
+                    - succeeds
+                    - precedes
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  transaction_successful:
+                    type: boolean
+                  source_account:
+                    $ref: '#/components/schemas/address'
+                  type:
+                    type: string
+                    example: payment
+                  type_i:
+                    type: string
+                  created_at:
+                    type: string
+                  transaction_hash:
+                    type: string
+                  asset_type:
+                    type: string
+                  asset_code:
+                    enum:
+                    - native
+                    - credit_alphanum4
+                    - credit_alphanum12
+                  asset_issuer:
+                    $ref: '#/components/schemas/address'
+                  from:
+                    $ref: '#/components/schemas/address'
+                  to:
+                    $ref: '#/components/schemas/address'
+                  amount:
+                    type: string
+                required:
+                - id
+                - paging_token
+                - transaction_successful
+                - source_account
+                - type
+                - type_i
+                - created_at
+                - transaction_hash
+                - asset_type
+                - from
+                - to
+                - amount
+    signatures:
+      type: array
+      items:
+        type: string
+        pattern: G[A-Z0-9]{55}
+    TransactionPreconditionsTimebounds:
+      type: object
+      properties:
+        min_time:
+          type: string
+        max_time:
+          type: string
+    CreateAccount:
       type: object
       properties:
         _links:
@@ -292,54 +368,19 @@ components:
           $ref: '#/components/schemas/address'
         type:
           type: string
-          example: path_payment_strict_send
+          example: create_account
         type_i:
           type: number
-          example: 13
+          example: 0
         created_at:
           type: string
         transaction_hash:
           type: string
-        asset_type:
+        starting_balance:
           type: string
-          enum:
-          - native
-          - credit_alphanum4
-          - credit_alphanum12
-        asset_code:
-          type: string
-        asset_issuer:
+        funder:
           $ref: '#/components/schemas/address'
-        from:
-          $ref: '#/components/schemas/address'
-        to:
-          $ref: '#/components/schemas/address'
-        amount:
-          type: string
-        path:
-          type: array
-          items:
-            type: object
-            properties:
-              asset_type:
-                type: string
-                enum:
-                - native
-                - credit_alphanum4
-                - credit_alphanum12
-              asset_code:
-                type: string
-              asset_issuer:
-                $ref: '#/components/schemas/address'
-        source_amount:
-          type: string
-        source_max:
-          type: string
-        source_asset_type:
-          type: string
-        source_asset_code:
-          type: string
-        source_asset_issuer:
+        account:
           $ref: '#/components/schemas/address'
       required:
       - id
@@ -350,12 +391,9 @@ components:
       - type_i
       - created_at
       - transaction_hash
-      - from
-      - to
-      - amount
-      - path
-      - source_amount
-      - source_asset_type
+      - starting_balance
+      - funder
+      - account
     ClaimableBalance:
       type: object
       properties:
@@ -432,13 +470,109 @@ components:
       - amount
       - last_modified_ledger
       - last_modified_time
-    TransactionPreconditionsTimebounds:
+    id:
+      type: string
+    FeeBumpTransaction:
       type: object
       properties:
-        min_time:
+        hash:
+          $ref: '#/components/schemas/hash'
+        signatures:
+          $ref: '#/components/schemas/signatures'
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    TransactionPreconditionsLedgerbounds:
+      type: object
+      properties:
+        min_ledger:
           type: string
-        max_time:
+        max_ledger:
           type: string
+    ClaimableBalances:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        $ref: '#/components/schemas/link'
+                      operations:
+                        $ref: '#/components/schemas/link'
+                      transactions:
+                        $ref: '#/components/schemas/link'
+                    required:
+                    - self
+                    - operations
+                    - transactions
+                  id:
+                    $ref: '#/components/schemas/id'
+                  paging_token:
+                    type: string
+                  asset:
+                    type: string
+                  amount:
+                    type: string
+                  sponsor:
+                    type: string
+                  last_modified_ledger:
+                    type: string
+                  last_modified_time:
+                    type: string
+                  claimants:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        destination:
+                          $ref: '#/components/schemas/address'
+                        predicate:
+                          type: object
+                          properties:
+                            and:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  or:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        relBefore:
+                                          type: string
+                                        absBefore:
+                                          type: string
+                                        absBeforeEpoch:
+                                          type: string
+                                  not:
+                                    type: object
+                                    properties:
+                                      unconditional:
+                                        type: boolean
+                                      relBefore:
+                                        type: string
+                                      absBefore:
+                                        type: string
+                                      absBeforeEpoch:
+                                        type: string
+                  flags:
+                    type: integer
+                required:
+                - id
+                - paging_token
+                - asset
+                - amount
+                - last_modified_ledger
+                - last_modified_time
     PathPaymentStrictReceive:
       type: object
       properties:
@@ -535,6 +669,24 @@ components:
       - path
       - source_amount
       - destination_min
+    TransactionPreconditions:
+      type: object
+      properties:
+        timebounds:
+          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
+        ledgerbounds:
+          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
+        min_account_sequence:
+          type: string
+        min_account_sequence_age:
+          type: string
+        min_account_sequence_ledger_gap:
+          type: integer
+          format: uint32
+        extra_signers:
+          type: array
+          items:
+            type: string
     Links:
       type: object
       properties:
@@ -547,13 +699,27 @@ components:
               $ref: '#/components/schemas/link'
             prev:
               $ref: '#/components/schemas/link'
-    FeeBumpTransaction:
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
+    hash:
+      type: string
+    InnerTransaction:
       type: object
       properties:
         hash:
           $ref: '#/components/schemas/hash'
         signatures:
           $ref: '#/components/schemas/signatures'
+        max_fee:
+          type: string
     Transaction:
       type: object
       properties:
@@ -665,7 +831,7 @@ components:
                 - result_meta_xdr
                 - memo_type
                 - signatures
-    CreateAccount:
+    PathPaymentStrictSend:
       type: object
       properties:
         _links:
@@ -697,19 +863,54 @@ components:
           $ref: '#/components/schemas/address'
         type:
           type: string
-          example: create_account
+          example: path_payment_strict_send
         type_i:
           type: number
-          example: 0
+          example: 13
         created_at:
           type: string
         transaction_hash:
           type: string
-        starting_balance:
+        asset_type:
           type: string
-        funder:
+          enum:
+          - native
+          - credit_alphanum4
+          - credit_alphanum12
+        asset_code:
+          type: string
+        asset_issuer:
           $ref: '#/components/schemas/address'
-        account:
+        from:
+          $ref: '#/components/schemas/address'
+        to:
+          $ref: '#/components/schemas/address'
+        amount:
+          type: string
+        path:
+          type: array
+          items:
+            type: object
+            properties:
+              asset_type:
+                type: string
+                enum:
+                - native
+                - credit_alphanum4
+                - credit_alphanum12
+              asset_code:
+                type: string
+              asset_issuer:
+                $ref: '#/components/schemas/address'
+        source_amount:
+          type: string
+        source_max:
+          type: string
+        source_asset_type:
+          type: string
+        source_asset_code:
+          type: string
+        source_asset_issuer:
           $ref: '#/components/schemas/address'
       required:
       - id
@@ -720,225 +921,129 @@ components:
       - type_i
       - created_at
       - transaction_hash
-      - starting_balance
-      - funder
-      - account
-    ClaimableBalances:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '#/components/schemas/link'
-                      operations:
-                        $ref: '#/components/schemas/link'
-                      transactions:
-                        $ref: '#/components/schemas/link'
-                    required:
-                    - self
-                    - operations
-                    - transactions
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    type: string
-                  asset:
-                    type: string
-                  amount:
-                    type: string
-                  sponsor:
-                    type: string
-                  last_modified_ledger:
-                    type: string
-                  last_modified_time:
-                    type: string
-                  claimants:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        destination:
-                          $ref: '#/components/schemas/address'
-                        predicate:
-                          type: object
-                          properties:
-                            and:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  or:
-                                    type: array
-                                    items:
-                                      type: object
-                                      properties:
-                                        relBefore:
-                                          type: string
-                                        absBefore:
-                                          type: string
-                                        absBeforeEpoch:
-                                          type: string
-                                  not:
-                                    type: object
-                                    properties:
-                                      unconditional:
-                                        type: boolean
-                                      relBefore:
-                                        type: string
-                                      absBefore:
-                                        type: string
-                                      absBeforeEpoch:
-                                        type: string
-                  flags:
-                    type: integer
-                required:
-                - id
-                - paging_token
-                - asset
-                - amount
-                - last_modified_ledger
-                - last_modified_time
-    hash:
-      type: string
-    Payment:
-      type: object
-      properties:
-        _embedded:
-          type: object
-          properties:
-            records:
-              type: array
-              items:
-                type: object
-                properties:
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        $ref: '#/components/schemas/link'
-                      transaction:
-                        $ref: '#/components/schemas/link'
-                      effects:
-                        $ref: '#/components/schemas/link'
-                      succeeds:
-                        $ref: '#/components/schemas/link'
-                      precedes:
-                        $ref: '#/components/schemas/link'
-                    required:
-                    - self
-                    - transaction
-                    - effects
-                    - succeeds
-                    - precedes
-                  id:
-                    $ref: '#/components/schemas/id'
-                  paging_token:
-                    type: string
-                  transaction_successful:
-                    type: boolean
-                  source_account:
-                    $ref: '#/components/schemas/address'
-                  type:
-                    type: string
-                    example: payment
-                  type_i:
-                    type: string
-                  created_at:
-                    type: string
-                  transaction_hash:
-                    type: string
-                  asset_type:
-                    type: string
-                  asset_code:
-                    enum:
-                    - native
-                    - credit_alphanum4
-                    - credit_alphanum12
-                  asset_issuer:
-                    $ref: '#/components/schemas/address'
-                  from:
-                    $ref: '#/components/schemas/address'
-                  to:
-                    $ref: '#/components/schemas/address'
-                  amount:
-                    type: string
-                required:
-                - id
-                - paging_token
-                - transaction_successful
-                - source_account
-                - type
-                - type_i
-                - created_at
-                - transaction_hash
-                - asset_type
-                - from
-                - to
-                - amount
-    link:
-      type: object
-      properties:
-        href:
-          type: string
-          format: link
-        templated:
-          type: boolean
-      required:
-      - href
-    signatures:
-      type: array
-      items:
-        type: string
-        pattern: G[A-Z0-9]{55}
-    TransactionPreconditions:
-      type: object
-      properties:
-        timebounds:
-          $ref: '#/components/schemas/TransactionPreconditionsTimebounds'
-        ledgerbounds:
-          $ref: '#/components/schemas/TransactionPreconditionsLedgerbounds'
-        min_account_sequence:
-          type: string
-        min_account_sequence_age:
-          type: string
-        min_account_sequence_ledger_gap:
-          type: integer
-          format: uint32
-        extra_signers:
-          type: array
-          items:
-            type: string
-    InnerTransaction:
-      type: object
-      properties:
-        hash:
-          $ref: '#/components/schemas/hash'
-        signatures:
-          $ref: '#/components/schemas/signatures'
-        max_fee:
-          type: string
-    address:
-      type: string
-      pattern: G[A-Z0-9]{55}
-    TransactionPreconditionsLedgerbounds:
-      type: object
-      properties:
-        min_ledger:
-          type: string
-        max_ledger:
-          type: string
-    id:
-      type: string
+      - from
+      - to
+      - amount
+      - path
+      - source_amount
+      - source_asset_type
   examples:
+    CBRetrieveRelatedTransactions:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=&limit=2&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+              account:
+                href: https://horizon-testnet.stellar.org/accounts/GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+              ledger:
+                href: https://horizon-testnet.stellar.org/ledgers/32747318
+              operations:
+                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/operations{?cursor,limit,order}
+                templated: true
+              effects:
+                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/effects{?cursor,limit,order}
+                templated: true
+              precedes:
+                href: https://horizon-testnet.stellar.org/transactions?order=asc&cursor=140648659841806336
+              succeeds:
+                href: https://horizon-testnet.stellar.org/transactions?order=desc&cursor=140648659841806336
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+            id: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+            paging_token: '140648659841806336'
+            successful: true
+            hash: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+            ledger: 32747318
+            created_at: '2020-11-23T16:02:38Z'
+            source_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+            source_account_sequence: '140646847365513218'
+            fee_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+            fee_charged: '100'
+            max_fee: '100'
+            operation_count: 1
+            envelope_xdr: AAAAAgAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAGQB862QAAAAAgAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAADgAAAAJCT0RISQAAAAAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAA9CQAAAAAEAAAAAAAAAAElBqA1BXzKd9k9nuPoodv0YBKY+Hgh6Uz/UxozgnvyzAAAAAAAAAAAAAAABYYRX4AAAAEDf41ykW+eq8IVpJNOc4iDaht5Beil8NpQB8WMHkOxW3rocUBF3EHKqUXDIsD9CzzY7Xr1PbzVk5FZ4iBKNF4MM
+            result_xdr: AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAAOAAAAAAAAAAAXiCb7/jOeH1xTQXxv7f4sBei+wUMDFD7EaziYGwnD+QAAAAA=
+            result_meta_xdr: AAAAAgAAAAIAAAADAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAAAAAAAQHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAADAAAAAwHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEB8682AAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycJUAfOtkAAAAAIAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAfOvNgAAAAQAAAAAF4gm+/4znh9cU0F8b+3+LAXovsFDAxQ+xGs4mBsJw/kAAAABAAAAAAAAAABJQagNQV8ynfZPZ7j6KHb9GASmPh4IelM/1MaM4J78swAAAAAAAAACQk9ESEkAAAAAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAAPQkAAAAAAAAAAAQAAAAEAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAAAAAA==
+            fee_meta_xdr: AAAAAgAAAAMB866UAAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycK4AfOtkAAAAAEAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAAAAAAAAAAABAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAA
+            memo_type: none
+            signatures:
+            - 3+NcpFvnqvCFaSTTnOIg2obeQXopfDaUAfFjB5DsVt66HFARdxByqlFwyLA/Qs82O169T281ZORWeIgSjReDDA==
+            preconditions:
+              timebounds:
+                min_time: '0'
+    CBRetrieveRelatedOperations:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=&limit=3&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/140648659841806337
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/140648659841806337/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=140648659841806337
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=140648659841806337
+            id: '140648659841806337'
+            paging_token: '140648659841806337'
+            transaction_successful: true
+            source_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+            type: create_claimable_balance
+            type_i: 14
+            created_at: '2020-11-23T16:02:38Z'
+            transaction_hash: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
+            sponsor: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+            asset: BODHI:GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
+            amount: '0.1000000'
+            claimants:
+            - destination: GBEUDKANIFPTFHPWJ5T3R6RIO36RQBFGHYPAQ6STH7KMNDHAT36LHOLD
+              predicate:
+                unconditional: true
+    RetrieveAClaimableBalance:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000
+          operations:
+            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/operations{?cursor,limit,order}
+            templated: true
+          transactions:
+            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/transactions{?cursor,limit,order}
+            templated: true
+        id: '000000000102030000000000000000000000000000000000000000000000000000000000'
+        paging_token: '000000000102030000000000000000000000000000000000000000000000000000000000'
+        asset: native
+        amount: '10.0000000'
+        claimants:
+        - destination: GC3C4AKRBQLHOJ45U4XG35ESVWRDECWO5XLDGYADO6DPR3L7KIDVUMML
+          predicate:
+            and:
+            - or:
+              - relBefore: '12'
+              - absBefore: '2020-08-26T11:15:39Z'
+                absBeforeEpoch: '1598440539'
+            - not:
+                unconditional: true
+        last_modified_ledger: 28411995
+        last_modified_time: '2020-02-26T19:29:16Z'
     ListAllClaimableBalances:
       value:
         _links:
@@ -1191,122 +1296,6 @@ components:
             flags:
               clawback_enabled: false
             paging_token: 35938300-0000000017b9a95e25aa60200b52cc04f75c496dca76dc19fec21c942dfb35cce23c3eba
-    RetrieveAClaimableBalance:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000
-          operations:
-            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/operations{?cursor,limit,order}
-            templated: true
-          transactions:
-            href: https://horizon-testnet.stellar.org/claimable_balances/000000000102030000000000000000000000000000000000000000000000000000000000/transactions{?cursor,limit,order}
-            templated: true
-        id: '000000000102030000000000000000000000000000000000000000000000000000000000'
-        paging_token: '000000000102030000000000000000000000000000000000000000000000000000000000'
-        asset: native
-        amount: '10.0000000'
-        claimants:
-        - destination: GC3C4AKRBQLHOJ45U4XG35ESVWRDECWO5XLDGYADO6DPR3L7KIDVUMML
-          predicate:
-            and:
-            - or:
-              - relBefore: '12'
-              - absBefore: '2020-08-26T11:15:39Z'
-                absBeforeEpoch: '1598440539'
-            - not:
-                unconditional: true
-        last_modified_ledger: 28411995
-        last_modified_time: '2020-02-26T19:29:16Z'
-    CBRetrieveRelatedOperations:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=&limit=3&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/operations?cursor=140648659841806337&limit=3&order=desc
-        _embedded:
-          records:
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/operations/140648659841806337
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-              effects:
-                href: https://horizon-testnet.stellar.org/operations/140648659841806337/effects
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=140648659841806337
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=140648659841806337
-            id: '140648659841806337'
-            paging_token: '140648659841806337'
-            transaction_successful: true
-            source_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-            type: create_claimable_balance
-            type_i: 14
-            created_at: '2020-11-23T16:02:38Z'
-            transaction_hash: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-            sponsor: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-            asset: BODHI:GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-            amount: '0.1000000'
-            claimants:
-            - destination: GBEUDKANIFPTFHPWJ5T3R6RIO36RQBFGHYPAQ6STH7KMNDHAT36LHOLD
-              predicate:
-                unconditional: true
-    CBRetrieveRelatedTransactions:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=&limit=2&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/claimable_balances/00000000178826fbfe339e1f5c53417c6fedfe2c05e8bec14303143ec46b38981b09c3f9/transactions?cursor=140648659841806336&limit=2&order=desc
-        _embedded:
-          records:
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-              account:
-                href: https://horizon-testnet.stellar.org/accounts/GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-              ledger:
-                href: https://horizon-testnet.stellar.org/ledgers/32747318
-              operations:
-                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/operations{?cursor,limit,order}
-                templated: true
-              effects:
-                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8/effects{?cursor,limit,order}
-                templated: true
-              precedes:
-                href: https://horizon-testnet.stellar.org/transactions?order=asc&cursor=140648659841806336
-              succeeds:
-                href: https://horizon-testnet.stellar.org/transactions?order=desc&cursor=140648659841806336
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-            id: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-            paging_token: '140648659841806336'
-            successful: true
-            hash: fc5a98fc3869df408ebd4ac1c2e3fefec8b0a858e82ff1d14e362676708b91e8
-            ledger: 32747318
-            created_at: '2020-11-23T16:02:38Z'
-            source_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-            source_account_sequence: '140646847365513218'
-            fee_account: GDCJIHD3623OCYNH65UUQC3NLG2D6YCNCDPZULRLCLOA76TBQRL6A3TF
-            fee_charged: '100'
-            max_fee: '100'
-            operation_count: 1
-            envelope_xdr: AAAAAgAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAGQB862QAAAAAgAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAADgAAAAJCT0RISQAAAAAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAA9CQAAAAAEAAAAAAAAAAElBqA1BXzKd9k9nuPoodv0YBKY+Hgh6Uz/UxozgnvyzAAAAAAAAAAAAAAABYYRX4AAAAEDf41ykW+eq8IVpJNOc4iDaht5Beil8NpQB8WMHkOxW3rocUBF3EHKqUXDIsD9CzzY7Xr1PbzVk5FZ4iBKNF4MM
-            result_xdr: AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAAOAAAAAAAAAAAXiCb7/jOeH1xTQXxv7f4sBei+wUMDFD7EaziYGwnD+QAAAAA=
-            result_meta_xdr: AAAAAgAAAAIAAAADAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAAAAAAAQHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAADAAAAAwHzrzYAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAHJwlQB862QAAAAAgAAAAAAAAAAAAAAAAAAAA9naXZpbmdib2RoaS5vcmcAAQAAAAAAAAAAAAAAAAAAAAAAAAEB8682AAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycJUAfOtkAAAAAIAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAfOvNgAAAAQAAAAAF4gm+/4znh9cU0F8b+3+LAXovsFDAxQ+xGs4mBsJw/kAAAABAAAAAAAAAABJQagNQV8ynfZPZ7j6KHb9GASmPh4IelM/1MaM4J78swAAAAAAAAACQk9ESEkAAAAAAAAAAAAAAMSUHHv2tuFhp/dpSAttWbQ/YE0Q35ouKxLcD/phhFfgAAAAAAAPQkAAAAAAAAAAAQAAAAEAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAAAAAA==
-            fee_meta_xdr: AAAAAgAAAAMB866UAAAAAAAAAADElBx79rbhYaf3aUgLbVm0P2BNEN+aLisS3A/6YYRX4AAAAAABycK4AfOtkAAAAAEAAAAAAAAAAAAAAAAAAAAPZ2l2aW5nYm9kaGkub3JnAAEAAAAAAAAAAAAAAAAAAAAAAAABAfOvNgAAAAAAAAAAxJQce/a24WGn92lIC21ZtD9gTRDfmi4rEtwP+mGEV+AAAAAAAcnCVAHzrZAAAAABAAAAAAAAAAAAAAAAAAAAD2dpdmluZ2JvZGhpLm9yZwABAAAAAAAAAAAAAAAAAAAA
-            memo_type: none
-            signatures:
-            - 3+NcpFvnqvCFaSTTnOIg2obeQXopfDaUAfFjB5DsVt66HFARdxByqlFwyLA/Qs82O169T281ZORWeIgSjReDDA==
-            preconditions:
-              timebounds:
-                min_time: '0'
 x-tagGroups:
 - name: Resources
   tags:

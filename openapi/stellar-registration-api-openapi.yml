@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Registration API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -24,15 +12,7 @@ servers:
 - url: ''
 tags:
 - name: Registration
-  description: 'The registration endpoints guide the process for a receiver to verify their identity and link their wallet address to an SDP. The registration process only needs to happen once per receiver to link their wallet. Only SDP-compatible wallet providers can facilitate the registration process. These endpoints must be supported and hit by the wallet providers after the receiver gets the initial invite. After the wallet address is successfully linked, the payment automatically begins.
-
-
-    There are two parts to the registration flow. First, the wallet must authenticate and initiate a registration flow using the Anchor Platform Endpoints defined below. Note that these endpoints are hosted on a different host than the Stellar Disursement Platform.
-
-
-    The second part of the registration flow is handled by the webview that is opened within the wallet application. This webview uses the endpoints defined in the Stellar Disbursement Platfrom Endpoints section to complete the registration process. The wallet application can chose not to use the webview and intstead integrate directly with the API.
-
-    '
+  description: The registration endpoints guide the process for a receiver to verify their identity and link their wallet address to an SDP.
 paths:
   /sep24-interactive-deposit/info:
     get:
@@ -299,7 +279,7 @@ paths:
       tags:
       - Registration
       summary: Request Challenge Transaction
-      description: Allows the wallet to get the SEP-10 challenge transaction to be signed. More information [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md#challenge). The endpoint url can change but is provided in the Get Stellar toml endpoint response under the `WEB_AUTH_ENDPOINT` variable.
+      description: Allows the wallet to get the SEP-10 challenge transaction to be signed. More information here. The endpoint url can change but is provided in the Get Stellar toml endpoint response under the `WEB_AUTH_ENDPOINT` variable.
       operationId: RequestChallengeTransaction
       parameters:
       - name: account
@@ -359,7 +339,7 @@ paths:
       tags:
       - Registration
       summary: Provide Signed Challenge Transaction
-      description: Allows the wallet to post the signed SEP-10 challenge transaction. More information     [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md#challenge). The endpoint url can change but is provided in the toml file under the  `WEB_AUTH_ENDPOINT ` variable.
+      description: Allows the wallet to post the signed SEP-10 challenge transaction. More information here. The endpoint url can change but is provided in the toml file under the `WEB_AUTH_ENDPOINT ` variable.
       operationId: ProvideSignedChallengeTransaction
       requestBody:
         content:
@@ -452,12 +432,10 @@ paths:
       tags:
       - Registration
       summary: Request Registration URL
-      description: 'The deposit endpoint allows a wallet to get deposit information from an anchor,  so a user has all the information needed to initiate a deposit.
+      description: 'The deposit endpoint allows a wallet to get deposit information from an anchor, so a user has all the information needed to initiate a deposit.
 
 
-        It also lets the anchor specify additional information that the user must submit interactively via a popup or embedded browser window to be able to deposit. Please check the detailed documentation [here](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0024.md#deposit-2).
-
-        '
+        It also lets the anchor specify additional information that the user must submit interactively via a popup or embedded browser window to be able to deposit. Please check the detailed documentation here.'
       operationId: RequestRegistrationURL
       externalDocs:
         description: Find more info here
@@ -538,34 +516,6 @@ paths:
       security:
       - SEP10Auth: []
 components:
-  schemas:
-    VerificationField:
-      type: string
-      enum:
-      - DATE_OF_BIRTH
-      - YEAR_MONTH
-      - PIN
-      - NATIONAL_ID_NUMBER
-    ReceiverRegistrationRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        phone_number:
-          type: string
-          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        otp:
-          type: string
-          description: One-Time Password received for verification
-        verification:
-          type: string
-          description: Verification value provided by the user
-        verification_field:
-          $ref: '#/components/schemas/VerificationField'
-        recaptcha_token:
-          type: string
-          description: Token received from Google reCAPTCHA
   responses:
     BadRequestResponse:
       description: Bad Request
@@ -601,6 +551,34 @@ components:
             extras:
               status: 401
               message: Not authorized
+  schemas:
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
+    ReceiverRegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        phone_number:
+          type: string
+          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        otp:
+          type: string
+          description: One-Time Password received for verification
+        verification:
+          type: string
+          description: Verification value provided by the user
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        recaptcha_token:
+          type: string
+          description: Token received from Google reCAPTCHA
   securitySchemes:
     BearerAuth:
       type: apiKey

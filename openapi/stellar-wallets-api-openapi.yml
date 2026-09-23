@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Wallets API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -268,19 +256,6 @@ components:
                 type: string
           example:
             error: Forbidden
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
     NotFoundResponse:
       description: Not Found
       content:
@@ -302,7 +277,46 @@ components:
             extras:
               status: 404
               message: Resource not found
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
   schemas:
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
     UpdateWalletRequest:
       type: object
       properties:
@@ -431,32 +445,6 @@ components:
             '
           items:
             type: string
-    Wallet:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
-        name:
-          type: string
-          example: Vibrant Assist
-        homepage:
-          type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
-        deep_link_schema:
-          type: string
-          example: https://vibrantapp.com/sdp-dev
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
   securitySchemes:
     BearerAuth:
       type: apiKey

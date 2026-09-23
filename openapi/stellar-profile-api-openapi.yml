@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Profile API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -162,6 +150,13 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
     Profile:
       type: object
       properties:
@@ -187,13 +182,6 @@ components:
         roles:
         - developer
         organization_name: Stellar Aid
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
   responses:
     UnauthorizedResponse:
       description: Unauthorized
@@ -216,6 +204,17 @@ components:
             extras:
               status: 401
               message: Not authorized
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
     BadRequestResponse:
       description: Bad Request
       content:
@@ -229,17 +228,6 @@ components:
               extras:
                 type: object
                 properties: {}
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
   securitySchemes:
     BearerAuth:
       type: apiKey

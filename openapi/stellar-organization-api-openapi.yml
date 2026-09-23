@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Organization API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -325,61 +313,6 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    DistributionAccount:
-      required:
-      - status
-      - type
-      type: object
-      properties:
-        address:
-          type: string
-          description: The address of the distribution account, present when the account type is `STELLAR`.
-          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
-        circle_wallet_id:
-          type: string
-          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
-          example: '1000646072'
-        type:
-          type: string
-          description: The type of the distribution account.
-          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
-          enum:
-          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
-          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
-          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
-        status:
-          type: string
-          example: ACTIVE
-          enum:
-          - ACTIVE
-          - PENDING_USER_ACTIVATION
-    Asset:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
-        code:
-          type: string
-          description: Asset code
-          example: USDC
-        issuer:
-          type: string
-          description: Asset issuer address
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        deleted_at:
-          type: string
-          format: date-time
-          example: '2023-06-03T10:55:51Z'
-      description: The Stellar asset object
     Organization:
       required:
       - distribution_account
@@ -431,6 +364,61 @@ components:
           type: string
           description: 'The custom OTP message template set to send OTP code to the receiver complete the registration flow. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.OTP}} which is the OTP code to send to the receiver complete the registration flow (in case this is not present in the message, it''s automatically appended at the end).'
           example: '{{.OTP}} is your {{.OrganizationName}} phone verification code.'
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
+        code:
+          type: string
+          description: Asset code
+          example: USDC
+        issuer:
+          type: string
+          description: Asset issuer address
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2023-06-03T10:55:51Z'
+      description: The Stellar asset object
+    DistributionAccount:
+      required:
+      - status
+      - type
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the distribution account, present when the account type is `STELLAR`.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        circle_wallet_id:
+          type: string
+          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
+          example: '1000646072'
+        type:
+          type: string
+          description: The type of the distribution account.
+          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          enum:
+          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+        status:
+          type: string
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - PENDING_USER_ACTIVATION
     MessageResponse:
       required:
       - message

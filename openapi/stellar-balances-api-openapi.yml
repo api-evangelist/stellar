@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Balances API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -83,37 +71,7 @@ paths:
       security:
       - BearerAuth: []
 components:
-  responses:
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
   schemas:
-    Balance:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          description: The asset code of the balance in the Stellar network.
-          example: USDC
-        asset_issuer:
-          type: string
-          description: The asset issuer of the balance in the Stellar network.
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        amount:
-          type: string
-          description: The amount of the balance.
-          example: '100.00'
-      description: The balances of the organization's distribution account. Currently, this is only used for the Circle distribution accounts.
     DistributionAccount:
       required:
       - status
@@ -142,6 +100,36 @@ components:
           enum:
           - ACTIVE
           - PENDING_USER_ACTIVATION
+    Balance:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          description: The asset code of the balance in the Stellar network.
+          example: USDC
+        asset_issuer:
+          type: string
+          description: The asset issuer of the balance in the Stellar network.
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        amount:
+          type: string
+          description: The amount of the balance.
+          example: '100.00'
+      description: The balances of the organization's distribution account. Currently, this is only used for the Circle distribution accounts.
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
   securitySchemes:
     BearerAuth:
       type: apiKey

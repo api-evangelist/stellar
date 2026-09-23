@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform API Keys API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -181,44 +169,7 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    UpdateAPIKeyRequest:
-      type: object
-      required:
-      - permissions
-      properties:
-        permissions:
-          type: array
-          description: List of permissions granted to this API key
-          items:
-            type: string
-            enum:
-            - read:all
-            - write:all
-            - read:disbursements
-            - write:disbursements
-            - read:receivers
-            - write:receivers
-            - read:payments
-            - write:payments
-            - read:organization
-            - write:organization
-            - read:users
-            - write:users
-            - read:wallets
-            - write:wallets
-            - read:statistics
-            - read:exports
-          minItems: 1
-        allowed_ips:
-          oneOf:
-          - type: string
-            description: Single IP address or CIDR range
-          - type: array
-            items:
-              type: string
-            description: Array of IP addresses or CIDR ranges
-          description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
-    CreateAPIKeyResponse:
+    APIKey:
       type: object
       properties:
         id:
@@ -227,9 +178,6 @@ components:
         name:
           type: string
           description: Human-readable name for the API key
-        key:
-          type: string
-          description: The actual API key (only returned once at creation)
         permissions:
           type: array
           items:
@@ -262,7 +210,7 @@ components:
           type: string
           format: date-time
           description: When the API key was last used
-    APIKey:
+    CreateAPIKeyResponse:
       type: object
       properties:
         id:
@@ -271,6 +219,9 @@ components:
         name:
           type: string
           description: Human-readable name for the API key
+        key:
+          type: string
+          description: The actual API key (only returned once at creation)
         permissions:
           type: array
           items:
@@ -348,6 +299,43 @@ components:
               type: string
             description: Array of IP addresses or CIDR ranges
           description: IP restrictions for the API key. If not provided, the key can be used from any IP
+    UpdateAPIKeyRequest:
+      type: object
+      required:
+      - permissions
+      properties:
+        permissions:
+          type: array
+          description: List of permissions granted to this API key
+          items:
+            type: string
+            enum:
+            - read:all
+            - write:all
+            - read:disbursements
+            - write:disbursements
+            - read:receivers
+            - write:receivers
+            - read:payments
+            - write:payments
+            - read:organization
+            - write:organization
+            - read:users
+            - write:users
+            - read:wallets
+            - write:wallets
+            - read:statistics
+            - read:exports
+          minItems: 1
+        allowed_ips:
+          oneOf:
+          - type: string
+            description: Single IP address or CIDR range
+          - type: array
+            items:
+              type: string
+            description: Array of IP addresses or CIDR ranges
+          description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
   responses:
     UnauthorizedResponse:
       description: Unauthorized
@@ -370,8 +358,8 @@ components:
             extras:
               status: 401
               message: Not authorized
-    BadRequestResponse:
-      description: Bad Request
+    ForbiddenResponse:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -379,10 +367,8 @@ components:
             properties:
               error:
                 type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
+          example:
+            error: Forbidden
     NotFoundResponse:
       description: Not Found
       content:
@@ -404,8 +390,8 @@ components:
             extras:
               status: 404
               message: Resource not found
-    ForbiddenResponse:
-      description: Forbidden
+    BadRequestResponse:
+      description: Bad Request
       content:
         application/json:
           schema:
@@ -413,8 +399,10 @@ components:
             properties:
               error:
                 type: string
-          example:
-            error: Forbidden
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
   securitySchemes:
     BearerAuth:
       type: apiKey

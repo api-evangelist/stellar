@@ -3,19 +3,7 @@ info:
   title: Stellar Disbursement Platform Disbursements API
   version: 2.1.0
   summary: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-  description: 'The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
-
-
-    This is an open-source project that is built on top of the Stellar network, and the code can be found on the following repositories:
-
-
-    - [stellar/stellar-disbursement-platform-backend](https://github.com/stellar/stellar-disbursement-platform-backend): This repository contains the backend and infrastructure code for the Stellar Disbursement Platform.
-
-    - [stellar/stellar-disbursement-platform-frontend](https://github.com/stellar/stellar-disbursement-platform-frontend): This repository contains the web frontend code for the Stellar Disbursement Platform.
-
-    - [stellar/helm-charts](https://github.com/stellar/helm-charts/tree/main/charts/stellar-disbursement-platform): This repository contains the Helm chart for deploying the Stellar Disbursement Platform using kubernetes.
-
-    '
+  description: The Stellar Disbursement Platform (SDP) is a tool built for organizations to make bulk payments to a group of recipients over the Stellar network.
   termsOfService: https://stellar.org/terms-of-service
   license:
     name: Apache 2.0
@@ -169,7 +157,7 @@ paths:
       tags:
       - Disbursements
       summary: Create Disbursement
-      description: 'Creates a new disbursement in  `draft ` state with basic details. Important: a disbursement is not triggered until the organization adds receivers through the Upload Disbursement Instructions endpoint and the status changes from  `draft ` to  `ready `.'
+      description: 'Creates a new disbursement in `draft ` state with basic details. Important: a disbursement is not triggered until the organization adds receivers through the Upload Disbursement Instructions endpoint and the status changes from `draft ` to `ready `.'
       operationId: CreateDisbursement
       requestBody:
         content:
@@ -277,7 +265,7 @@ paths:
       tags:
       - Disbursements
       summary: Retrieve a Disbursement
-      description: Fetches information on a specific disbursement by  `id `.
+      description: Fetches information on a specific disbursement by `id `.
       operationId: RetrieveADisbursement
       parameters:
       - name: id
@@ -403,7 +391,7 @@ paths:
       tags:
       - Disbursements
       summary: List All Disbursement Receivers
-      description: Fetches a list of receivers within a specific disbursement using the disbursement  `id `. This endpoint supports pagination and sorting.
+      description: Fetches a list of receivers within a specific disbursement using the disbursement `id `. This endpoint supports pagination and sorting.
       operationId: ListAllDisbursementReceivers
       parameters:
       - name: id
@@ -527,7 +515,7 @@ paths:
       tags:
       - Disbursements
       summary: Upload Disbursement Instructions
-      description: Adds a file containing a list of receivers to a  `DRAFT` disbursement. This step is required before a disbursement can begin. The file must be a CSV and has a different possible formats according with the disbursement configuration, and they can be found at [public/resources/disbursementTemplates](https://github.com/stellar/stellar-disbursement-platform-frontend/tree/58873bbf36cff4614e603daf449079b1d9fad24a/public/resources/disbursementTemplates). The operation is idempotent, guaranteed by deleting and recreating the disbursement attributes when this endpoint is called.
+      description: Adds a file containing a list of receivers to a `DRAFT` disbursement. This step is required before a disbursement can begin. The file must be a CSV and has a different possible formats according with the disbursement configuration, and they can be found at public/resources/disbursementTemplates. The operation is idempotent, guaranteed by deleting and recreating the disbursement attributes when this endpoint is called.
       operationId: UploadDisbursementInstructions
       parameters:
       - name: id
@@ -663,7 +651,7 @@ paths:
       tags:
       - Disbursements
       summary: Update a Disbursement Status
-      description: Updates the status of a disbursement according to the state machine. The disbursement must move from  `draft ` to  `ready ` in order to start the disbursement and trigger payments. Payments will start as soon as this endpoint is hit. A disbursement can also be moved into  `paused ` state by an SDP user to prevent further payments from going out and restarted when they are ready.
+      description: Updates the status of a disbursement according to the state machine. The disbursement must move from `draft ` to `ready ` in order to start the disbursement and trigger payments. Payments will start as soon as this endpoint is hit. A disbursement can also be moved into `paused ` state by an SDP user to prevent further payments from going out and restarted when they are ready.
       operationId: UpdateADisbursementStatus
       parameters:
       - name: id
@@ -813,15 +801,55 @@ components:
       - SUCCESS
       - FAILED
       - CANCELED
-    DisbursementStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - STARTED
-      - PAUSED
-      - COMPLETED
-    DisbursementPagination:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ddf22f55-3259-4822-a4e2-ce01334997f4
+        amount:
+          type: string
+          description: The amount of the payment
+          example: '100.00'
+        stellar_transaction_id:
+          type: string
+          description: The ID of the transaction in the Stellar network. It can be used tio track the payment in the Stellar network using [Stellar Laboratory](https://laboratory.stellar.org/), or [StellarExpert](https://stellar.expert/).
+          example: 0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b
+        circle_transfer_request_id:
+          type: string
+          description: The Circle transfer request ID. It is only present when the payment was made using Circle.
+          example: 74a68b6a-3f67-424b-b8b0-e593a19d7463
+        stellar_operation_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        status_history:
+          $ref: '#/components/schemas/PaymentStatusHistory'
+        type:
+          type: string
+          description: The type of the payment.
+          enum:
+          - DISBURSEMENT
+          - DIRECT
+        disbursement:
+          $ref: '#/components/schemas/DisbursementLite'
+        asset:
+          $ref: '#/components/schemas/Asset'
+        receiver_wallet:
+          $ref: '#/components/schemas/ReceiverWalletLite'
+        external_payment_id:
+          type: string
+          description: Optional external payment identifier provided by the client.
+          example: payment-001
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    DisbursementReceiverPagination:
       type: object
       properties:
         pagination:
@@ -829,58 +857,13 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Disbursement'
-    RegistrationContactType:
-      type: string
-      enum:
-      - EMAIL
-      - PHONE_NUMBER
-      - EMAIL_AND_WALLET_ADDRESS
-      - PHONE_NUMBER_AND_WALLET_ADDRESS
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-    DisbursementLite:
+            $ref: '#/components/schemas/DisbursementReceiver'
+    ReceiverLite:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier of the disbursement
-          format: uuid
-          example: c51ba1d5-52d3-412f-a59c-6ef32d59ab43
-        name:
-          type: string
-          description: The name of the disbursement
-          example: disbursement-june-29
-        receiver_registration_message_template:
-          type: string
-          description: 'The custom template used to send invitations to receivers. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: `{{.OrganizationName}}` which is the Organization Name configured and `{{.RegistrationLink}}` which is the link generated by SDP to send to the receiver (in case this is not present in the message, it''s automatically appended at the end).'
-          example: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
-        registration_contact_type:
-          $ref: '#/components/schemas/RegistrationContactType'
-        status:
-          $ref: '#/components/schemas/DisbursementStatus'
-        verification_field:
-          $ref: '#/components/schemas/VerificationField'
-        status_history:
-          $ref: '#/components/schemas/DisbursementStatusHistory'
-        file_name:
-          type: string
-          example: disbursement-feb-03-2023.csv
-        created_at:
-          type: string
-          description: The creation timestamp of the disbursement
-          format: date-time
-          example: '2023-06-30T01:22:57.831975Z'
-        updated_at:
-          type: string
-          description: The last update timestamp of the disbursement
-          format: date-time
-          example: '2023-06-30T01:22:58.316511Z'
+          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
     ReceiverWalletLite:
       type: object
       properties:
@@ -921,20 +904,7 @@ components:
           example: '2023-02-10T10:45:51Z'
         otp_confirmed_with:
           type: string
-    DisbursementReceiverPagination:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DisbursementReceiver'
-    DisbursementStatusHistory:
-      type: array
-      items:
-        $ref: '#/components/schemas/DisbursementStatusHistoryEntry'
-    Wallet:
+    WalletLite:
       type: object
       properties:
         id:
@@ -952,29 +922,12 @@ components:
         deep_link_schema:
           type: string
           example: https://vibrantapp.com/sdp-dev
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
-    Pagination:
-      type: object
-      properties:
-        next:
-          type: string
-          example: ?page=3&page_limit=2
-        prev:
-          type: string
-          example: ?page=1&page_limit=2
-        pages:
-          type: integer
-          example: 8
-        total:
-          type: integer
-          example: 16
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
     Disbursement:
       type: object
       properties:
@@ -1041,118 +994,55 @@ components:
           type: string
           description: The average amount per payment
           example: '100.00'
-    DisbursementReceiver:
+    DisbursementStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - STARTED
+      - PAUSED
+      - COMPLETED
+    DisbursementLite:
       type: object
       properties:
         id:
           type: string
-          example: ec3a57c0-5660-4b5a-af76-acadc7b09b93
-        email:
-          type: string
-          example: receiver@mail.org
-        phone_number:
-          type: string
-          example: '+15552368475'
-        external_id:
-          type: string
-          example: usr129001
-        receiver_wallet:
-          $ref: '#/components/schemas/ReceiverWallet'
-        payment:
-          $ref: '#/components/schemas/Payment'
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-    DisbursementStatusHistoryEntry:
-      type: object
-      properties:
-        user_id:
-          type: string
-          example: 3f351b9e-ed0f-40fa-a314-14757b42dab1
-        status:
-          $ref: '#/components/schemas/DisbursementStatus'
-        timestamp:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-    ReceiverLite:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
-    PaymentStatusHistory:
-      type: array
-      description: An aggregated list of metadata objects containing the statuses and the timestamp of when these status changes occurred.
-      items:
-        $ref: '#/components/schemas/PaymentStatusHistoryEntry'
-    WalletLite:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+          description: The unique identifier of the disbursement
+          format: uuid
+          example: c51ba1d5-52d3-412f-a59c-6ef32d59ab43
         name:
           type: string
-          example: Vibrant Assist
-        homepage:
+          description: The name of the disbursement
+          example: disbursement-june-29
+        receiver_registration_message_template:
           type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
-        deep_link_schema:
-          type: string
-          example: https://vibrantapp.com/sdp-dev
-        enabled:
-          type: boolean
-          example: true
-        user_managed:
-          type: boolean
-          example: false
-    PaymentStatusHistoryEntry:
-      type: object
-      properties:
+          description: 'The custom template used to send invitations to receivers. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: `{{.OrganizationName}}` which is the Organization Name configured and `{{.RegistrationLink}}` which is the link generated by SDP to send to the receiver (in case this is not present in the message, it''s automatically appended at the end).'
+          example: You have a payment waiting for you from {{.OrganizationName}}. Click {{.RegistrationLink}} to register.
+        registration_contact_type:
+          $ref: '#/components/schemas/RegistrationContactType'
         status:
-          $ref: '#/components/schemas/PaymentStatus'
-        status_message:
+          $ref: '#/components/schemas/DisbursementStatus'
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        status_history:
+          $ref: '#/components/schemas/DisbursementStatusHistory'
+        file_name:
           type: string
-        timestamp:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-    Asset:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
-        code:
-          type: string
-          description: Asset code
-          example: USDC
-        issuer:
-          type: string
-          description: Asset issuer address
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+          example: disbursement-feb-03-2023.csv
         created_at:
           type: string
+          description: The creation timestamp of the disbursement
           format: date-time
-          example: '2023-02-03T10:45:51Z'
+          example: '2023-06-30T01:22:57.831975Z'
         updated_at:
           type: string
+          description: The last update timestamp of the disbursement
           format: date-time
-          example: '2023-02-03T10:45:51Z'
-        deleted_at:
-          type: string
-          format: date-time
-          example: '2023-06-03T10:55:51Z'
-      description: The Stellar asset object
+          example: '2023-06-30T01:22:58.316511Z'
+    DisbursementStatusHistory:
+      type: array
+      items:
+        $ref: '#/components/schemas/DisbursementStatusHistoryEntry'
     ReceiverWallet:
       type: object
       properties:
@@ -1205,61 +1095,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
-    ReceiversWalletStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - REGISTERED
-      - FLAGGED
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ddf22f55-3259-4822-a4e2-ce01334997f4
-        amount:
-          type: string
-          description: The amount of the payment
-          example: '100.00'
-        stellar_transaction_id:
-          type: string
-          description: The ID of the transaction in the Stellar network. It can be used tio track the payment in the Stellar network using [Stellar Laboratory](https://laboratory.stellar.org/), or [StellarExpert](https://stellar.expert/).
-          example: 0b339d1c89d314186b8147c2af4c9a9ed5bbdbcd7ada8d138633907649b
-        circle_transfer_request_id:
-          type: string
-          description: The Circle transfer request ID. It is only present when the payment was made using Circle.
-          example: 74a68b6a-3f67-424b-b8b0-e593a19d7463
-        stellar_operation_id:
-          type: string
-        status:
-          $ref: '#/components/schemas/PaymentStatus'
-        status_history:
-          $ref: '#/components/schemas/PaymentStatusHistory'
-        type:
-          type: string
-          description: The type of the payment.
-          enum:
-          - DISBURSEMENT
-          - DIRECT
-        disbursement:
-          $ref: '#/components/schemas/DisbursementLite'
-        asset:
-          $ref: '#/components/schemas/Asset'
-        receiver_wallet:
-          $ref: '#/components/schemas/ReceiverWalletLite'
-        external_payment_id:
-          type: string
-          description: Optional external payment identifier provided by the client.
-          example: payment-001
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
     VerificationField:
       type: string
       enum:
@@ -1267,15 +1102,54 @@ components:
       - YEAR_MONTH
       - PIN
       - NATIONAL_ID_NUMBER
-    ReceiversWalletStatusHistoryEntry:
+    PaymentStatusHistory:
+      type: array
+      description: An aggregated list of metadata objects containing the statuses and the timestamp of when these status changes occurred.
+      items:
+        $ref: '#/components/schemas/PaymentStatusHistoryEntry'
+    DisbursementStatusHistoryEntry:
       type: object
       properties:
+        user_id:
+          type: string
+          example: 3f351b9e-ed0f-40fa-a314-14757b42dab1
         status:
-          $ref: '#/components/schemas/ReceiversWalletStatus'
+          $ref: '#/components/schemas/DisbursementStatus'
         timestamp:
           type: string
           format: date-time
-          example: '2023-02-10T10:45:51Z'
+          example: '2023-02-03T10:45:51Z'
+    Pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          example: ?page=3&page_limit=2
+        prev:
+          type: string
+          example: ?page=1&page_limit=2
+        pages:
+          type: integer
+          example: 8
+        total:
+          type: integer
+          example: 16
+    DisbursementPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Disbursement'
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
     Amount:
       type: object
       properties:
@@ -1288,9 +1162,123 @@ components:
         received_amount:
           type: string
           example: '100.00'
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    DisbursementReceiver:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ec3a57c0-5660-4b5a-af76-acadc7b09b93
+        email:
+          type: string
+          example: receiver@mail.org
+        phone_number:
+          type: string
+          example: '+15552368475'
+        external_id:
+          type: string
+          example: usr129001
+        receiver_wallet:
+          $ref: '#/components/schemas/ReceiverWallet'
+        payment:
+          $ref: '#/components/schemas/Payment'
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+    PaymentStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        status_message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+    RegistrationContactType:
+      type: string
+      enum:
+      - EMAIL
+      - PHONE_NUMBER
+      - EMAIL_AND_WALLET_ADDRESS
+      - PHONE_NUMBER_AND_WALLET_ADDRESS
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
+        code:
+          type: string
+          description: Asset code
+          example: USDC
+        issuer:
+          type: string
+          description: Asset issuer address
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2023-06-03T10:55:51Z'
+      description: The Stellar asset object
   responses:
-    NotFoundResponse:
-      description: Not Found
+    UnauthorizedResponse:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -1306,10 +1294,10 @@ components:
                   message:
                     type: string
           example:
-            error: Not found
+            error: Not authorized
             extras:
-              status: 404
-              message: Resource not found
+              status: 401
+              message: Not authorized
     BadRequestResponse:
       description: Bad Request
       content:
@@ -1334,8 +1322,8 @@ components:
                 type: string
           example:
             error: Forbidden
-    UnauthorizedResponse:
-      description: Unauthorized
+    NotFoundResponse:
+      description: Not Found
       content:
         application/json:
           schema:
@@ -1351,10 +1339,10 @@ components:
                   message:
                     type: string
           example:
-            error: Not authorized
+            error: Not found
             extras:
-              status: 401
-              message: Not authorized
+              status: 404
+              message: Resource not found
   securitySchemes:
     BearerAuth:
       type: apiKey

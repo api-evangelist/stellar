@@ -53,7 +53,8 @@
     "stellar-disbursement-platform-api.yml: declared missing tag: Wallets",
     "stellar-horizon-api.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "tag 'Transactions' spans 2 source specs (stellar-anchor-platform-api.yml, stellar-horizon-api.yml): per-path servers applied",
-    "tag 'Payments' spans 2 source specs (stellar-disbursement-platform-api.yml, stellar-horizon-api.yml): per-path servers applied"
+    "tag 'Payments' spans 2 source specs (stellar-disbursement-platform-api.yml, stellar-horizon-api.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "stellar-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
