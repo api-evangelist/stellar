@@ -217,34 +217,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    RateResponse:
-      type: object
-      properties:
-        rate:
-          type: object
-          properties:
-            id:
-              type: string
-              description: ID of the firm quote. NOT USED when `type=indicative`.
-            expires_at:
-              type: string
-              format: date-time
-              description: Expiration for the quote. NOT USED when `type=indicative`.
-            price:
-              type: string
-              description: The conversion price offered by the anchor for one unit of `buy_asset` in terms of `sell_asset`, without including fees. In traditional finance, `buy_asset` would be referred to as the base asset and `sell_asset` as the counter asset. The formula `sell_amount - fee = price * buy_amount` must hold true ([ref](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#price-formulas)).
-            sell_amount:
-              type: string
-              description: The amount of `sell_asset` the anchor will exchange for `buy_asset`. It could be different from the `sell_amount` provided in the request, depending on how fees are applied by the Anchor.
-            buy_amount:
-              type: string
-              description: The amount of `buy_asset` the anchor will provide with `sell_asset`. It could be different from the `buy_amount` provided in the request, depending on how fees are applied by the Anchor.
-            fee:
-              $ref: '#/components/schemas/RateFeeResponse'
-          required:
-          - price
-          - sell_amount
-          - buy_amount
     RateFeeDetailResponse:
       type: object
       properties:
@@ -286,6 +258,34 @@ components:
           type: string
       required:
       - error
+    RateResponse:
+      type: object
+      properties:
+        rate:
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the firm quote. NOT USED when `type=indicative`.
+            expires_at:
+              type: string
+              format: date-time
+              description: Expiration for the quote. NOT USED when `type=indicative`.
+            price:
+              type: string
+              description: The conversion price offered by the anchor for one unit of `buy_asset` in terms of `sell_asset`, without including fees. In traditional finance, `buy_asset` would be referred to as the base asset and `sell_asset` as the counter asset. The formula `sell_amount - fee = price * buy_amount` must hold true ([ref](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0038.md#price-formulas)).
+            sell_amount:
+              type: string
+              description: The amount of `sell_asset` the anchor will exchange for `buy_asset`. It could be different from the `sell_amount` provided in the request, depending on how fees are applied by the Anchor.
+            buy_amount:
+              type: string
+              description: The amount of `buy_asset` the anchor will provide with `sell_asset`. It could be different from the `buy_amount` provided in the request, depending on how fees are applied by the Anchor.
+            fee:
+              $ref: '#/components/schemas/RateFeeResponse'
+          required:
+          - price
+          - sell_amount
+          - buy_amount
 x-tagGroups:
 - name: Callbacks Server
   tags:

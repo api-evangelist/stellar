@@ -284,17 +284,6 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    PaymentStatus:
-      type: string
-      description: The status of the payment
-      enum:
-      - DRAFT
-      - READY
-      - PENDING
-      - PAUSED
-      - SUCCESS
-      - FAILED
-      - CANCELED
     ReceiversWalletStatus:
       type: string
       enum:
@@ -310,7 +299,29 @@ components:
       - STARTED
       - PAUSED
       - COMPLETED
+    PaymentStatus:
+      type: string
+      description: The status of the payment
+      enum:
+      - DRAFT
+      - READY
+      - PENDING
+      - PAUSED
+      - SUCCESS
+      - FAILED
+      - CANCELED
   responses:
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
     UnauthorizedResponse:
       description: Unauthorized
       content:
@@ -332,17 +343,6 @@ components:
             extras:
               status: 401
               message: Not authorized
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
   securitySchemes:
     BearerAuth:
       type: apiKey

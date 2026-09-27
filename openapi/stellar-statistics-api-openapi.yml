@@ -153,6 +153,14 @@ components:
           type: integer
           format: int64
           example: 14
+    PaymentAmountsByAsset:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        payment_amounts:
+          $ref: '#/components/schemas/PaymentAmounts'
     GeneralStatistics:
       type: object
       properties:
@@ -190,6 +198,29 @@ components:
           description: Total number of receivers
           format: int64
           example: 100
+    ReceiverWalletsCounters:
+      type: object
+      properties:
+        draft:
+          type: integer
+          format: int64
+          example: 1
+        ready:
+          type: integer
+          format: int64
+          example: 1
+        registered:
+          type: integer
+          format: int64
+          example: 1
+        flagged:
+          type: integer
+          format: int64
+          example: 1
+        total:
+          type: integer
+          format: int64
+          example: 4
     PaymentAmounts:
       type: object
       properties:
@@ -217,37 +248,6 @@ components:
         total:
           type: string
           example: '1400.00'
-    PaymentAmountsByAsset:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          example: USDC
-        payment_amounts:
-          $ref: '#/components/schemas/PaymentAmounts'
-    ReceiverWalletsCounters:
-      type: object
-      properties:
-        draft:
-          type: integer
-          format: int64
-          example: 1
-        ready:
-          type: integer
-          format: int64
-          example: 1
-        registered:
-          type: integer
-          format: int64
-          example: 1
-        flagged:
-          type: integer
-          format: int64
-          example: 1
-        total:
-          type: integer
-          format: int64
-          example: 4
   securitySchemes:
     BearerAuth:
       type: apiKey

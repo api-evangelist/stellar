@@ -56,11 +56,88 @@ paths:
                   $ref: '#/components/examples/GetAllTrades'
 components:
   parameters:
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    OrderParam:
+      name: order
+      in: query
+      required: false
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+    BaseAssetIssuerParam:
+      name: base_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    OfferIdParam:
+      name: offer_id
+      in: query
+      required: false
+      description: The offer ID. Used to filter for trades originating from a specific offer.
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+    CounterAssetTypeParam:
+      name: counter_asset_type
+      in: query
+      required: false
+      description: The type for the counter asset. Either native, credit_alphanum4, or credit_alphanum12.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
+    CounterAssetIssuerParam:
+      name: counter_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    BaseAssetTypeParam:
+      name: base_asset_type
+      in: query
+      required: false
+      description: The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
     BaseAssetCodeParam:
       name: base_asset_code
       in: query
       required: false
       description: The code for the base asset. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    CounterAssetCodeParam:
+      name: counter_asset_code
+      in: query
+      required: false
+      description: The code for the counter asset. Required if the `counter_asset_type` is not `native`.
       schema:
         type: string
         example: USD
@@ -75,84 +152,24 @@ components:
         - all
         - orderbook
         - liquidity_pools
-    CursorParam:
-      name: cursor
-      in: query
-      required: false
-      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
-      schema:
-        type: integer
-        example: 6606617478959105
-    LimitParam:
-      name: limit
-      in: query
-      required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
-      schema:
-        type: integer
-        example: 10
-    CounterAssetIssuerParam:
-      name: counter_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    OrderParam:
-      name: order
-      in: query
-      required: false
-      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-    CounterAssetTypeParam:
-      name: counter_asset_type
-      in: query
-      required: false
-      description: The type for the counter asset. Either native, credit_alphanum4, or credit_alphanum12.
-      schema:
-        type: string
-        enum:
-        - native
-        - credit_alphanum4
-        - credit_alphanum12
-    BaseAssetIssuerParam:
-      name: base_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    OfferIdParam:
-      name: offer_id
-      in: query
-      required: false
-      description: The offer ID. Used to filter for trades originating from a specific offer.
-    BaseAssetTypeParam:
-      name: base_asset_type
-      in: query
-      required: false
-      description: The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
-      schema:
-        type: string
-        enum:
-        - native
-        - credit_alphanum4
-        - credit_alphanum12
-    CounterAssetCodeParam:
-      name: counter_asset_code
-      in: query
-      required: false
-      description: The code for the counter asset. Required if the `counter_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
   schemas:
+    link:
+      type: object
+      properties:
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
+    tradePrice:
+      type: object
+      properties:
+        n:
+          type: string
+        d:
+          type: string
     Trade:
       type: object
       properties:
@@ -235,20 +252,11 @@ components:
                     - counter_amount
                     - counter_asset_type
                     - base_is_seller
-    paging_token:
-      type: string
-    id:
-      type: string
     address:
       type: string
       pattern: G[A-Z0-9]{55}
-    tradePrice:
-      type: object
-      properties:
-        n:
-          type: string
-        d:
-          type: string
+    id:
+      type: string
     Links:
       type: object
       properties:
@@ -261,16 +269,8 @@ components:
               $ref: '#/components/schemas/link'
             prev:
               $ref: '#/components/schemas/link'
-    link:
-      type: object
-      properties:
-        href:
-          type: string
-          format: link
-        templated:
-          type: boolean
-      required:
-      - href
+    paging_token:
+      type: string
   examples:
     GetAllTrades:
       value:

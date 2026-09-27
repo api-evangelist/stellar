@@ -50,21 +50,14 @@ paths:
                   $ref: '#/components/examples/ListAllAssets'
 components:
   parameters:
-    AssetIssuerParam:
-      name: asset_issuer
+    LimitParam:
+      name: limit
       in: query
       required: false
-      description: The Stellar address of the issuer for the asset you would like to filter by.
-    OrderParam:
-      name: order
-      in: query
-      required: false
-      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
       schema:
-        type: string
-        enum:
-        - asc
-        - desc
+        type: integer
+        example: 10
     AssetCodeParam:
       name: asset_code
       in: query
@@ -78,14 +71,21 @@ components:
       schema:
         type: integer
         example: 6606617478959105
-    LimitParam:
-      name: limit
+    OrderParam:
+      name: order
       in: query
       required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
       schema:
-        type: integer
-        example: 10
+        type: string
+        enum:
+        - asc
+        - desc
+    AssetIssuerParam:
+      name: asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer for the asset you would like to filter by.
   schemas:
     link:
       type: object

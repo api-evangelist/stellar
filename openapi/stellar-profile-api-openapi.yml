@@ -150,13 +150,6 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
     Profile:
       type: object
       properties:
@@ -182,28 +175,14 @@ components:
         roles:
         - developer
         organization_name: Stellar Aid
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
   responses:
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
     ForbiddenResponse:
       description: Forbidden
       content:
@@ -228,6 +207,27 @@ components:
               extras:
                 type: object
                 properties: {}
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

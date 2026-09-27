@@ -143,188 +143,6 @@ paths:
       - Bridge Integration
 components:
   schemas:
-    VirtualAccountDepositInstructions:
-      type: object
-      description: Bank deposit instructions for sending USD to the virtual account
-      properties:
-        bank_beneficiary_name:
-          type: string
-          description: Name of the bank account beneficiary
-          example: Stellar Bridge
-        currency:
-          type: string
-          description: Currency for deposits
-          example: usd
-        bank_name:
-          type: string
-          description: Name of the receiving bank
-          example: Wells Fargo
-        bank_address:
-          type: string
-          description: Address of the receiving bank
-          example: 123 Main St, San Francisco, CA
-        bank_account_number:
-          type: string
-          description: Bank account number for deposits
-          example: '1234567890'
-        bank_routing_number:
-          type: string
-          description: Bank routing number
-          example: '121000248'
-        payment_rails:
-          type: array
-          items:
-            type: string
-          description: Supported payment rails for deposits
-          example:
-          - ach
-          - wire
-      required:
-      - bank_beneficiary_name
-      - currency
-      - bank_name
-      - bank_address
-      - bank_account_number
-      - bank_routing_number
-      - payment_rails
-    BridgeIntegrationPatchRequest:
-      type: object
-      description: Request to update Bridge integration status
-      properties:
-        status:
-          type: string
-          description: Target status for the integration
-          enum:
-          - OPTED_IN
-          - READY_FOR_DEPOSIT
-          example: OPTED_IN
-        email:
-          type: string
-          format: email
-          description: Email address for KYC verification (optional, defaults to user email)
-          example: john@example.com
-        full_name:
-          type: string
-          description: Full name for KYC verification (optional, defaults to user name)
-          example: John Doe
-        kyc_type:
-          $ref: '#/components/schemas/KYCType'
-      required:
-      - status
-    KYCStatus:
-      type: string
-      description: 'KYC verification status:
-
-        - not_started: KYC process not yet started
-
-        - incomplete: KYC process started but not complete
-
-        - awaiting_ubo: Awaiting Ultimate Beneficial Owner verification
-
-        - under_review: KYC submission under review
-
-        - approved: KYC verification approved
-
-        - rejected: KYC verification rejected
-
-        - paused: KYC process paused
-
-        - offboarded: Customer offboarded
-
-        '
-      enum:
-      - not_started
-      - incomplete
-      - awaiting_ubo
-      - under_review
-      - approved
-      - rejected
-      - paused
-      - offboarded
-      example: under_review
-    VirtualAccountStatus:
-      type: string
-      description: 'Virtual account status:
-
-        - activated: Account is active and ready for deposits
-
-        - deactivated: Account is deactivated
-
-        '
-      enum:
-      - activated
-      - deactivated
-      example: activated
-    BridgeIntegrationStatus:
-      type: string
-      description: Current status of the Bridge integration
-      enum:
-      - NOT_ENABLED
-      - NOT_OPTED_IN
-      - OPTED_IN
-      - READY_FOR_DEPOSIT
-      - ERROR
-      example: OPTED_IN
-    VirtualAccountInfo:
-      type: object
-      description: Virtual account information for USD deposits
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the virtual account
-          example: va_789xyz
-        status:
-          $ref: '#/components/schemas/VirtualAccountStatus'
-        developer_fee_percent:
-          type: string
-          description: Developer fee percentage as a string
-          example: '0.5'
-        customer_id:
-          type: string
-          description: Bridge customer ID
-          example: cust_123abc
-        source_deposit_instructions:
-          $ref: '#/components/schemas/VirtualAccountDepositInstructions'
-        destination:
-          $ref: '#/components/schemas/VirtualAccountDestination'
-      required:
-      - id
-      - status
-      - developer_fee_percent
-      - customer_id
-      - source_deposit_instructions
-      - destination
-    KYCType:
-      type: string
-      description: Type of KYC verification
-      enum:
-      - individual
-      - business
-      example: business
-    VirtualAccountDestination:
-      type: object
-      description: Destination configuration for converted funds
-      properties:
-        payment_rail:
-          type: string
-          description: Payment rail for destination
-          example: stellar
-        currency:
-          type: string
-          description: Destination currency
-          example: usdc
-        address:
-          type: string
-          description: Stellar address for receiving USDC
-          example: GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37
-        blockchain_memo:
-          type: string
-          description: Blockchain memo for the destination transaction
-          example: '12345'
-      required:
-      - payment_rail
-      - currency
-      - address
     KYCLinkInfo:
       type: object
       description: KYC verification link information
@@ -385,6 +203,159 @@ components:
       - kyc_status
       - tos_status
       - customer_id
+    BridgeIntegrationStatus:
+      type: string
+      description: Current status of the Bridge integration
+      enum:
+      - NOT_ENABLED
+      - NOT_OPTED_IN
+      - OPTED_IN
+      - READY_FOR_DEPOSIT
+      - ERROR
+      example: OPTED_IN
+    KYCType:
+      type: string
+      description: Type of KYC verification
+      enum:
+      - individual
+      - business
+      example: business
+    VirtualAccountDestination:
+      type: object
+      description: Destination configuration for converted funds
+      properties:
+        payment_rail:
+          type: string
+          description: Payment rail for destination
+          example: stellar
+        currency:
+          type: string
+          description: Destination currency
+          example: usdc
+        address:
+          type: string
+          description: Stellar address for receiving USDC
+          example: GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37
+        blockchain_memo:
+          type: string
+          description: Blockchain memo for the destination transaction
+          example: '12345'
+      required:
+      - payment_rail
+      - currency
+      - address
+    KYCStatus:
+      type: string
+      description: 'KYC verification status:
+
+        - not_started: KYC process not yet started
+
+        - incomplete: KYC process started but not complete
+
+        - awaiting_ubo: Awaiting Ultimate Beneficial Owner verification
+
+        - under_review: KYC submission under review
+
+        - approved: KYC verification approved
+
+        - rejected: KYC verification rejected
+
+        - paused: KYC process paused
+
+        - offboarded: Customer offboarded
+
+        '
+      enum:
+      - not_started
+      - incomplete
+      - awaiting_ubo
+      - under_review
+      - approved
+      - rejected
+      - paused
+      - offboarded
+      example: under_review
+    BridgeIntegrationPatchRequest:
+      type: object
+      description: Request to update Bridge integration status
+      properties:
+        status:
+          type: string
+          description: Target status for the integration
+          enum:
+          - OPTED_IN
+          - READY_FOR_DEPOSIT
+          example: OPTED_IN
+        email:
+          type: string
+          format: email
+          description: Email address for KYC verification (optional, defaults to user email)
+          example: john@example.com
+        full_name:
+          type: string
+          description: Full name for KYC verification (optional, defaults to user name)
+          example: John Doe
+        kyc_type:
+          $ref: '#/components/schemas/KYCType'
+      required:
+      - status
+    VirtualAccountDepositInstructions:
+      type: object
+      description: Bank deposit instructions for sending USD to the virtual account
+      properties:
+        bank_beneficiary_name:
+          type: string
+          description: Name of the bank account beneficiary
+          example: Stellar Bridge
+        currency:
+          type: string
+          description: Currency for deposits
+          example: usd
+        bank_name:
+          type: string
+          description: Name of the receiving bank
+          example: Wells Fargo
+        bank_address:
+          type: string
+          description: Address of the receiving bank
+          example: 123 Main St, San Francisco, CA
+        bank_account_number:
+          type: string
+          description: Bank account number for deposits
+          example: '1234567890'
+        bank_routing_number:
+          type: string
+          description: Bank routing number
+          example: '121000248'
+        payment_rails:
+          type: array
+          items:
+            type: string
+          description: Supported payment rails for deposits
+          example:
+          - ach
+          - wire
+      required:
+      - bank_beneficiary_name
+      - currency
+      - bank_name
+      - bank_address
+      - bank_account_number
+      - bank_routing_number
+      - payment_rails
+    TOSStatus:
+      type: string
+      description: 'Terms of Service acceptance status:
+
+        - pending: Terms of service not yet accepted
+
+        - approved: Terms of service accepted
+
+        '
+      enum:
+      - pending
+      - approved
+      example: approved
     BridgeIntegrationInfo:
       type: object
       description: Complete Bridge integration information including status and related data
@@ -419,41 +390,49 @@ components:
           example: '2025-01-01T00:00:00Z'
       required:
       - status
-    TOSStatus:
+    VirtualAccountStatus:
       type: string
-      description: 'Terms of Service acceptance status:
+      description: 'Virtual account status:
 
-        - pending: Terms of service not yet accepted
+        - activated: Account is active and ready for deposits
 
-        - approved: Terms of service accepted
+        - deactivated: Account is deactivated
 
         '
       enum:
-      - pending
-      - approved
-      example: approved
+      - activated
+      - deactivated
+      example: activated
+    VirtualAccountInfo:
+      type: object
+      description: Virtual account information for USD deposits
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the virtual account
+          example: va_789xyz
+        status:
+          $ref: '#/components/schemas/VirtualAccountStatus'
+        developer_fee_percent:
+          type: string
+          description: Developer fee percentage as a string
+          example: '0.5'
+        customer_id:
+          type: string
+          description: Bridge customer ID
+          example: cust_123abc
+        source_deposit_instructions:
+          $ref: '#/components/schemas/VirtualAccountDepositInstructions'
+        destination:
+          $ref: '#/components/schemas/VirtualAccountDestination'
+      required:
+      - id
+      - status
+      - developer_fee_percent
+      - customer_id
+      - source_deposit_instructions
+      - destination
   responses:
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
     ForbiddenResponse:
       description: Forbidden
       content:
@@ -486,6 +465,27 @@ components:
             extras:
               status: 404
               message: Resource not found
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

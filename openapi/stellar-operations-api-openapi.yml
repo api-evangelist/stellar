@@ -96,16 +96,14 @@ paths:
                   $ref: '#/components/examples/ListAllOperations'
 components:
   parameters:
-    OrderParam:
-      name: order
+    LimitParam:
+      name: limit
       in: query
       required: false
-      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
       schema:
-        type: string
-        enum:
-        - asc
-        - desc
+        type: integer
+        example: 10
     JoinParam:
       name: join
       in: query
@@ -119,14 +117,16 @@ components:
       schema:
         type: integer
         example: 6606617478959105
-    LimitParam:
-      name: limit
+    OrderParam:
+      name: order
       in: query
       required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      description: A designation of the order in which records should appear. Options include `asc` (ascending) or `desc` (descending). If this argument isn’t set, it defaults to `asc`.
       schema:
-        type: integer
-        example: 10
+        type: string
+        enum:
+        - asc
+        - desc
     IdParam:
       name: id
       in: path
@@ -145,161 +145,8 @@ components:
         enum:
         - true
         - false
-  examples:
-    RetrieveAnOperationsEffects:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=&limit=10&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=121693057904021505-2&limit=10&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=121693057904021505-1&limit=10&order=desc
-        _embedded:
-          records:
-          - _links:
-              operation:
-                href: https://horizon-testnet.stellar.org/operations/121693057904021505
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121693057904021505-1
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121693057904021505-1
-            id: 0121693057904021505-0000000001
-            paging_token: 121693057904021505-1
-            account: GALSPNVKGNRJ3VIOQ26QKPZBDCTVJK7XPLSPF3UVZV3JJXCKVCHNSPCK
-            type: account_credited
-            type_i: 2
-            created_at: '2020-02-21T20:27:30Z'
-            asset_type: credit_alphanum4
-            asset_code: NODL
-            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
-            amount: '0.0000027'
-          - _links:
-              operation:
-                href: https://horizon-testnet.stellar.org/operations/121693057904021505
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121693057904021505-2
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121693057904021505-2
-            id: 0121693057904021505-0000000002
-            paging_token: 121693057904021505-2
-            account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
-            type: account_debited
-            type_i: 3
-            created_at: '2020-02-21T20:27:30Z'
-            asset_type: credit_alphanum4
-            asset_code: NODL
-            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
-            amount: '0.0000027'
-    RetrieveAnOperation:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/operations/121692259040116737
-          transaction:
-            href: https://horizon-testnet.stellar.org/transactions/f92a9648c1084d1de0fd786faac5d5e1637d4127c60841d2366c70d2e7f77b85
-          effects:
-            href: https://horizon-testnet.stellar.org/operations/121692259040116737/effects
-          succeeds:
-            href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121692259040116737
-          precedes:
-            href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121692259040116737
-        id: '121692259040116737'
-        paging_token: '121692259040116737'
-        transaction_successful: true
-        source_account: GBDVKE33GVVMBXX73OHIBRP6RAHKHHW2P4PQVV6UNOKQCOXU7GNUM4QI
-        type: manage_offer
-        type_i: 3
-        created_at: '2020-02-21T20:10:21Z'
-        transaction_hash: f92a9648c1084d1de0fd786faac5d5e1637d4127c60841d2366c70d2e7f77b85
-        amount: '10000.0000000'
-        price: '0.0704336'
-        price_r:
-          n: 44021
-          d: 625000
-        buying_asset_type: credit_alphanum4
-        buying_asset_code: USD
-        buying_asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-        selling_asset_type: native
-        offer_id: 161536436
-    ListAllOperations:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/operations?cursor=&limit=3&order=asc
-          next:
-            href: https://horizon-testnet.stellar.org/operations?cursor=12884905987&limit=3&order=asc
-          prev:
-            href: https://horizon-testnet.stellar.org/operations?cursor=12884905985&limit=3&order=desc
-        _embedded:
-          records:
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/operations/12884905985
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-              effects:
-                href: https://horizon-testnet.stellar.org/operations/12884905985/effects
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985
-            id: '12884905985'
-            paging_token: '12884905985'
-            transaction_successful: true
-            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            type: create_account
-            type_i: 0
-            created_at: '2015-09-30T17:15:54Z'
-            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-            starting_balance: '20.0000000'
-            funder: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            account: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/operations/12884905986
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-              effects:
-                href: https://horizon-testnet.stellar.org/operations/12884905986/effects
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905986
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905986
-            id: '12884905986'
-            paging_token: '12884905986'
-            transaction_successful: true
-            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            type: payment
-            type_i: 1
-            created_at: '2015-09-30T17:15:54Z'
-            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-            asset_type: native
-            from: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            to: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
-            amount: '99999999959.9999700'
-          - _links:
-              self:
-                href: https://horizon-testnet.stellar.org/operations/12884905987
-              transaction:
-                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-              effects:
-                href: https://horizon-testnet.stellar.org/operations/12884905987/effects
-              succeeds:
-                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905987
-              precedes:
-                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905987
-            id: '12884905987'
-            paging_token: '12884905987'
-            transaction_successful: true
-            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
-            type: set_options
-            type_i: 5
-            created_at: '2015-09-30T17:15:54Z'
-            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
-            master_key_weight: 0
   schemas:
-    paging_token:
+    id:
       type: string
     link:
       type: object
@@ -311,46 +158,6 @@ components:
           type: boolean
       required:
       - href
-    id:
-      type: string
-    Operation:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            effects:
-              $ref: '#/components/schemas/link'
-            precedes:
-              $ref: '#/components/schemas/link'
-            self:
-              $ref: '#/components/schemas/link'
-            succeds:
-              $ref: '#/components/schemas/link'
-            transaction:
-              $ref: '#/components/schemas/link'
-        id:
-          $ref: '#/components/schemas/id'
-        paging_token:
-          $ref: '#/components/schemas/paging_token'
-        type_i:
-          type: number
-          example: 0
-        type:
-          type: string
-          example: create_account
-    Links:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/link'
-            next:
-              $ref: '#/components/schemas/link'
-            prev:
-              $ref: '#/components/schemas/link'
     Effect:
       type: object
       properties:
@@ -440,9 +247,202 @@ components:
           - type
           - type_i
           - created_at
+    Operation:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            effects:
+              $ref: '#/components/schemas/link'
+            precedes:
+              $ref: '#/components/schemas/link'
+            self:
+              $ref: '#/components/schemas/link'
+            succeds:
+              $ref: '#/components/schemas/link'
+            transaction:
+              $ref: '#/components/schemas/link'
+        id:
+          $ref: '#/components/schemas/id'
+        paging_token:
+          $ref: '#/components/schemas/paging_token'
+        type_i:
+          type: number
+          example: 0
+        type:
+          type: string
+          example: create_account
+    Links:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
     address:
       type: string
       pattern: G[A-Z0-9]{55}
+    paging_token:
+      type: string
+  examples:
+    ListAllOperations:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/operations?cursor=&limit=3&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/operations?cursor=12884905987&limit=3&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/operations?cursor=12884905985&limit=3&order=desc
+        _embedded:
+          records:
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/12884905985
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/12884905985/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905985
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905985
+            id: '12884905985'
+            paging_token: '12884905985'
+            transaction_successful: true
+            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: create_account
+            type_i: 0
+            created_at: '2015-09-30T17:15:54Z'
+            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+            starting_balance: '20.0000000'
+            funder: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            account: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/12884905986
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/12884905986/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905986
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905986
+            id: '12884905986'
+            paging_token: '12884905986'
+            transaction_successful: true
+            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: payment
+            type_i: 1
+            created_at: '2015-09-30T17:15:54Z'
+            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+            asset_type: native
+            from: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            to: GALPCCZN4YXA3YMJHKL6CVIECKPLJJCTVMSNYWBTKJW4K5HQLYLDMZTB
+            amount: '99999999959.9999700'
+          - _links:
+              self:
+                href: https://horizon-testnet.stellar.org/operations/12884905987
+              transaction:
+                href: https://horizon-testnet.stellar.org/transactions/3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+              effects:
+                href: https://horizon-testnet.stellar.org/operations/12884905987/effects
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=12884905987
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=12884905987
+            id: '12884905987'
+            paging_token: '12884905987'
+            transaction_successful: true
+            source_account: GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN7
+            type: set_options
+            type_i: 5
+            created_at: '2015-09-30T17:15:54Z'
+            transaction_hash: 3389e9f0f1a65f19736cacf544c2e825313e8447f569233bb8db39aa607c8889
+            master_key_weight: 0
+    RetrieveAnOperationsEffects:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=&limit=10&order=asc
+          next:
+            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=121693057904021505-2&limit=10&order=asc
+          prev:
+            href: https://horizon-testnet.stellar.org/operations/121693057904021505/effects?cursor=121693057904021505-1&limit=10&order=desc
+        _embedded:
+          records:
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/121693057904021505
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121693057904021505-1
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121693057904021505-1
+            id: 0121693057904021505-0000000001
+            paging_token: 121693057904021505-1
+            account: GALSPNVKGNRJ3VIOQ26QKPZBDCTVJK7XPLSPF3UVZV3JJXCKVCHNSPCK
+            type: account_credited
+            type_i: 2
+            created_at: '2020-02-21T20:27:30Z'
+            asset_type: credit_alphanum4
+            asset_code: NODL
+            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
+            amount: '0.0000027'
+          - _links:
+              operation:
+                href: https://horizon-testnet.stellar.org/operations/121693057904021505
+              succeeds:
+                href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121693057904021505-2
+              precedes:
+                href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121693057904021505-2
+            id: 0121693057904021505-0000000002
+            paging_token: 121693057904021505-2
+            account: GDQWI6FKB72DPOJE4CGYCFQZKRPQQIOYXRMZ5KEVGXMG6UUTGJMBCASH
+            type: account_debited
+            type_i: 3
+            created_at: '2020-02-21T20:27:30Z'
+            asset_type: credit_alphanum4
+            asset_code: NODL
+            asset_issuer: GB2Y3AWXVROM2BHFQKQPTWKIOI3TZEBBD3LTKTVQTKEPXGOBE742NODL
+            amount: '0.0000027'
+    RetrieveAnOperation:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/operations/121692259040116737
+          transaction:
+            href: https://horizon-testnet.stellar.org/transactions/f92a9648c1084d1de0fd786faac5d5e1637d4127c60841d2366c70d2e7f77b85
+          effects:
+            href: https://horizon-testnet.stellar.org/operations/121692259040116737/effects
+          succeeds:
+            href: https://horizon-testnet.stellar.org/effects?order=desc&cursor=121692259040116737
+          precedes:
+            href: https://horizon-testnet.stellar.org/effects?order=asc&cursor=121692259040116737
+        id: '121692259040116737'
+        paging_token: '121692259040116737'
+        transaction_successful: true
+        source_account: GBDVKE33GVVMBXX73OHIBRP6RAHKHHW2P4PQVV6UNOKQCOXU7GNUM4QI
+        type: manage_offer
+        type_i: 3
+        created_at: '2020-02-21T20:10:21Z'
+        transaction_hash: f92a9648c1084d1de0fd786faac5d5e1637d4127c60841d2366c70d2e7f77b85
+        amount: '10000.0000000'
+        price: '0.0704336'
+        price_r:
+          n: 44021
+          d: 625000
+        buying_asset_type: credit_alphanum4
+        buying_asset_code: USD
+        buying_asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+        selling_asset_type: native
+        offer_id: 161536436
 x-tagGroups:
 - name: Resources
   tags:

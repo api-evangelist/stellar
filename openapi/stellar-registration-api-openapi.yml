@@ -516,6 +516,34 @@ paths:
       security:
       - SEP10Auth: []
 components:
+  schemas:
+    ReceiverRegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        phone_number:
+          type: string
+          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        otp:
+          type: string
+          description: One-Time Password received for verification
+        verification:
+          type: string
+          description: Verification value provided by the user
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        recaptcha_token:
+          type: string
+          description: Token received from Google reCAPTCHA
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
   responses:
     BadRequestResponse:
       description: Bad Request
@@ -551,34 +579,6 @@ components:
             extras:
               status: 401
               message: Not authorized
-  schemas:
-    VerificationField:
-      type: string
-      enum:
-      - DATE_OF_BIRTH
-      - YEAR_MONTH
-      - PIN
-      - NATIONAL_ID_NUMBER
-    ReceiverRegistrationRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        phone_number:
-          type: string
-          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        otp:
-          type: string
-          description: One-Time Password received for verification
-        verification:
-          type: string
-          description: Verification value provided by the user
-        verification_field:
-          $ref: '#/components/schemas/VerificationField'
-        recaptcha_token:
-          type: string
-          description: Token received from Google reCAPTCHA
   securitySchemes:
     BearerAuth:
       type: apiKey

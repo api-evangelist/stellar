@@ -539,15 +539,37 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    ReceiverPagination:
+    WalletLite:
       type: object
       properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Receiver'
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
     Pagination:
       type: object
       properties:
@@ -563,13 +585,68 @@ components:
         total:
           type: integer
           example: 16
-    ReceiversWalletStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - REGISTERED
-      - FLAGGED
+    Amount:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        asset_issuer:
+          type: string
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        received_amount:
+          type: string
+          example: '100.00'
+    Receiver:
+      type: object
+      properties:
+        id:
+          type: string
+          example: f83bb638-dda4-41e6-80c9-d03e6eec2aef
+        phone_number:
+          type: string
+          example: '+15552368475'
+        external_id:
+          type: string
+          example: usr12334
+        email:
+          type: string
+          example: jdoe@mail.org
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        successful_payments:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        registered_wallets:
+          type: string
+          example: '1'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiverWallet'
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
     ReceiverWallet:
       type: object
       properties:
@@ -622,83 +699,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
-    WalletLite:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
-        name:
-          type: string
-          example: Vibrant Assist
-        homepage:
-          type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
-        deep_link_schema:
-          type: string
-          example: https://vibrantapp.com/sdp-dev
-        enabled:
-          type: boolean
-          example: true
-        user_managed:
-          type: boolean
-          example: false
-    Amount:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          example: USDC
-        asset_issuer:
-          type: string
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        received_amount:
-          type: string
-          example: '100.00'
-    VerificationField:
-      type: string
-      enum:
-      - DATE_OF_BIRTH
-      - YEAR_MONTH
-      - PIN
-      - NATIONAL_ID_NUMBER
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
-    PatchReceiverRequest:
-      type: object
-      properties:
-        date_of_birth:
-          type: string
-          description: Date of birth of the receiver
-        pin:
-          type: string
-          description: Personal identification number of the receiver
-        national_id:
-          type: string
-          description: National ID of the receiver
-        email:
-          type: string
-          description: Email of the receiver
-        phone_number:
-          type: string
-          description: Phone number of the receiver
-        external_id:
-          type: string
-          description: External ID of the receiver
-      example:
-        date_of_birth: '1980-01-01'
-        pin: '1234'
-        national_id: '123456789'
-        email: john@example.com
-        external_id: external123
     CreateReceiverRequest:
       oneOf:
       - type: object
@@ -766,84 +766,63 @@ components:
               required:
               - address
             maxItems: 1
-    ReceiversWalletStatusHistoryEntry:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ReceiversWalletStatus'
-        timestamp:
-          type: string
-          format: date-time
-          example: '2023-02-10T10:45:51Z'
-    Receiver:
-      type: object
-      properties:
-        id:
-          type: string
-          example: f83bb638-dda4-41e6-80c9-d03e6eec2aef
-        phone_number:
-          type: string
-          example: '+15552368475'
-        external_id:
-          type: string
-          example: usr12334
-        email:
-          type: string
-          example: jdoe@mail.org
-        created_at:
-          type: string
-          example: '2023-02-03T10:45:51.000Z'
-        total_payments:
-          type: string
-          example: '2'
-        successful_payments:
-          type: string
-          example: '2'
-        failed_payments:
-          type: string
-          example: '0'
-        remaining_payments:
-          type: string
-          example: '0'
-        registered_wallets:
-          type: string
-          example: '1'
-        received_amounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Amount'
-        wallets:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceiverWallet'
     ReceiverLite:
       type: object
       properties:
         id:
           type: string
           example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
+    PatchReceiverRequest:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+          description: Date of birth of the receiver
+        pin:
+          type: string
+          description: Personal identification number of the receiver
+        national_id:
+          type: string
+          description: National ID of the receiver
+        email:
+          type: string
+          description: Email of the receiver
+        phone_number:
+          type: string
+          description: Phone number of the receiver
+        external_id:
+          type: string
+          description: External ID of the receiver
+      example:
+        date_of_birth: '1980-01-01'
+        pin: '1234'
+        national_id: '123456789'
+        email: john@example.com
+        external_id: external123
+    ReceiverPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver'
   responses:
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
     ForbiddenResponse:
       description: Forbidden
       content:
@@ -855,6 +834,19 @@ components:
                 type: string
           example:
             error: Forbidden
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
     NotFoundResponse:
       description: Not Found
       content:
@@ -876,8 +868,8 @@ components:
             extras:
               status: 404
               message: Resource not found
-    BadRequestResponse:
-      description: Bad Request
+    UnauthorizedResponse:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -885,10 +877,18 @@ components:
             properties:
               error:
                 type: string
-                description: Details about the error
               extras:
                 type: object
-                properties: {}
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

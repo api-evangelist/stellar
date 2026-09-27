@@ -372,6 +372,10 @@ paths:
       x-codegen-request-body-name: body
 components:
   schemas:
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
     User:
       required:
       - email
@@ -414,10 +418,6 @@ components:
         roles:
         - financial_controller
         is_active: false
-    Users:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
   securitySchemes:
     BearerAuth:
       type: apiKey
