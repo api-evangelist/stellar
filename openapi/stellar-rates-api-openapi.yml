@@ -217,21 +217,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    RateFeeDetailResponse:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the fee, for example `ACH fee`, `Brazilian conciliation fee`, `Service fee`, etc.
-        description:
-          type: string
-          description: A text describing the fee.
-        amount:
-          type: string
-          description: The amount of asset applied. If `fee.details` is provided, `sum(fee.details.amount)` should be equals `fee.total`.
-      required:
-      - name
-      - amount
     RateFeeResponse:
       type: object
       description: An object describing the fees added on top of the rate provided via the `price` attribute.
@@ -249,15 +234,21 @@ components:
       required:
       - total
       - asset
-    Error:
+    RateFeeDetailResponse:
       type: object
       properties:
-        error:
+        name:
           type: string
-        id:
+          description: The name of the fee, for example `ACH fee`, `Brazilian conciliation fee`, `Service fee`, etc.
+        description:
           type: string
+          description: A text describing the fee.
+        amount:
+          type: string
+          description: The amount of asset applied. If `fee.details` is provided, `sum(fee.details.amount)` should be equals `fee.total`.
       required:
-      - error
+      - name
+      - amount
     RateResponse:
       type: object
       properties:
@@ -286,6 +277,15 @@ components:
           - price
           - sell_amount
           - buy_amount
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
 x-tagGroups:
 - name: Callbacks Server
   tags:

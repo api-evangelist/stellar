@@ -539,37 +539,55 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    WalletLite:
+    PatchReceiverRequest:
+      type: object
+      properties:
+        date_of_birth:
+          type: string
+          description: Date of birth of the receiver
+        pin:
+          type: string
+          description: Personal identification number of the receiver
+        national_id:
+          type: string
+          description: National ID of the receiver
+        email:
+          type: string
+          description: Email of the receiver
+        phone_number:
+          type: string
+          description: Phone number of the receiver
+        external_id:
+          type: string
+          description: External ID of the receiver
+      example:
+        date_of_birth: '1980-01-01'
+        pin: '1234'
+        national_id: '123456789'
+        email: john@example.com
+        external_id: external123
+    ReceiverLite:
       type: object
       properties:
         id:
           type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
-        name:
+          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
           type: string
-          example: Vibrant Assist
-        homepage:
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
           type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
-        deep_link_schema:
-          type: string
-          example: https://vibrantapp.com/sdp-dev
-        enabled:
-          type: boolean
-          example: true
-        user_managed:
-          type: boolean
-          example: false
-    ReceiversWalletStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - REGISTERED
-      - FLAGGED
     Pagination:
       type: object
       properties:
@@ -585,120 +603,6 @@ components:
         total:
           type: integer
           example: 16
-    Amount:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          example: USDC
-        asset_issuer:
-          type: string
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        received_amount:
-          type: string
-          example: '100.00'
-    Receiver:
-      type: object
-      properties:
-        id:
-          type: string
-          example: f83bb638-dda4-41e6-80c9-d03e6eec2aef
-        phone_number:
-          type: string
-          example: '+15552368475'
-        external_id:
-          type: string
-          example: usr12334
-        email:
-          type: string
-          example: jdoe@mail.org
-        created_at:
-          type: string
-          example: '2023-02-03T10:45:51.000Z'
-        total_payments:
-          type: string
-          example: '2'
-        successful_payments:
-          type: string
-          example: '2'
-        failed_payments:
-          type: string
-          example: '0'
-        remaining_payments:
-          type: string
-          example: '0'
-        registered_wallets:
-          type: string
-          example: '1'
-        received_amounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Amount'
-        wallets:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceiverWallet'
-    ReceiversWalletStatusHistoryEntry:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ReceiversWalletStatus'
-        timestamp:
-          type: string
-          format: date-time
-          example: '2023-02-10T10:45:51Z'
-    ReceiverWallet:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 803031d4-1d04-4879-b6d9-dc5641f9988e
-        receiver:
-          $ref: '#/components/schemas/ReceiverLite'
-        wallet:
-          $ref: '#/components/schemas/WalletLite'
-        stellar_address:
-          type: string
-          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
-        stellar_memo:
-          type: string
-        stellar_memo_type:
-          type: string
-        created_at:
-          type: string
-          example: '2023-02-03T10:45:51.000Z'
-        updated_at:
-          type: string
-          example: '2023-02-03T10:45:51.000Z'
-        invited_at:
-          type: string
-          example: '2023-02-09T10:45:51.000Z'
-        last_message_sent_at:
-          type: string
-          description: timestamp when the receiver last received an invitation about this wallet
-          example: '2023-02-10T10:45:51.000Z'
-        total_payments:
-          type: string
-          example: '2'
-        payments_received:
-          type: string
-          example: '2'
-        failed_payments:
-          type: string
-          example: '0'
-        remaining_payments:
-          type: string
-          example: '0'
-        received_amounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Amount'
-        status:
-          $ref: '#/components/schemas/ReceiversWalletStatus'
-        status_history:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
     CreateReceiverRequest:
       oneOf:
       - type: object
@@ -766,19 +670,90 @@ components:
               required:
               - address
             maxItems: 1
-    ReceiverLite:
+    Amount:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        asset_issuer:
+          type: string
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        received_amount:
+          type: string
+          example: '100.00'
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
+    WalletLite:
       type: object
       properties:
         id:
           type: string
-          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
-    MessageResponse:
-      required:
-      - message
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
+    Receiver:
       type: object
       properties:
-        message:
+        id:
           type: string
+          example: f83bb638-dda4-41e6-80c9-d03e6eec2aef
+        phone_number:
+          type: string
+          example: '+15552368475'
+        external_id:
+          type: string
+          example: usr12334
+        email:
+          type: string
+          example: jdoe@mail.org
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        successful_payments:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        registered_wallets:
+          type: string
+          example: '1'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiverWallet'
     VerificationField:
       type: string
       enum:
@@ -786,33 +761,6 @@ components:
       - YEAR_MONTH
       - PIN
       - NATIONAL_ID_NUMBER
-    PatchReceiverRequest:
-      type: object
-      properties:
-        date_of_birth:
-          type: string
-          description: Date of birth of the receiver
-        pin:
-          type: string
-          description: Personal identification number of the receiver
-        national_id:
-          type: string
-          description: National ID of the receiver
-        email:
-          type: string
-          description: Email of the receiver
-        phone_number:
-          type: string
-          description: Phone number of the receiver
-        external_id:
-          type: string
-          description: External ID of the receiver
-      example:
-        date_of_birth: '1980-01-01'
-        pin: '1234'
-        national_id: '123456789'
-        email: john@example.com
-        external_id: external123
     ReceiverPagination:
       type: object
       properties:
@@ -822,6 +770,58 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Receiver'
+    ReceiverWallet:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 803031d4-1d04-4879-b6d9-dc5641f9988e
+        receiver:
+          $ref: '#/components/schemas/ReceiverLite'
+        wallet:
+          $ref: '#/components/schemas/WalletLite'
+        stellar_address:
+          type: string
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        stellar_memo:
+          type: string
+        stellar_memo_type:
+          type: string
+        created_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        updated_at:
+          type: string
+          example: '2023-02-03T10:45:51.000Z'
+        invited_at:
+          type: string
+          example: '2023-02-09T10:45:51.000Z'
+        last_message_sent_at:
+          type: string
+          description: timestamp when the receiver last received an invitation about this wallet
+          example: '2023-02-10T10:45:51.000Z'
+        total_payments:
+          type: string
+          example: '2'
+        payments_received:
+          type: string
+          example: '2'
+        failed_payments:
+          type: string
+          example: '0'
+        remaining_payments:
+          type: string
+          example: '0'
+        received_amounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Amount'
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        status_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
   responses:
     ForbiddenResponse:
       description: Forbidden

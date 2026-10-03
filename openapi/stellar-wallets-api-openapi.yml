@@ -223,6 +223,73 @@ paths:
       security:
       - BearerAuth: []
 components:
+  responses:
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
   schemas:
     UpdateWalletRequest:
       type: object
@@ -378,73 +445,6 @@ components:
           type: string
           format: date-time
           example: '2023-07-31T20:50:45.648Z'
-  responses:
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
-    NotFoundResponse:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not found
-            extras:
-              status: 404
-              message: Resource not found
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

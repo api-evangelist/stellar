@@ -224,76 +224,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  examples:
+    SuccessKYC:
+      summary: The case when a customer has been successfully KYC'd and approved
+      value:
+        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
+        status: ACCEPTED
+        provided_fields:
+          first_name:
+            description: The customer's first name
+            type: string
+            status: ACCEPTED
+          last_name:
+            description: The customer's last name
+            type: string
+            status: ACCEPTED
+          email_address:
+            description: The customer's email address
+            type: string
+            status: ACCEPTED
   schemas:
-    GetCustomerResponse:
+    Error:
       type: object
-      required:
-      - status
       properties:
+        error:
+          type: string
         id:
           type: string
-        status:
-          type: string
-          enum:
-          - ACCEPTED
-          - PROCESSING
-          - NEEDS_INFO
-          - REJECTED
-        fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-        provided_fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - PROCESSING
-                - REJECTED
-                - VERIFICATION_REQUIRED
-              error:
-                type: string
-        message:
-          type: string
+      required:
+      - error
     PutCustomerRequest:
       type: object
       properties:
@@ -555,34 +514,75 @@ components:
           type: string
         email_address_verification:
           type: string
-    Error:
+    GetCustomerResponse:
       type: object
+      required:
+      - status
       properties:
-        error:
-          type: string
         id:
           type: string
-      required:
-      - error
-  examples:
-    SuccessKYC:
-      summary: The case when a customer has been successfully KYC'd and approved
-      value:
-        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
-        status: ACCEPTED
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - PROCESSING
+          - NEEDS_INFO
+          - REJECTED
+        fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
         provided_fields:
-          first_name:
-            description: The customer's first name
-            type: string
-            status: ACCEPTED
-          last_name:
-            description: The customer's last name
-            type: string
-            status: ACCEPTED
-          email_address:
-            description: The customer's email address
-            type: string
-            status: ACCEPTED
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - PROCESSING
+                - REJECTED
+                - VERIFICATION_REQUIRED
+              error:
+                type: string
+        message:
+          type: string
 x-tagGroups:
 - name: Callbacks Server
   tags:

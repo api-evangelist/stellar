@@ -149,39 +149,6 @@ paths:
       - BearerAuth: []
       x-codegen-request-body-name: body
 components:
-  schemas:
-    Profile:
-      type: object
-      properties:
-        first_name:
-          type: string
-          example: Jane
-        last_name:
-          type: string
-          example: Doe
-        email:
-          type: string
-          example: jdoe@mail.org
-        roles:
-          type: array
-          items:
-            type: string
-        organization_name:
-          type: string
-      example:
-        first_name: Jane
-        last_name: Doe
-        email: jdoe@mail.org
-        roles:
-        - developer
-        organization_name: Stellar Aid
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
-          type: string
   responses:
     ForbiddenResponse:
       description: Forbidden
@@ -228,6 +195,39 @@ components:
             extras:
               status: 401
               message: Not authorized
+  schemas:
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    Profile:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Jane
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: jdoe@mail.org
+        roles:
+          type: array
+          items:
+            type: string
+        organization_name:
+          type: string
+      example:
+        first_name: Jane
+        last_name: Doe
+        email: jdoe@mail.org
+        roles:
+        - developer
+        organization_name: Stellar Aid
   securitySchemes:
     BearerAuth:
       type: apiKey

@@ -85,73 +85,14 @@ paths:
         source: "var StellarSdk = require(\"@stellar/stellar-sdk\");\nvar server = new StellarSdk.Horizon.Server(\n  \"https://horizon-testnet.stellar.org\",\n);\n\nvar base = new StellarSdk.Asset.native();\nvar counter = new StellarSdk.Asset(\n  \"EURT\",\n  \"GAP5LETOV6YIE62YAM56STDANPRDO7ZFDBGSNHJQIYGGKSMOZAHOOS2S\",\n);\nvar startTime = 1582156800000;\nvar endTime = 1582178400000;\nvar resolution = 3600000;\nvar offset = 0;\n\nserver\n  .tradeAggregation(base, counter, startTime, endTime, resolution, offset)\n  .call()\n  .then(function (resp) {\n    console.log(resp);\n  })\n  .catch(function (err) {\n    console.error(err);\n  });\n"
 components:
   parameters:
-    LimitParam:
-      name: limit
+    OffsetParam:
+      name: offset
       in: query
       required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      description: Segments can be offset using this parameter. Expressed in milliseconds. Can only be used if the resolution is greater than 1 hour. Value must be in whole hours, less than the provided resolution, and less than 24 hours.
       schema:
-        type: integer
-        example: 10
-    BaseAssetTypeRequiredParam:
-      name: base_asset_type
-      in: query
-      required: true
-      description: The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
-      schema:
-        type: string
-        enum:
-        - native
-        - credit_alphanum4
-        - credit_alphanum12
-    StartTimeParam:
-      name: start_time
-      in: query
-      required: false
-      description: The lower time boundary represented as milliseconds since epoch.
-      schema:
-        type: integer
+        type: number
         format: long
-    CounterAssetIssuerParam:
-      name: counter_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    BaseAssetCodeParam:
-      name: base_asset_code
-      in: query
-      required: false
-      description: The code for the base asset. Required if the `base_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
-    EndTimeParam:
-      name: end_time
-      in: query
-      required: false
-      description: The upper time boundary represented as milliseconds since epoch.
-      schema:
-        type: integer
-        format: long
-    CounterAssetCodeParam:
-      name: counter_asset_code
-      in: query
-      required: false
-      description: The code for the counter asset. Required if the `counter_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
-    BaseAssetIssuerParam:
-      name: base_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
     ResolutionParam:
       name: resolution
       in: query
@@ -173,13 +114,21 @@ components:
           description: 1 day
         - const: 604800000
           description: 1 week
-    OffsetParam:
-      name: offset
+    CounterAssetIssuerParam:
+      name: counter_asset_issuer
       in: query
       required: false
-      description: Segments can be offset using this parameter. Expressed in milliseconds. Can only be used if the resolution is greater than 1 hour. Value must be in whole hours, less than the provided resolution, and less than 24 hours.
+      description: The Stellar address of the counter asset’s issuer. Required if the `counter_asset_type` is not `native`.
       schema:
-        type: number
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    StartTimeParam:
+      name: start_time
+      in: query
+      required: false
+      description: The lower time boundary represented as milliseconds since epoch.
+      schema:
+        type: integer
         format: long
     OrderParam:
       name: order
@@ -191,6 +140,49 @@ components:
         enum:
         - asc
         - desc
+    CounterAssetCodeParam:
+      name: counter_asset_code
+      in: query
+      required: false
+      description: The code for the counter asset. Required if the `counter_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    BaseAssetTypeRequiredParam:
+      name: base_asset_type
+      in: query
+      required: true
+      description: The type for the base asset. Either `native`, `credit_alphanum4`, or `credit_alphanum12`.
+      schema:
+        type: string
+        enum:
+        - native
+        - credit_alphanum4
+        - credit_alphanum12
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    EndTimeParam:
+      name: end_time
+      in: query
+      required: false
+      description: The upper time boundary represented as milliseconds since epoch.
+      schema:
+        type: integer
+        format: long
+    BaseAssetIssuerParam:
+      name: base_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the base asset’s issuer. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
     CounterAssetTypeRequiredParam:
       name: counter_asset_type
       in: query
@@ -202,7 +194,22 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
+    BaseAssetCodeParam:
+      name: base_asset_code
+      in: query
+      required: false
+      description: The code for the base asset. Required if the `base_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
   schemas:
+    tradePrice:
+      type: object
+      properties:
+        n:
+          type: string
+        d:
+          type: string
     TradeAggregation:
       type: object
       properties:
@@ -240,13 +247,6 @@ components:
                     type: string
                   close_r:
                     $ref: '#/components/schemas/tradePrice'
-    tradePrice:
-      type: object
-      properties:
-        n:
-          type: string
-        d:
-          type: string
   examples:
     ListTradeAggregations:
       value:

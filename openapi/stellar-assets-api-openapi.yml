@@ -50,27 +50,11 @@ paths:
                   $ref: '#/components/examples/ListAllAssets'
 components:
   parameters:
-    LimitParam:
-      name: limit
+    AssetIssuerParam:
+      name: asset_issuer
       in: query
       required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
-      schema:
-        type: integer
-        example: 10
-    AssetCodeParam:
-      name: asset_code
-      in: query
-      required: false
-      description: The code of the asset you would like to filter by.
-    CursorParam:
-      name: cursor
-      in: query
-      required: false
-      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
-      schema:
-        type: integer
-        example: 6606617478959105
+      description: The Stellar address of the issuer for the asset you would like to filter by.
     OrderParam:
       name: order
       in: query
@@ -81,22 +65,43 @@ components:
         enum:
         - asc
         - desc
-    AssetIssuerParam:
-      name: asset_issuer
+    LimitParam:
+      name: limit
       in: query
       required: false
-      description: The Stellar address of the issuer for the asset you would like to filter by.
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
+    CursorParam:
+      name: cursor
+      in: query
+      required: false
+      description: A number that points to a specific location in a collection of responses and is pulled from the paging_token value of a record.
+      schema:
+        type: integer
+        example: 6606617478959105
+    AssetCodeParam:
+      name: asset_code
+      in: query
+      required: false
+      description: The code of the asset you would like to filter by.
   schemas:
-    link:
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    Links:
       type: object
       properties:
-        href:
-          type: string
-          format: link
-        templated:
-          type: boolean
-      required:
-      - href
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
     Asset:
       type: object
       properties:
@@ -158,21 +163,16 @@ components:
                         type: boolean
                       auth_immutable:
                         type: boolean
-    Links:
+    link:
       type: object
       properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/link'
-            next:
-              $ref: '#/components/schemas/link'
-            prev:
-              $ref: '#/components/schemas/link'
-    address:
-      type: string
-      pattern: G[A-Z0-9]{55}
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
   examples:
     ListAllAssets:
       value:

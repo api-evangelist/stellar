@@ -102,27 +102,27 @@ paths:
                   $ref: '#/components/examples/GetTradesByOfferId'
 components:
   parameters:
-    LimitParam:
-      name: limit
-      in: query
-      required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
-      schema:
-        type: integer
-        example: 10
-    SellingAssetCodeParam:
-      name: selling_asset_code
-      in: query
-      required: false
-      description: The code for the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
-      schema:
-        type: string
-        example: USD
     OfferIDParam:
       name: offer_id
       in: path
       required: true
       description: A unique identifier for this offer.
+    SellingAssetIssuerParam:
+      name: selling_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer of the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    BuyingAssetCodeParam:
+      name: buying_asset_code
+      in: query
+      required: false
+      description: The code for the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
+      schema:
+        type: string
+        example: EUR
     OrderParam:
       name: order
       in: query
@@ -133,6 +133,27 @@ components:
         enum:
         - asc
         - desc
+    BuyingAssetIssuerParam:
+      name: buying_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer of the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+    SellerParam:
+      name: seller
+      in: query
+      required: false
+      description: The account ID of the offer creator.
+    LimitParam:
+      name: limit
+      in: query
+      required: false
+      description: The maximum number of records returned. The limit can range from 1 to 200 - an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 10.
+      schema:
+        type: integer
+        example: 10
     BuyingAssetTypeParam:
       name: buying_asset_type
       in: query
@@ -144,22 +165,14 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
-    BuyingAssetIssuerParam:
-      name: buying_asset_issuer
+    SellingAssetCodeParam:
+      name: selling_asset_code
       in: query
       required: false
-      description: The Stellar address of the issuer of the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
+      description: The code for the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
       schema:
         type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    SponsorParam:
-      name: sponser
-      in: query
-      required: false
-      description: Account ID of the sponsor. Every account in the response will either be sponsored by the given account ID or have a subentry (trustline, offer, or data entry) which is sponsored by the given account ID.
-      schema:
-        type: string
-        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
+        example: USD
     CursorParam:
       name: cursor
       in: query
@@ -168,14 +181,6 @@ components:
       schema:
         type: integer
         example: 6606617478959105
-    BuyingAssetCodeParam:
-      name: buying_asset_code
-      in: query
-      required: false
-      description: The code for the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
-      schema:
-        type: string
-        example: EUR
     SellingAssetTypeParam:
       name: selling_asset_type
       in: query
@@ -187,30 +192,56 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
-    SellerParam:
-      name: seller
+    SponsorParam:
+      name: sponser
       in: query
       required: false
-      description: The account ID of the offer creator.
-    SellingAssetIssuerParam:
-      name: selling_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the issuer of the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
+      description: Account ID of the sponsor. Every account in the response will either be sponsored by the given account ID or have a subentry (trustline, offer, or data entry) which is sponsored by the given account ID.
       schema:
         type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+        example: GDMQQNJM4UL7QIA66P7R2PZHMQINWZBM77BEBMHLFXD5JEUAHGJ7R4JZ
   schemas:
-    link:
+    id:
+      type: string
+    Price:
       type: object
       properties:
-        href:
+        n:
+          type: integer
+          format: int32
+        d:
+          type: integer
+          format: int32
+    tradePrice:
+      type: object
+      properties:
+        n:
           type: string
-          format: link
-        templated:
-          type: boolean
+        d:
+          type: string
+    Links:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              $ref: '#/components/schemas/link'
+            next:
+              $ref: '#/components/schemas/link'
+            prev:
+              $ref: '#/components/schemas/link'
+    BaseAsset:
+      type: object
+      properties:
+        asset_type:
+          type: string
+        asset_code:
+          type: string
+        asset_issuer:
+          type: string
       required:
-      - href
+      - asset_type
     Offer:
       type: object
       properties:
@@ -265,24 +296,14 @@ components:
                 - price
                 - last_modified_ledger
                 - last_modified_time
-    tradePrice:
-      type: object
-      properties:
-        n:
-          type: string
-        d:
-          type: string
-    BaseAsset:
-      type: object
-      properties:
-        asset_type:
-          type: string
-        asset_code:
-          type: string
-        asset_issuer:
-          type: string
-      required:
-      - asset_type
+    paging_token:
+      type: string
+    address:
+      type: string
+      pattern: G[A-Z0-9]{55}
+    last_modified_ledger:
+      type: integer
+      format: uint32
     Trade:
       type: object
       properties:
@@ -365,37 +386,16 @@ components:
                     - counter_amount
                     - counter_asset_type
                     - base_is_seller
-    last_modified_ledger:
-      type: integer
-      format: uint32
-    address:
-      type: string
-      pattern: G[A-Z0-9]{55}
-    id:
-      type: string
-    Price:
+    link:
       type: object
       properties:
-        n:
-          type: integer
-          format: int32
-        d:
-          type: integer
-          format: int32
-    Links:
-      type: object
-      properties:
-        _links:
-          type: object
-          properties:
-            self:
-              $ref: '#/components/schemas/link'
-            next:
-              $ref: '#/components/schemas/link'
-            prev:
-              $ref: '#/components/schemas/link'
-    paging_token:
-      type: string
+        href:
+          type: string
+          format: link
+        templated:
+          type: boolean
+      required:
+      - href
   examples:
     GetAllOffers:
       value:
@@ -477,29 +477,6 @@ components:
             price: '1.1000000'
             last_modified_ledger: 23887778
             last_modified_time: '2019-05-17T02:19:19Z'
-    GetOfferByOfferId:
-      value:
-        _links:
-          self:
-            href: https://horizon-testnet.stellar.org/offers/165563085
-          offer_maker:
-            href: https://horizon-testnet.stellar.org/accounts/GCM4PT6XDZBWOOENDS6FOU22GJQLJPV2GC7VRVII4TFGZBA3ZXNM55SV
-        id: 165563085
-        paging_token: '165563085'
-        seller: GCM4PT6XDZBWOOENDS6FOU22GJQLJPV2GC7VRVII4TFGZBA3ZXNM55SV
-        selling:
-          asset_type: credit_alphanum4
-          asset_code: USD
-          asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-        buying:
-          asset_type: native
-        amount: '26.1075388'
-        price_r:
-          n: 1449156725
-          d: 84642346
-        price: '17.1209423'
-        last_modified_ledger: 28412042
-        last_modified_time: null
     GetTradesByOfferId:
       value:
         _links:
@@ -538,6 +515,29 @@ components:
             price:
               n: 1
               d: 10
+    GetOfferByOfferId:
+      value:
+        _links:
+          self:
+            href: https://horizon-testnet.stellar.org/offers/165563085
+          offer_maker:
+            href: https://horizon-testnet.stellar.org/accounts/GCM4PT6XDZBWOOENDS6FOU22GJQLJPV2GC7VRVII4TFGZBA3ZXNM55SV
+        id: 165563085
+        paging_token: '165563085'
+        seller: GCM4PT6XDZBWOOENDS6FOU22GJQLJPV2GC7VRVII4TFGZBA3ZXNM55SV
+        selling:
+          asset_type: credit_alphanum4
+          asset_code: USD
+          asset_issuer: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
+        buying:
+          asset_type: native
+        amount: '26.1075388'
+        price_r:
+          n: 1449156725
+          d: 84642346
+        price: '17.1209423'
+        last_modified_ledger: 28412042
+        last_modified_time: null
 x-tagGroups:
 - name: Resources
   tags:

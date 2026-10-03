@@ -168,7 +168,119 @@ paths:
       security:
       - BearerAuth: []
 components:
+  responses:
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   schemas:
+    CreateAPIKeyRequest:
+      type: object
+      required:
+      - name
+      - permissions
+      properties:
+        name:
+          type: string
+          description: Human-readable name for the API key
+        permissions:
+          type: array
+          description: List of permissions granted to this API key
+          items:
+            type: string
+            enum:
+            - read:all
+            - write:all
+            - read:disbursements
+            - write:disbursements
+            - read:receivers
+            - write:receivers
+            - read:payments
+            - write:payments
+            - read:organization
+            - write:organization
+            - read:users
+            - write:users
+            - read:wallets
+            - write:wallets
+            - read:statistics
+            - read:exports
+          minItems: 1
+        expiry_date:
+          type: string
+          format: date-time
+          description: Optional expiration date for the API key (must be in the future)
+        allowed_ips:
+          oneOf:
+          - type: string
+            description: Single IP address or CIDR range
+          - type: array
+            items:
+              type: string
+            description: Array of IP addresses or CIDR ranges
+          description: IP restrictions for the API key. If not provided, the key can be used from any IP
     APIKey:
       type: object
       properties:
@@ -291,118 +403,6 @@ components:
               type: string
             description: Array of IP addresses or CIDR ranges
           description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
-    CreateAPIKeyRequest:
-      type: object
-      required:
-      - name
-      - permissions
-      properties:
-        name:
-          type: string
-          description: Human-readable name for the API key
-        permissions:
-          type: array
-          description: List of permissions granted to this API key
-          items:
-            type: string
-            enum:
-            - read:all
-            - write:all
-            - read:disbursements
-            - write:disbursements
-            - read:receivers
-            - write:receivers
-            - read:payments
-            - write:payments
-            - read:organization
-            - write:organization
-            - read:users
-            - write:users
-            - read:wallets
-            - write:wallets
-            - read:statistics
-            - read:exports
-          minItems: 1
-        expiry_date:
-          type: string
-          format: date-time
-          description: Optional expiration date for the API key (must be in the future)
-        allowed_ips:
-          oneOf:
-          - type: string
-            description: Single IP address or CIDR range
-          - type: array
-            items:
-              type: string
-            description: Array of IP addresses or CIDR ranges
-          description: IP restrictions for the API key. If not provided, the key can be used from any IP
-  responses:
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
-    NotFoundResponse:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not found
-            extras:
-              status: 404
-              message: Resource not found
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey
