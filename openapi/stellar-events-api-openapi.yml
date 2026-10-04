@@ -39,20 +39,66 @@ paths:
           description: The event is invalid or rejected. The response body contains the error message.
 components:
   schemas:
-    FeeDetails:
+    StatusSEP31:
+      type: string
+      description: Possible status value for SEP-31 transactions
+      enum:
+      - incomplete
+      - completed
+      - refunded
+      - expired
+      - error
+      - pending_stellar
+      - pending_external
+      - pending_sender
+      - pending_receiver
+      - pending_transaction_info_update
+      - pending_customer_info_update
+    Event:
       type: object
-      required:
-      - total
-      - asset
       properties:
-        total:
+        id:
           type: string
-        asset:
+        type:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/FeeDescription'
+          enum:
+          - transaction_created
+          - transaction_status_changed
+          - quote_created
+          - customer_updated
+          description: 'The transaction event type. Can be one of the following:
+
+            - `transaction_created` - a transaction was created through the SEP endpoints. The payload is in the `transaction` field.
+
+            - `transaction_status_changed` - the status of a transaction has changed. The payload is in the `transaction` field.
+
+            - `quote_created` - a quote was created via the SEP38 API. The payload is in the `quote` field.
+
+            '
+        timestamp:
+          type: string
+          format: date-time
+        payload:
+          type: object
+          properties:
+            transaction:
+              oneOf:
+              - $ref: '#/components/schemas/TransactionSEP24'
+              - $ref: '#/components/schemas/TransactionSEP31'
+            quote:
+              $ref: '#/components/schemas/Quote'
+            customer:
+              $ref: '#/components/schemas/Customer'
+      required:
+      - id
+      - type
+      - payload
+      - timestamp
+    MemoType:
+      type: string
+      description: The memo type of the transaction in the Stellar network. Should be present if memo is not null.
+      enum:
+      - text id hash
     TransactionSEP31:
       type: object
       required:
@@ -143,88 +189,6 @@ components:
               $ref: '#/components/schemas/StellarId'
         creator:
           $ref: '#/components/schemas/StellarId'
-    Quote:
-      type: object
-      properties:
-        id:
-          type: string
-        sell_amount:
-          type: string
-        sell_asset:
-          type: string
-        buy_amount:
-          type: string
-        buy_asset:
-          type: string
-        expires_at:
-          type: string
-          format: date-time
-        price:
-          type: string
-        total_price:
-          type: string
-        creator:
-          $ref: '#/components/schemas/StellarId'
-        transaction_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    Event:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - transaction_created
-          - transaction_status_changed
-          - quote_created
-          - customer_updated
-          description: 'The transaction event type. Can be one of the following:
-
-            - `transaction_created` - a transaction was created through the SEP endpoints. The payload is in the `transaction` field.
-
-            - `transaction_status_changed` - the status of a transaction has changed. The payload is in the `transaction` field.
-
-            - `quote_created` - a quote was created via the SEP38 API. The payload is in the `quote` field.
-
-            '
-        timestamp:
-          type: string
-          format: date-time
-        payload:
-          type: object
-          properties:
-            transaction:
-              oneOf:
-              - $ref: '#/components/schemas/TransactionSEP24'
-              - $ref: '#/components/schemas/TransactionSEP31'
-            quote:
-              $ref: '#/components/schemas/Quote'
-            customer:
-              $ref: '#/components/schemas/Customer'
-      required:
-      - id
-      - type
-      - payload
-      - timestamp
-    StatusSEP31:
-      type: string
-      description: Possible status value for SEP-31 transactions
-      enum:
-      - incomplete
-      - completed
-      - refunded
-      - expired
-      - error
-      - pending_stellar
-      - pending_external
-      - pending_sender
-      - pending_receiver
-      - pending_transaction_info_update
-      - pending_customer_info_update
     StatusSEP24:
       type: string
       description: Possible status value for SEP-24 transactions
@@ -244,16 +208,6 @@ components:
       - no_market
       - too_small
       - too_large
-    Amount:
-      type: object
-      required:
-      - amount
-      - asset
-      properties:
-        amount:
-          type: string
-        asset:
-          type: string
     TransactionSEP24:
       type: object
       required:
@@ -345,6 +299,16 @@ components:
               $ref: '#/components/schemas/StellarId'
         creator:
           $ref: '#/components/schemas/StellarId'
+    Amount:
+      type: object
+      required:
+      - amount
+      - asset
+      properties:
+        amount:
+          type: string
+        asset:
+          type: string
     StellarTransaction:
       type: object
       required:
@@ -402,18 +366,6 @@ components:
                 description: The account being credited in the Stellar Network.
               amount:
                 $ref: '#/components/schemas/Amount'
-    FeeDescription:
-      type: object
-      required:
-      - name
-      - amount
-      properties:
-        name:
-          type: string
-        amount:
-          type: string
-        description:
-          type: string
     Refunds:
       type: object
       properties:
@@ -443,16 +395,47 @@ components:
               refunded_at:
                 type: string
                 format: date-time
-    MemoType:
-      type: string
-      description: The memo type of the transaction in the Stellar network. Should be present if memo is not null.
-      enum:
-      - text id hash
-    Customer:
+    Quote:
       type: object
       properties:
         id:
           type: string
+        sell_amount:
+          type: string
+        sell_asset:
+          type: string
+        buy_amount:
+          type: string
+        buy_asset:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+        price:
+          type: string
+        total_price:
+          type: string
+        creator:
+          $ref: '#/components/schemas/StellarId'
+        transaction_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    FeeDetails:
+      type: object
+      required:
+      - total
+      - asset
+      properties:
+        total:
+          type: string
+        asset:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeDescription'
     StellarId:
       type: object
       description: 'StellarId''s are objects that identify end-users and SEP-31 Sending Anchors, but not SEP-31 Receiving Anchors.
@@ -477,6 +460,23 @@ components:
         memo:
           type: string
           description: The memo value identifying a customer with a shared account, where the shared account is `account`.
+    FeeDescription:
+      type: object
+      required:
+      - name
+      - amount
+      properties:
+        name:
+          type: string
+        amount:
+          type: string
+        description:
+          type: string
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
 x-tagGroups:
 - name: Callbacks Server
   tags:

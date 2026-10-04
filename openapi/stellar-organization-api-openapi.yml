@@ -313,6 +313,13 @@ paths:
       - BearerAuth: []
 components:
   schemas:
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
     Organization:
       required:
       - distribution_account
@@ -364,33 +371,6 @@ components:
           type: string
           description: 'The custom OTP message template set to send OTP code to the receiver complete the registration flow. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.OTP}} which is the OTP code to send to the receiver complete the registration flow (in case this is not present in the message, it''s automatically appended at the end).'
           example: '{{.OTP}} is your {{.OrganizationName}} phone verification code.'
-    Asset:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
-        code:
-          type: string
-          description: Asset code
-          example: USDC
-        issuer:
-          type: string
-          description: Asset issuer address
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        created_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-02-03T10:45:51Z'
-        deleted_at:
-          type: string
-          format: date-time
-          example: '2023-06-03T10:55:51Z'
-      description: The Stellar asset object
     DistributionAccount:
       required:
       - status
@@ -419,13 +399,33 @@ components:
           enum:
           - ACTIVE
           - PENDING_USER_ACTIVATION
-    MessageResponse:
-      required:
-      - message
+    Asset:
       type: object
       properties:
-        message:
+        id:
           type: string
+          example: ffaec4b3-46b0-4db4-a4c4-6c3508057705
+        code:
+          type: string
+          description: Asset code
+          example: USDC
+        issuer:
+          type: string
+          description: Asset issuer address
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-02-03T10:45:51Z'
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2023-06-03T10:55:51Z'
+      description: The Stellar asset object
   securitySchemes:
     BearerAuth:
       type: apiKey

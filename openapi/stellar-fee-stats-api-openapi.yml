@@ -45,57 +45,6 @@ paths:
         source: "var StellarSdk = require(\"@stellar/stellar-sdk\");\nvar server = new StellarSdk.Horizon.Server(\n  \"https://horizon-testnet.stellar.org\",\n);\n\nserver\n  .feeStats()\n  .then(function (resp) {\n    console.log(resp);\n  })\n  .catch(function (err) {\n    console.error(err);\n  });\n"
 components:
   schemas:
-    BaseFeeDistribution:
-      type: object
-      properties:
-        max:
-          type: string
-        min:
-          type: string
-        mode:
-          type: string
-        p10:
-          type: string
-        p20:
-          type: string
-        p30:
-          type: string
-        p40:
-          type: string
-        p50:
-          type: string
-        p60:
-          type: string
-        p70:
-          type: string
-        p80:
-          type: string
-        p90:
-          type: string
-        p95:
-          type: string
-        p99:
-          type: string
-    FeeStats:
-      type: object
-      properties:
-        last_ledger:
-          type: string
-          description: The last ledger's sequence number.
-        last_ledger_base_fee:
-          type: string
-          description: The base fee as defined in the last ledger.
-        ledger_capacity_usage:
-          type: string
-          description: The average capacity usage over the last 5 ledgers (0 is no usage, 1.0 is completely full ledgers).
-        fee_charged:
-          allOf:
-          - description: Information about the fee charged for transactions in the last 5 ledgers.
-          - $ref: '#/components/schemas/ChargedFeeDistribution'
-        max_fee:
-          allOf:
-          - description: Information about max fee bid for transactions over the last 5 ledgers.
-          - $ref: '#/components/schemas/MaxFeeDistribution'
     MaxFeeDistribution:
       allOf:
       - $ref: '#/components/schemas/BaseFeeDistribution'
@@ -162,6 +111,57 @@ components:
             description: 95th percentile fee charged over the last 5 ledgers.
           p99:
             description: 99th percentile fee charged over the last 5 ledgers.
+    BaseFeeDistribution:
+      type: object
+      properties:
+        max:
+          type: string
+        min:
+          type: string
+        mode:
+          type: string
+        p10:
+          type: string
+        p20:
+          type: string
+        p30:
+          type: string
+        p40:
+          type: string
+        p50:
+          type: string
+        p60:
+          type: string
+        p70:
+          type: string
+        p80:
+          type: string
+        p90:
+          type: string
+        p95:
+          type: string
+        p99:
+          type: string
+    FeeStats:
+      type: object
+      properties:
+        last_ledger:
+          type: string
+          description: The last ledger's sequence number.
+        last_ledger_base_fee:
+          type: string
+          description: The base fee as defined in the last ledger.
+        ledger_capacity_usage:
+          type: string
+          description: The average capacity usage over the last 5 ledgers (0 is no usage, 1.0 is completely full ledgers).
+        fee_charged:
+          allOf:
+          - description: Information about the fee charged for transactions in the last 5 ledgers.
+          - $ref: '#/components/schemas/ChargedFeeDistribution'
+        max_fee:
+          allOf:
+          - description: Information about max fee bid for transactions over the last 5 ledgers.
+          - $ref: '#/components/schemas/MaxFeeDistribution'
   examples:
     RetrieveFeeStats:
       value:

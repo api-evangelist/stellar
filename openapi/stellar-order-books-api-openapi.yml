@@ -70,36 +70,63 @@ paths:
         label: '@stellar/stellar-sdk'
         source: "var StellarSdk = require(\"@stellar/stellar-sdk\");\nvar server = new StellarSdk.Horizon.Server(\n  \"https://horizon-testnet.stellar.org\",\n);\n\nserver\n  .orderbook(\n    new StellarSdk.Asset.native(),\n    new StellarSdk.Asset(\n      \"BB1\",\n      \"GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN\",\n    ),\n  )\n  .call()\n  .then(function (resp) {\n    console.log(resp);\n  })\n  .catch(function (err) {\n    console.error(err);\n  });\n"
 components:
+  examples:
+    RetrieveAnOrderBook:
+      value:
+        bids:
+        - price_r:
+            n: 10000000
+            d: 139999999
+          price: '0.0714286'
+          amount: '24.9999990'
+        - price_r:
+            n: 1
+            d: 14
+          price: '0.0714286'
+          amount: '188.0000000'
+        - price_r:
+            n: 1
+            d: 15
+          price: '0.0666667'
+          amount: '230.3200000'
+        - price_r:
+            n: 1
+            d: 16
+          price: '0.0625000'
+          amount: '50.0000000'
+        asks:
+        - price_r:
+            n: 5000000
+            d: 62500001
+          price: '0.0800000'
+          amount: '4.9400001'
+        - price_r:
+            n: 10000000
+            d: 125000001
+          price: '0.0800000'
+          amount: '2516.5154327'
+        - price_r:
+            n: 2
+            d: 25
+          price: '0.0800000'
+          amount: '3125.0000000'
+        - price_r:
+            n: 4
+            d: 49
+          price: '0.0816327'
+          amount: '4593.7500000'
+        base:
+          asset_type: native
+        counter:
+          asset_type: credit_alphanum4
+          asset_code: BB1
+          asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
   parameters:
-    OrderBookLimitParam:
-      name: limit
-      in: query
-      required: false
-      description: The maximum number of records returned. The limit can range from 1 to 200 — an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 20 for order books.
-      schema:
-        type: integer
-        example: 20
     SellingAssetIssuerParam:
       name: selling_asset_issuer
       in: query
       required: false
       description: The Stellar address of the issuer of the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
-      schema:
-        type: string
-        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
-    BuyingAssetCodeParam:
-      name: buying_asset_code
-      in: query
-      required: false
-      description: The code for the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
-      schema:
-        type: string
-        example: EUR
-    BuyingAssetIssuerParam:
-      name: buying_asset_issuer
-      in: query
-      required: false
-      description: The Stellar address of the issuer of the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
       schema:
         type: string
         example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
@@ -114,14 +141,14 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
-    SellingAssetCodeParam:
-      name: selling_asset_code
+    OrderBookLimitParam:
+      name: limit
       in: query
       required: false
-      description: The code for the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
+      description: The maximum number of records returned. The limit can range from 1 to 200 — an upper limit that is hardcoded in Horizon for performance reasons. If this argument isn’t designated, it defaults to 20 for order books.
       schema:
-        type: string
-        example: USD
+        type: integer
+        example: 20
     SellingAssetTypeRequiredParam:
       name: selling_asset_type
       in: query
@@ -133,6 +160,30 @@ components:
         - native
         - credit_alphanum4
         - credit_alphanum12
+    BuyingAssetCodeParam:
+      name: buying_asset_code
+      in: query
+      required: false
+      description: The code for the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
+      schema:
+        type: string
+        example: EUR
+    SellingAssetCodeParam:
+      name: selling_asset_code
+      in: query
+      required: false
+      description: The code for the asset being sold (base asset). Required if the `selling_asset_type` is not `native`.
+      schema:
+        type: string
+        example: USD
+    BuyingAssetIssuerParam:
+      name: buying_asset_issuer
+      in: query
+      required: false
+      description: The Stellar address of the issuer of the asset being bought (counter asset). Required if the `buying_asset_type` is not `native`.
+      schema:
+        type: string
+        example: GDUKMGUGDZQK6YHYA5Z6AY2G4XDSZPSZ3SW5UN3ARVMO6QSRDWP5YLEX
   schemas:
     OrderBook:
       type: object
@@ -186,57 +237,6 @@ components:
     address:
       type: string
       pattern: G[A-Z0-9]{55}
-  examples:
-    RetrieveAnOrderBook:
-      value:
-        bids:
-        - price_r:
-            n: 10000000
-            d: 139999999
-          price: '0.0714286'
-          amount: '24.9999990'
-        - price_r:
-            n: 1
-            d: 14
-          price: '0.0714286'
-          amount: '188.0000000'
-        - price_r:
-            n: 1
-            d: 15
-          price: '0.0666667'
-          amount: '230.3200000'
-        - price_r:
-            n: 1
-            d: 16
-          price: '0.0625000'
-          amount: '50.0000000'
-        asks:
-        - price_r:
-            n: 5000000
-            d: 62500001
-          price: '0.0800000'
-          amount: '4.9400001'
-        - price_r:
-            n: 10000000
-            d: 125000001
-          price: '0.0800000'
-          amount: '2516.5154327'
-        - price_r:
-            n: 2
-            d: 25
-          price: '0.0800000'
-          amount: '3125.0000000'
-        - price_r:
-            n: 4
-            d: 49
-          price: '0.0816327'
-          amount: '4593.7500000'
-        base:
-          asset_type: native
-        counter:
-          asset_type: credit_alphanum4
-          asset_code: BB1
-          asset_issuer: GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN
 x-tagGroups:
 - name: Resources
   tags:

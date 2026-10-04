@@ -539,6 +539,52 @@ paths:
       - BearerAuth: []
 components:
   schemas:
+    Pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          example: ?page=3&page_limit=2
+        prev:
+          type: string
+          example: ?page=1&page_limit=2
+        pages:
+          type: integer
+          example: 8
+        total:
+          type: integer
+          example: 16
+    MessageResponse:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    WalletLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
+        name:
+          type: string
+          example: Vibrant Assist
+        homepage:
+          type: string
+          example: https://vibrantapp.com
+        sep_10_client_domain:
+          type: string
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        enabled:
+          type: boolean
+          example: true
+        user_managed:
+          type: boolean
+          example: false
     PatchReceiverRequest:
       type: object
       properties:
@@ -566,43 +612,25 @@ components:
         national_id: '123456789'
         email: john@example.com
         external_id: external123
-    ReceiverLite:
+    Amount:
       type: object
       properties:
-        id:
+        asset_code:
           type: string
-          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
-    ReceiversWalletStatusHistoryEntry:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/ReceiversWalletStatus'
-        timestamp:
+          example: USDC
+        asset_issuer:
           type: string
-          format: date-time
-          example: '2023-02-10T10:45:51Z'
-    MessageResponse:
-      required:
-      - message
-      type: object
-      properties:
-        message:
+          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
+        received_amount:
           type: string
-    Pagination:
-      type: object
-      properties:
-        next:
-          type: string
-          example: ?page=3&page_limit=2
-        prev:
-          type: string
-          example: ?page=1&page_limit=2
-        pages:
-          type: integer
-          example: 8
-        total:
-          type: integer
-          example: 16
+          example: '100.00'
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
     CreateReceiverRequest:
       oneOf:
       - type: object
@@ -670,49 +698,6 @@ components:
               required:
               - address
             maxItems: 1
-    Amount:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          example: USDC
-        asset_issuer:
-          type: string
-          example: GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5
-        received_amount:
-          type: string
-          example: '100.00'
-    ReceiversWalletStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - REGISTERED
-      - FLAGGED
-    WalletLite:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
-        name:
-          type: string
-          example: Vibrant Assist
-        homepage:
-          type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
-        deep_link_schema:
-          type: string
-          example: https://vibrantapp.com/sdp-dev
-        enabled:
-          type: boolean
-          example: true
-        user_managed:
-          type: boolean
-          example: false
     Receiver:
       type: object
       properties:
@@ -754,22 +739,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReceiverWallet'
-    VerificationField:
-      type: string
-      enum:
-      - DATE_OF_BIRTH
-      - YEAR_MONTH
-      - PIN
-      - NATIONAL_ID_NUMBER
-    ReceiverPagination:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Receiver'
     ReceiverWallet:
       type: object
       properties:
@@ -822,18 +791,38 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReceiversWalletStatusHistoryEntry'
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
+    ReceiverLite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 029e2ed0-feb6-4c40-8b47-0836a85741a2
+    ReceiversWalletStatusHistoryEntry:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ReceiversWalletStatus'
+        timestamp:
+          type: string
+          format: date-time
+          example: '2023-02-10T10:45:51Z'
+    ReceiverPagination:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver'
   responses:
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
     BadRequestResponse:
       description: Bad Request
       content:
@@ -868,6 +857,17 @@ components:
             extras:
               status: 404
               message: Resource not found
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
     UnauthorizedResponse:
       description: Unauthorized
       content:

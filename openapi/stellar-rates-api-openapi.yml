@@ -234,6 +234,15 @@ components:
       required:
       - total
       - asset
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
     RateFeeDetailResponse:
       type: object
       properties:
@@ -277,15 +286,6 @@ components:
           - price
           - sell_amount
           - buy_amount
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        id:
-          type: string
-      required:
-      - error
 x-tagGroups:
 - name: Callbacks Server
   tags:

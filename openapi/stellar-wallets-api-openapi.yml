@@ -223,132 +223,33 @@ paths:
       security:
       - BearerAuth: []
 components:
-  responses:
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
-    NotFoundResponse:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not found
-            extras:
-              status: 404
-              message: Resource not found
   schemas:
-    UpdateWalletRequest:
+    Wallet:
       type: object
       properties:
+        id:
+          type: string
+          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
         name:
           type: string
-          description: Human-readable name of the wallet provider
+          example: Vibrant Assist
         homepage:
           type: string
-          description: Homepage URL of the wallet provider
-        deep_link_schema:
-          type: string
-          description: Deep link schema for the wallet application
+          example: https://vibrantapp.com
         sep_10_client_domain:
           type: string
-          description: SEP-10 client domain for authentication
-        enabled:
-          type: boolean
-          description: Whether the wallet is enabled for use
-        assets:
-          type: array
-          description: Array of asset references supported by this wallet
-          items:
-            oneOf:
-            - type: object
-              description: Asset reference by ID
-              properties:
-                id:
-                  type: string
-                  description: Asset ID
-              required:
-              - id
-            - type: object
-              description: Classic asset reference
-              properties:
-                type:
-                  type: string
-                  enum:
-                  - classic
-                code:
-                  type: string
-                  description: Asset code
-                issuer:
-                  type: string
-                  description: Asset issuer address
-              required:
-              - type
-              - code
-              - issuer
-            - type: object
-              description: Native XLM asset reference
-              properties:
-                type:
-                  type: string
-                  enum:
-                  - native
-              required:
-              - type
-      minProperties: 1
+          example: api-dev.vibrantapp.com
+        deep_link_schema:
+          type: string
+          example: https://vibrantapp.com/sdp-dev
+        created_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2023-07-31T20:50:45.648Z'
     CreateWalletRequest:
       type: object
       required:
@@ -419,32 +320,131 @@ components:
             '
           items:
             type: string
-    Wallet:
+    UpdateWalletRequest:
       type: object
       properties:
-        id:
-          type: string
-          example: 5ada9ed5-455a-4782-a0ee-160767e0deb1
         name:
           type: string
-          example: Vibrant Assist
+          description: Human-readable name of the wallet provider
         homepage:
           type: string
-          example: https://vibrantapp.com
-        sep_10_client_domain:
-          type: string
-          example: api-dev.vibrantapp.com
+          description: Homepage URL of the wallet provider
         deep_link_schema:
           type: string
-          example: https://vibrantapp.com/sdp-dev
-        created_at:
+          description: Deep link schema for the wallet application
+        sep_10_client_domain:
           type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
-        updated_at:
-          type: string
-          format: date-time
-          example: '2023-07-31T20:50:45.648Z'
+          description: SEP-10 client domain for authentication
+        enabled:
+          type: boolean
+          description: Whether the wallet is enabled for use
+        assets:
+          type: array
+          description: Array of asset references supported by this wallet
+          items:
+            oneOf:
+            - type: object
+              description: Asset reference by ID
+              properties:
+                id:
+                  type: string
+                  description: Asset ID
+              required:
+              - id
+            - type: object
+              description: Classic asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - classic
+                code:
+                  type: string
+                  description: Asset code
+                issuer:
+                  type: string
+                  description: Asset issuer address
+              required:
+              - type
+              - code
+              - issuer
+            - type: object
+              description: Native XLM asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - native
+              required:
+              - type
+      minProperties: 1
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

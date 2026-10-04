@@ -224,159 +224,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  examples:
-    SuccessKYC:
-      summary: The case when a customer has been successfully KYC'd and approved
-      value:
-        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
-        status: ACCEPTED
-        provided_fields:
-          first_name:
-            description: The customer's first name
-            type: string
-            status: ACCEPTED
-          last_name:
-            description: The customer's last name
-            type: string
-            status: ACCEPTED
-          email_address:
-            description: The customer's email address
-            type: string
-            status: ACCEPTED
   schemas:
-    Error:
+    GetCustomerResponse:
       type: object
-      properties:
-        error:
-          type: string
-        id:
-          type: string
       required:
-      - error
-    PutCustomerRequest:
-      type: object
+      - status
       properties:
         id:
-          description: The ID of the customer as returned in the response of a previous PUT request.
           type: string
-        account:
-          description: The Stellar or Muxed Account authenticated with the Platform via SEP-10.
-          type: string
-        memo:
-          description: The memo value identifying a customer with a shared account, where the shared account is `account`.
-          type: string
-        memo_type:
-          description: The type of memo used to identify a customer with a shared account.
+        status:
           type: string
           enum:
-          - id
-          - hash
-          - text
-        type:
-          description: 'The type of action the customer is being KYCd for.
-
-            See the [Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification) documented in SEP-12 for more info.
-
-            For SEP-31 you can define your own types in the assets configuration.
-
-            For SEP-24 pre-defined value `sep24-customer` is used.
-
-            '
-          type: string
-        transaction_id:
-          description: 'The transaction id with which the customer''s info is associated. When information from the customer depends on the
-
-            transaction (e.g., more information is required for larger amounts)
-
-            '
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        additional_name:
-          type: string
-        address_country_code:
-          type: string
-        state_or_province:
-          type: string
-        city:
-          type: string
-        postal_code:
-          type: string
-        address:
-          type: string
-        mobile_number:
-          type: string
-        email_address:
-          type: string
-        birth_date:
-          type: string
-          format: date
-        birth_place:
-          type: string
-        birth_country_code:
-          type: string
-        bank_name:
-          type: string
-        bank_account_number:
-          type: string
-        bank_account_type:
-          type: string
-        bank_number:
-          type: string
-        bank_phone_number:
-          type: string
-        bank_branch_number:
-          type: string
-        external_transfer_memo:
-          type: string
-        clabe_number:
-          type: string
-        cbu_alias:
-          type: string
-        mobile_money_number:
-          type: string
-        mobile_money_provider:
-          type: string
-        crypto_address:
-          type: string
-        crypto_memo:
-          description: Deprecated. Use `external_transfer_memo` instead.
-          type: string
-        tax_id:
-          type: string
-        tax_id_name:
-          type: string
-        occupation:
-          type: string
-        employer_name:
-          type: string
-        employer_address:
-          type: string
-        language_code:
-          type: string
-        id_type:
-          type: string
-        id_country_code:
-          type: string
-        id_issue_date:
-          type: string
-          format: date
-        id_expiration_date:
-          type: string
-          format: date
-        id_number:
-          type: string
-        ip_address:
-          type: string
-        sex:
-          type: string
-        referral_id:
-          type: string
-        mobile_number_verification:
-          type: string
-        email_address_verification:
+          - ACCEPTED
+          - PROCESSING
+          - NEEDS_INFO
+          - REJECTED
+        fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+        provided_fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - PROCESSING
+                - REJECTED
+                - VERIFICATION_REQUIRED
+              error:
+                type: string
+        message:
           type: string
     PutCustomerMultipartRequest:
       type: object
@@ -514,75 +430,159 @@ components:
           type: string
         email_address_verification:
           type: string
-    GetCustomerResponse:
+    PutCustomerRequest:
       type: object
-      required:
-      - status
       properties:
         id:
+          description: The ID of the customer as returned in the response of a previous PUT request.
           type: string
-        status:
+        account:
+          description: The Stellar or Muxed Account authenticated with the Platform via SEP-10.
+          type: string
+        memo:
+          description: The memo value identifying a customer with a shared account, where the shared account is `account`.
+          type: string
+        memo_type:
+          description: The type of memo used to identify a customer with a shared account.
           type: string
           enum:
-          - ACCEPTED
-          - PROCESSING
-          - NEEDS_INFO
-          - REJECTED
-        fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-        provided_fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - PROCESSING
-                - REJECTED
-                - VERIFICATION_REQUIRED
-              error:
-                type: string
-        message:
+          - id
+          - hash
+          - text
+        type:
+          description: 'The type of action the customer is being KYCd for.
+
+            See the [Type Specification](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0012.md#type-specification) documented in SEP-12 for more info.
+
+            For SEP-31 you can define your own types in the assets configuration.
+
+            For SEP-24 pre-defined value `sep24-customer` is used.
+
+            '
           type: string
+        transaction_id:
+          description: 'The transaction id with which the customer''s info is associated. When information from the customer depends on the
+
+            transaction (e.g., more information is required for larger amounts)
+
+            '
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        additional_name:
+          type: string
+        address_country_code:
+          type: string
+        state_or_province:
+          type: string
+        city:
+          type: string
+        postal_code:
+          type: string
+        address:
+          type: string
+        mobile_number:
+          type: string
+        email_address:
+          type: string
+        birth_date:
+          type: string
+          format: date
+        birth_place:
+          type: string
+        birth_country_code:
+          type: string
+        bank_name:
+          type: string
+        bank_account_number:
+          type: string
+        bank_account_type:
+          type: string
+        bank_number:
+          type: string
+        bank_phone_number:
+          type: string
+        bank_branch_number:
+          type: string
+        external_transfer_memo:
+          type: string
+        clabe_number:
+          type: string
+        cbu_alias:
+          type: string
+        mobile_money_number:
+          type: string
+        mobile_money_provider:
+          type: string
+        crypto_address:
+          type: string
+        crypto_memo:
+          description: Deprecated. Use `external_transfer_memo` instead.
+          type: string
+        tax_id:
+          type: string
+        tax_id_name:
+          type: string
+        occupation:
+          type: string
+        employer_name:
+          type: string
+        employer_address:
+          type: string
+        language_code:
+          type: string
+        id_type:
+          type: string
+        id_country_code:
+          type: string
+        id_issue_date:
+          type: string
+          format: date
+        id_expiration_date:
+          type: string
+          format: date
+        id_number:
+          type: string
+        ip_address:
+          type: string
+        sex:
+          type: string
+        referral_id:
+          type: string
+        mobile_number_verification:
+          type: string
+        email_address_verification:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
+  examples:
+    SuccessKYC:
+      summary: The case when a customer has been successfully KYC'd and approved
+      value:
+        id: d1ce2f48-3ff1-495d-9240-7a50d806cfed
+        status: ACCEPTED
+        provided_fields:
+          first_name:
+            description: The customer's first name
+            type: string
+            status: ACCEPTED
+          last_name:
+            description: The customer's last name
+            type: string
+            status: ACCEPTED
+          email_address:
+            description: The customer's email address
+            type: string
+            status: ACCEPTED
 x-tagGroups:
 - name: Callbacks Server
   tags:

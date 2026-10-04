@@ -71,6 +71,20 @@ paths:
       security:
       - BearerAuth: []
 components:
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
   schemas:
     Balance:
       type: object
@@ -116,20 +130,6 @@ components:
           enum:
           - ACTIVE
           - PENDING_USER_ACTIVATION
-  responses:
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
   securitySchemes:
     BearerAuth:
       type: apiKey

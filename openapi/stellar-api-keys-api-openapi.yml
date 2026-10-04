@@ -168,74 +168,88 @@ paths:
       security:
       - BearerAuth: []
 components:
-  responses:
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
-    NotFoundResponse:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not found
-            extras:
-              status: 404
-              message: Resource not found
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
   schemas:
+    CreateAPIKeyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Human-readable name for the API key
+        key:
+          type: string
+          description: The actual API key (only returned once at creation)
+        permissions:
+          type: array
+          items:
+            type: string
+          description: List of permissions granted to this API key
+        allowed_ips:
+          type: array
+          items:
+            type: string
+          description: List of allowed IP addresses or CIDR ranges
+        expiry_date:
+          type: string
+          format: date-time
+          description: Expiration date of the API key
+        created_at:
+          type: string
+          format: date-time
+          description: When the API key was created
+        created_by:
+          type: string
+          description: User who created the API key
+        updated_at:
+          type: string
+          format: date-time
+          description: When the API key was last updated
+        updated_by:
+          type: string
+          description: User who last updated the API key
+        last_used_at:
+          type: string
+          format: date-time
+          description: When the API key was last used
+    UpdateAPIKeyRequest:
+      type: object
+      required:
+      - permissions
+      properties:
+        permissions:
+          type: array
+          description: List of permissions granted to this API key
+          items:
+            type: string
+            enum:
+            - read:all
+            - write:all
+            - read:disbursements
+            - write:disbursements
+            - read:receivers
+            - write:receivers
+            - read:payments
+            - write:payments
+            - read:organization
+            - write:organization
+            - read:users
+            - write:users
+            - read:wallets
+            - write:wallets
+            - read:statistics
+            - read:exports
+          minItems: 1
+        allowed_ips:
+          oneOf:
+          - type: string
+            description: Single IP address or CIDR range
+          - type: array
+            items:
+              type: string
+            description: Array of IP addresses or CIDR ranges
+          description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
     CreateAPIKeyRequest:
       type: object
       required:
@@ -322,87 +336,73 @@ components:
           type: string
           format: date-time
           description: When the API key was last used
-    CreateAPIKeyResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the API key
-        name:
-          type: string
-          description: Human-readable name for the API key
-        key:
-          type: string
-          description: The actual API key (only returned once at creation)
-        permissions:
-          type: array
-          items:
-            type: string
-          description: List of permissions granted to this API key
-        allowed_ips:
-          type: array
-          items:
-            type: string
-          description: List of allowed IP addresses or CIDR ranges
-        expiry_date:
-          type: string
-          format: date-time
-          description: Expiration date of the API key
-        created_at:
-          type: string
-          format: date-time
-          description: When the API key was created
-        created_by:
-          type: string
-          description: User who created the API key
-        updated_at:
-          type: string
-          format: date-time
-          description: When the API key was last updated
-        updated_by:
-          type: string
-          description: User who last updated the API key
-        last_used_at:
-          type: string
-          format: date-time
-          description: When the API key was last used
-    UpdateAPIKeyRequest:
-      type: object
-      required:
-      - permissions
-      properties:
-        permissions:
-          type: array
-          description: List of permissions granted to this API key
-          items:
-            type: string
-            enum:
-            - read:all
-            - write:all
-            - read:disbursements
-            - write:disbursements
-            - read:receivers
-            - write:receivers
-            - read:payments
-            - write:payments
-            - read:organization
-            - write:organization
-            - read:users
-            - write:users
-            - read:wallets
-            - write:wallets
-            - read:statistics
-            - read:exports
-          minItems: 1
-        allowed_ips:
-          oneOf:
-          - type: string
-            description: Single IP address or CIDR range
-          - type: array
-            items:
-              type: string
-            description: Array of IP addresses or CIDR ranges
-          description: IP restrictions for the API key. If not provided, existing restrictions remain unchanged
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

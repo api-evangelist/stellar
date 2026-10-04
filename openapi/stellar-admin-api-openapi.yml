@@ -452,6 +452,20 @@ paths:
       - BasicAuth: []
       x-codegen-request-body-name: body
 components:
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
   schemas:
     Tenant:
       type: object
@@ -538,20 +552,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Tenant'
-  responses:
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
   securitySchemes:
     BearerAuth:
       type: apiKey

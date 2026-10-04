@@ -292,13 +292,6 @@ components:
       - STARTED
       - PAUSED
       - COMPLETED
-    ReceiversWalletStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - REGISTERED
-      - FLAGGED
     PaymentStatus:
       type: string
       description: The status of the payment
@@ -310,6 +303,13 @@ components:
       - SUCCESS
       - FAILED
       - CANCELED
+    ReceiversWalletStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - REGISTERED
+      - FLAGGED
   responses:
     ForbiddenResponse:
       description: Forbidden
