@@ -1,0 +1,26 @@
+slug: stellar
+provider: Stellar
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Admin
+  spec_file: stellar-admin-api-openapi.yml
+  capability_id: BC-4230.10
+  capability_id_l1: BC-4230
+  capability_name: Tenant Provisioning & Lifecycle
+  confidence: 0.8
+  evidence: '"POST /tenants CreateTenant Create Tenant", "DELETE /tenants/{id} SoftDeleteATenant Soft
+    delete a Tenant", schemas: Tenant, Tenants'
+  reason: Despite the 'Admin' tag, the operations are purely create/retrieve/update/soft-delete of tenants
+    in the multi-tenant Stellar Disbursement Platform — i.e. tenant provisioning and lifecycle in a multi-tenant
+    service. Not payments functionality, since no payment or ledger resource is exposed here.
