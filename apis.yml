@@ -1244,6 +1244,12 @@ apis:
   - type: GitHubRepository
     url: https://github.com/stellar/stellar-disbursement-platform-backend
 common:
+  - type: Plans
+    url: plans/stellar-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/stellar-rate-limits.yml
+  - type: FinOps
+    url: finops/stellar-finops.yml
   - type: Website
     url: https://www.stellar.org/
   - type: CapabilityMap
