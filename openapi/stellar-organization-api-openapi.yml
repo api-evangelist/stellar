@@ -320,6 +320,34 @@ components:
       properties:
         message:
           type: string
+    DistributionAccount:
+      required:
+      - status
+      - type
+      type: object
+      properties:
+        address:
+          type: string
+          description: The address of the distribution account, present when the account type is `STELLAR`.
+          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
+        circle_wallet_id:
+          type: string
+          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
+          example: '1000646072'
+        type:
+          type: string
+          description: The type of the distribution account.
+          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          enum:
+          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
+          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
+          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
+        status:
+          type: string
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - PENDING_USER_ACTIVATION
     Organization:
       required:
       - distribution_account
@@ -371,34 +399,6 @@ components:
           type: string
           description: 'The custom OTP message template set to send OTP code to the receiver complete the registration flow. The `default` message isn''t returned. In the message''s content it''s possible to add the following template variables: {{.OrganizationName}} which is the Organization Name configured and {{.OTP}} which is the OTP code to send to the receiver complete the registration flow (in case this is not present in the message, it''s automatically appended at the end).'
           example: '{{.OTP}} is your {{.OrganizationName}} phone verification code.'
-    DistributionAccount:
-      required:
-      - status
-      - type
-      type: object
-      properties:
-        address:
-          type: string
-          description: The address of the distribution account, present when the account type is `STELLAR`.
-          example: GCXAJ3XJ3VK3JFH3QMDFOSKM2NMMZBSO3VIT6EUPQWSDW2J74M23RRSL
-        circle_wallet_id:
-          type: string
-          description: The ID of the Circle wallet, present when the account type is `CIRCLE`.
-          example: '1000646072'
-        type:
-          type: string
-          description: The type of the distribution account.
-          example: DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
-          enum:
-          - DISTRIBUTION_ACCOUNT.STELLAR.ENV
-          - DISTRIBUTION_ACCOUNT.STELLAR.DB_VAULT
-          - DISTRIBUTION_ACCOUNT.CIRCLE.DB_VAULT
-        status:
-          type: string
-          example: ACTIVE
-          enum:
-          - ACTIVE
-          - PENDING_USER_ACTIVATION
     Asset:
       type: object
       properties:

@@ -122,6 +122,27 @@ paths:
       - BearerAuth: []
 components:
   schemas:
+    GeneralStatistics:
+      type: object
+      properties:
+        total_disbursements:
+          type: integer
+          description: Total number of disbursements
+          format: int64
+          example: 20
+        payment_counters:
+          $ref: '#/components/schemas/PaymentCounters'
+        payment_amounts_by_asset:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentAmountsByAsset'
+        receiver_wallets_counters:
+          $ref: '#/components/schemas/ReceiverWalletsCounters'
+        total_receivers:
+          type: integer
+          description: Total number of receivers
+          format: int64
+          example: 1000
     PaymentAmounts:
       type: object
       properties:
@@ -180,51 +201,6 @@ components:
           type: integer
           format: int64
           example: 14
-    PaymentAmountsByAsset:
-      type: object
-      properties:
-        asset_code:
-          type: string
-          example: USDC
-        payment_amounts:
-          $ref: '#/components/schemas/PaymentAmounts'
-    DisbursementsStatistics:
-      type: object
-      properties:
-        payment_counters:
-          $ref: '#/components/schemas/PaymentCounters'
-        payment_amounts_by_asset:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentAmountsByAsset'
-        receiver_wallets_counters:
-          $ref: '#/components/schemas/ReceiverWalletsCounters'
-        total_receivers:
-          type: integer
-          description: Total number of receivers
-          format: int64
-          example: 100
-    GeneralStatistics:
-      type: object
-      properties:
-        total_disbursements:
-          type: integer
-          description: Total number of disbursements
-          format: int64
-          example: 20
-        payment_counters:
-          $ref: '#/components/schemas/PaymentCounters'
-        payment_amounts_by_asset:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentAmountsByAsset'
-        receiver_wallets_counters:
-          $ref: '#/components/schemas/ReceiverWalletsCounters'
-        total_receivers:
-          type: integer
-          description: Total number of receivers
-          format: int64
-          example: 1000
     ReceiverWalletsCounters:
       type: object
       properties:
@@ -248,6 +224,30 @@ components:
           type: integer
           format: int64
           example: 4
+    DisbursementsStatistics:
+      type: object
+      properties:
+        payment_counters:
+          $ref: '#/components/schemas/PaymentCounters'
+        payment_amounts_by_asset:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentAmountsByAsset'
+        receiver_wallets_counters:
+          $ref: '#/components/schemas/ReceiverWalletsCounters'
+        total_receivers:
+          type: integer
+          description: Total number of receivers
+          format: int64
+          example: 100
+    PaymentAmountsByAsset:
+      type: object
+      properties:
+        asset_code:
+          type: string
+          example: USDC
+        payment_amounts:
+          $ref: '#/components/schemas/PaymentAmounts'
   securitySchemes:
     BearerAuth:
       type: apiKey

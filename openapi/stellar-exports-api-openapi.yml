@@ -284,14 +284,6 @@ paths:
       - BearerAuth: []
 components:
   schemas:
-    DisbursementStatus:
-      type: string
-      enum:
-      - DRAFT
-      - READY
-      - STARTED
-      - PAUSED
-      - COMPLETED
     PaymentStatus:
       type: string
       description: The status of the payment
@@ -303,6 +295,14 @@ components:
       - SUCCESS
       - FAILED
       - CANCELED
+    DisbursementStatus:
+      type: string
+      enum:
+      - DRAFT
+      - READY
+      - STARTED
+      - PAUSED
+      - COMPLETED
     ReceiversWalletStatus:
       type: string
       enum:

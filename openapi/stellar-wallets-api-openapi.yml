@@ -223,7 +223,132 @@ paths:
       security:
       - BearerAuth: []
 components:
+  responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
+    NotFoundResponse:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not found
+            extras:
+              status: 404
+              message: Resource not found
+    ForbiddenResponse:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+          example:
+            error: Forbidden
+    UnauthorizedResponse:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              extras:
+                type: object
+                properties:
+                  status:
+                    type: number
+                  message:
+                    type: string
+          example:
+            error: Not authorized
+            extras:
+              status: 401
+              message: Not authorized
   schemas:
+    UpdateWalletRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the wallet provider
+        homepage:
+          type: string
+          description: Homepage URL of the wallet provider
+        deep_link_schema:
+          type: string
+          description: Deep link schema for the wallet application
+        sep_10_client_domain:
+          type: string
+          description: SEP-10 client domain for authentication
+        enabled:
+          type: boolean
+          description: Whether the wallet is enabled for use
+        assets:
+          type: array
+          description: Array of asset references supported by this wallet
+          items:
+            oneOf:
+            - type: object
+              description: Asset reference by ID
+              properties:
+                id:
+                  type: string
+                  description: Asset ID
+              required:
+              - id
+            - type: object
+              description: Classic asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - classic
+                code:
+                  type: string
+                  description: Asset code
+                issuer:
+                  type: string
+                  description: Asset issuer address
+              required:
+              - type
+              - code
+              - issuer
+            - type: object
+              description: Native XLM asset reference
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - native
+              required:
+              - type
+      minProperties: 1
     Wallet:
       type: object
       properties:
@@ -320,131 +445,6 @@ components:
             '
           items:
             type: string
-    UpdateWalletRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Human-readable name of the wallet provider
-        homepage:
-          type: string
-          description: Homepage URL of the wallet provider
-        deep_link_schema:
-          type: string
-          description: Deep link schema for the wallet application
-        sep_10_client_domain:
-          type: string
-          description: SEP-10 client domain for authentication
-        enabled:
-          type: boolean
-          description: Whether the wallet is enabled for use
-        assets:
-          type: array
-          description: Array of asset references supported by this wallet
-          items:
-            oneOf:
-            - type: object
-              description: Asset reference by ID
-              properties:
-                id:
-                  type: string
-                  description: Asset ID
-              required:
-              - id
-            - type: object
-              description: Classic asset reference
-              properties:
-                type:
-                  type: string
-                  enum:
-                  - classic
-                code:
-                  type: string
-                  description: Asset code
-                issuer:
-                  type: string
-                  description: Asset issuer address
-              required:
-              - type
-              - code
-              - issuer
-            - type: object
-              description: Native XLM asset reference
-              properties:
-                type:
-                  type: string
-                  enum:
-                  - native
-              required:
-              - type
-      minProperties: 1
-  responses:
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
-    NotFoundResponse:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not found
-            extras:
-              status: 404
-              message: Resource not found
-    ForbiddenResponse:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-          example:
-            error: Forbidden
-    UnauthorizedResponse:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-              extras:
-                type: object
-                properties:
-                  status:
-                    type: number
-                  message:
-                    type: string
-          example:
-            error: Not authorized
-            extras:
-              status: 401
-              message: Not authorized
   securitySchemes:
     BearerAuth:
       type: apiKey

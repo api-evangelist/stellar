@@ -516,35 +516,20 @@ paths:
       security:
       - SEP10Auth: []
 components:
-  schemas:
-    VerificationField:
-      type: string
-      enum:
-      - DATE_OF_BIRTH
-      - YEAR_MONTH
-      - PIN
-      - NATIONAL_ID_NUMBER
-    ReceiverRegistrationRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        phone_number:
-          type: string
-          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
-        otp:
-          type: string
-          description: One-Time Password received for verification
-        verification:
-          type: string
-          description: Verification value provided by the user
-        verification_field:
-          $ref: '#/components/schemas/VerificationField'
-        recaptcha_token:
-          type: string
-          description: Token received from Google reCAPTCHA
   responses:
+    BadRequestResponse:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Details about the error
+              extras:
+                type: object
+                properties: {}
     UnauthorizedResponse:
       description: Unauthorized
       content:
@@ -566,19 +551,34 @@ components:
             extras:
               status: 401
               message: Not authorized
-    BadRequestResponse:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                description: Details about the error
-              extras:
-                type: object
-                properties: {}
+  schemas:
+    ReceiverRegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        phone_number:
+          type: string
+          description: Phone number associated with the receiver in the SDP database. Either `phone_number` or `email` is required.
+        otp:
+          type: string
+          description: One-Time Password received for verification
+        verification:
+          type: string
+          description: Verification value provided by the user
+        verification_field:
+          $ref: '#/components/schemas/VerificationField'
+        recaptcha_token:
+          type: string
+          description: Token received from Google reCAPTCHA
+    VerificationField:
+      type: string
+      enum:
+      - DATE_OF_BIRTH
+      - YEAR_MONTH
+      - PIN
+      - NATIONAL_ID_NUMBER
   securitySchemes:
     BearerAuth:
       type: apiKey

@@ -225,75 +225,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    GetCustomerResponse:
-      type: object
-      required:
-      - status
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - ACCEPTED
-          - PROCESSING
-          - NEEDS_INFO
-          - REJECTED
-        fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-        provided_fields:
-          type: object
-          additionalProperties:
-            required:
-            - type
-            - description
-            properties:
-              type:
-                type: string
-                enum:
-                - string
-                - binary
-                - number
-                - date
-              description:
-                type: string
-              choices:
-                type: array
-                items:
-                  type: string
-              optional:
-                type: boolean
-              status:
-                type: string
-                enum:
-                - ACCEPTED
-                - PROCESSING
-                - REJECTED
-                - VERIFICATION_REQUIRED
-              error:
-                type: string
-        message:
-          type: string
     PutCustomerMultipartRequest:
       type: object
       properties:
@@ -564,6 +495,75 @@ components:
           type: string
       required:
       - error
+    GetCustomerResponse:
+      type: object
+      required:
+      - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - PROCESSING
+          - NEEDS_INFO
+          - REJECTED
+        fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+        provided_fields:
+          type: object
+          additionalProperties:
+            required:
+            - type
+            - description
+            properties:
+              type:
+                type: string
+                enum:
+                - string
+                - binary
+                - number
+                - date
+              description:
+                type: string
+              choices:
+                type: array
+                items:
+                  type: string
+              optional:
+                type: boolean
+              status:
+                type: string
+                enum:
+                - ACCEPTED
+                - PROCESSING
+                - REJECTED
+                - VERIFICATION_REQUIRED
+              error:
+                type: string
+        message:
+          type: string
   examples:
     SuccessKYC:
       summary: The case when a customer has been successfully KYC'd and approved
