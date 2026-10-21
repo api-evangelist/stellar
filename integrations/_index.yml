@@ -54,3 +54,52 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: stellar-x402-foundation
+  label: x402 Foundation
+  partner_name: x402 Foundation
+  category: x402 protocol foundation membership
+  type: register
+  channel: standard-directory
+  evidence: https://x402.org/members/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: x402 Foundation members (x402.org/members/, Linux Foundation project)
+    standard: x402
+    spec_file: null
+    role: x402-foundation-member
+    registered_name: Stellar Development Foundation
+    register_id: http://stellar.org
+    matched_domain: stellar.org
+    matched_by: domain
+    signal_note: 'participation only: foundation membership (logo wall linking each member''s website); the membership
+      class is partner_tier; membership is not conformance'
+    detected_by: sweep-x402-micropayments.py
+    detected: '2026-10-21'
+  status: not-a-workflow
+  arazzo: null
+- slug: stellar-x402-facilitators-directory
+  label: x402 facilitators directory
+  partner_name: x402 facilitators directory
+  category: x402 payment facilitator
+  type: register
+  channel: standard-directory
+  evidence: https://docs.x402.org/dev-tools/facilitators
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: x402 facilitators directory (docs.x402.org/dev-tools/facilitators)
+    standard: x402
+    spec_file: null
+    role: x402-facilitator
+    registered_name: Built on Stellar
+    register_id: https://developers.stellar.org/docs/build/apps/x402/built-on-stellar
+    matched_domain: stellar.org
+    matched_by: domain
+    listing_description: Free, public x402 facilitator for Stellar
+    signal_note: 'participation only: a selected production facilitator in the protocol''s own docs; listing is
+      not conformance'
+    detected_by: sweep-x402-micropayments.py
+    detected: '2026-10-21'
+  status: not-a-workflow
+  arazzo: null
